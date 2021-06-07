@@ -15,7 +15,7 @@ const SERVER = {
   API: {
     SECRET_TOKEN: process.env.SECRET_TOKEN,
     API_UPLOAD_IMAGES: process.env.API_UPLOAD_IMAGES,
-    API_UPLOAD_IMAGES_KEY: process.env.API_UPLOAD_IMAGES,
+    API_UPLOAD_IMAGES_KEY: process.env.API_UPLOAD_IMAGES_KEY,
   },
 };
 

@@ -5,19 +5,15 @@ const Login = lazy(() => import("../Components/Pages/Login/Login"));
 const App = lazy(() => import("../Components/Pages/App/App"));
 const MyPerfil = lazy(() => import("../Components/Pages/MyPerfil/MyPerfil"));
 const NotFound = lazy(() => import("../Components/Pages/404/404"));
-
+const commonProps = (path) => ({ path, exact: true, private: true });
 const routers = [
   {
     component: Async(MyPerfil),
-    path: "/perfil",
-    exact: true,
-    private: true,
+    ...commonProps("/perfil"),
   },
   {
     component: Async(App),
-    path: "/home",
-    exact: true,
-    private: true,
+    ...commonProps("/home"),
   },
   {
     component: Async(Login),
@@ -31,4 +27,3 @@ const routers = [
 ];
 
 export default routers;
-  

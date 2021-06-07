@@ -31,4 +31,5 @@ function getTokenInfo(token) {
     payload,
   }));
 }
+
 module.exports = { isRequestAjaxOrApi, message, getTokenInfo };
