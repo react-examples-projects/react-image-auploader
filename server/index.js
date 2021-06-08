@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 const express = require("express");
 const app = express();
-const routers = require("./routers/routers");
+const routers = require("./routers");
 const startServer = require("./config/server");
 
 app.use(cors());
