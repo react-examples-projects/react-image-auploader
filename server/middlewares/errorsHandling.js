@@ -1,6 +1,7 @@
 const boom = require("@hapi/boom");
 const { isRequestAjaxOrApi } = require("../helpers/utils");
 const { message } = require("../helpers/utils");
+const { DEV } = require("../config/variables").SERVER;
 
 function logErrors(err, req, res, next) {
   message.error(err.stack);
@@ -22,7 +23,9 @@ function clientErrorHandling(err, req, res, next) {
   const { statusCode, payload } = err.output;
   // catch errors ajax or errors while streaming
   if (isRequestAjaxOrApi(req) || req.headersSent) {
-    return res.status(statusCode).json(payload);
+    const response = { ...payload };
+    if (DEV) response.errorDescription = err.message;
+    return res.status(statusCode).json(response);
   }
 
   // si no es una peticion fetch, entonces renderizamos una pagina de error

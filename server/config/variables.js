@@ -11,7 +11,7 @@ const MONGO_DB = {
 
 const SERVER = {
   PORT: process.env.API_PORT || 6000,
-
+  DEV: process.env.DEV || false,
   API: {
     SECRET_TOKEN: process.env.SECRET_TOKEN,
     API_UPLOAD_IMAGES: process.env.API_UPLOAD_IMAGES,

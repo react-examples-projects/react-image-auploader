@@ -1,7 +1,7 @@
 const boom = require("@hapi/boom");
 
 function unauthorized(res, message) {
-  res.json(boom.unauthorized(message).output.payload);
+  res.status(401).json(boom.unauthorized(message).output.payload);
 }
 
 function invalidToken(res) {
