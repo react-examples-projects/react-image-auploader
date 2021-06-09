@@ -20,6 +20,18 @@ function ModalImage({ src, toggleOpen, isOpen }) {
           ✖
         </button>
         <img src={src} className="modal-img" alt="Preview" />
+        <hr />
+        <h3>Deja un comentario</h3>
+        <form>
+          <div className="group">
+            <textarea
+              name="comment"
+              rows="4"
+              placeholder="¡Di lo que opinas!"
+              required
+            />
+          </div>
+        </form>
       </div>
     </div>
   );

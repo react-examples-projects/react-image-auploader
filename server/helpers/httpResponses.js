@@ -13,7 +13,7 @@ function error(
   data = "An error while process the request",
   statusCode = 400
 ) {
-  res.json({
+  res.status(statusCode).json({
     ok: false,
     error: true,
     data,
@@ -25,7 +25,7 @@ function success(
   data = "The request processed successfuly",
   statusCode = 200
 ) {
-  res.json({
+  res.status(statusCode).json({
     ok: true,
     error: false,
     data,
