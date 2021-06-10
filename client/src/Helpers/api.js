@@ -6,6 +6,7 @@ import {
   token,
   userInfo,
   perfilPhoto,
+  comments
 } from "../config/config";
 import { getToken } from "./token";
 import axios from "axios";
@@ -46,7 +47,12 @@ export async function verifyToken() {
 }
 
 export async function getUserInfo() {
-  if (!getToken()) return null;
   const res = await instance.get(userInfo, config());
   return res?.data?.data;
+}
+
+
+export async function createComment(payload){
+  const data = await instance.post(comments, payload, config());
+  return data?.data?.data;
 }

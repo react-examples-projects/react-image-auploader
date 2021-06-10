@@ -5,7 +5,9 @@ class ImageController {
   }
 
   async getImages() {
-    const images = await this.ImageModel.find().lean();
+    const images = await this.ImageModel.find({})
+      .populate("comments")
+      .lean();
     return images;
   }
 

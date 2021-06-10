@@ -1,7 +1,7 @@
 import { memo, useState, useCallback } from "react";
 import ModalImage from "../Modals/ModalImage";
 
-function Image({ url_image, name }) {
+function Image({ url_image, name, ...args }) {
   const [isOpen, setOpen] = useState(false);
   const toggleOpen = useCallback(() => {
     setOpen((open) => !open);
@@ -19,7 +19,12 @@ function Image({ url_image, name }) {
           </a>
         </div>
       </div>
-      <ModalImage src={url_image} toggleOpen={toggleOpen} isOpen={isOpen} />
+      <ModalImage
+        src={url_image}
+        toggleOpen={toggleOpen}
+        isOpen={isOpen}
+        {...args}
+      />
     </>
   );
 }

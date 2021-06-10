@@ -6,6 +6,7 @@ import {
   useCallback,
 } from "react";
 import { getUserInfo } from "../../Helpers/api";
+import { getToken } from "../../Helpers/token";
 
 export const UserContext = createContext();
 
@@ -16,7 +17,7 @@ export default function UserProvider(props) {
     []
   );
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
-  
+
   useEffect(() => {
     async function userInfo() {
       try {
@@ -29,7 +30,7 @@ export default function UserProvider(props) {
       }
     }
 
-    userInfo();
+    getToken() && userInfo();
   }, [setUser]);
 
   return <UserContext.Provider value={value} {...props} />;

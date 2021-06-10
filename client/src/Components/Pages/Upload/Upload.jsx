@@ -21,8 +21,8 @@ function Upload({ setImagesArray }) {
     payload.append("name", user.name);
     const res = await mutateAsync(payload);
     const newImage = {
-      url_image: res?.data.url,
       name: user.name,
+      ...res?.data,
     };
     setImagesArray((images) => [newImage, ...images]);
     if (inputFiles.current) inputFiles.current.value = null;

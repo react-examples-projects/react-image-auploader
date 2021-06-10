@@ -4,12 +4,14 @@ import Loader from "../../Loaders/loader";
 import useImages from "../../Hooks/useImages";
 import { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "../../Elements/Navbar";
+import useTitle from "../../Hooks/useTitle";
 
 const ImageLazy = lazy(() => import("../../Image/Image"));
 
 function App() {
   const { images, isLoading, isError } = useImages();
   const [imagesArray, setImagesArray] = useState(() => images);
+  useTitle("Explorar nuevas imágenes");
   useEffect(() => {
     setImagesArray(images);
   }, [images]);
