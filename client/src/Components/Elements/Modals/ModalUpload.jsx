@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import { memo, useEffect } from "react";
-import Upload from "../Pages/Upload/Upload";
+import ModalUploadComponent from "./Components/ModalUpload";
 
 const container = document.getElementById("modals");
 
@@ -20,7 +20,7 @@ function ModalUpload({ toggleOpen, isOpen, setImagesArray }) {
         <button className="modal-close" onClick={toggleOpen}>
           ✖
         </button>
-        <Upload setImagesArray={setImagesArray} />
+        <ModalUploadComponent setImagesArray={setImagesArray} />
       </div>
     </div>
   );

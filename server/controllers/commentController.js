@@ -17,7 +17,17 @@ class CommentController {
       },
     });
     const saved = await data.save();
-    return payload;
+    const populated = await saved
+      .populate({
+        path: "user",
+        select: {
+          name: 1,
+          isAdmin: 1,
+          _id: 1,
+        },
+      })
+      .execPopulate();
+    return saved;
   }
 }
 

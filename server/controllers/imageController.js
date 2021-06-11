@@ -6,7 +6,17 @@ class ImageController {
 
   async getImages() {
     const images = await this.ImageModel.find({})
-      .populate("comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "user",
+          select: {
+            name: 1,
+            isAdmin: 1,
+            _id: 1,
+          },
+        },
+      })
       .lean();
     return images;
   }

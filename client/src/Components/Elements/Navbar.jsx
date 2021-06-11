@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import ModalUpload from "../Modals/ModalUpload";
+import ModalUpload from "./Modals/ModalUpload";
 import Btn from "./Btn";
 import useCurrentUser from "../Hooks/useCurrentUser";
 import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";

@@ -1,16 +1,20 @@
 import { createPortal } from "react-dom";
 import { memo, useEffect } from "react";
-import useComments from "../Hooks/useComments";
-import Btn from "../Elements/Btn";
+import useComments from "../../Hooks/useComments";
+import ModalImageComments from "./Components/ModalImageComments";
+import Btn from "../../Elements/Btn";
+import ErrorText from "../../Elements/ErrorText";
+import useCurrentUser from "../../Hooks/useCurrentUser";
 const container = document.getElementById("modals");
 
-function ModalImage({ _id, src, toggleOpen, isOpen }) {
+function ModalImage({ _id, src, comments, addComment, toggleOpen, isOpen }) {
   const { createCommentImage } = useComments();
+  const { user } = useCurrentUser();
+
   useEffect(() => {
     function closeModal(e) {
       if (e.keyCode === 27 && isOpen) toggleOpen();
     }
-
     window.addEventListener("keyup", closeModal);
     return () => window.removeEventListener("keyup", closeModal);
   }, [isOpen, toggleOpen]);
@@ -19,8 +23,12 @@ function ModalImage({ _id, src, toggleOpen, isOpen }) {
     e.preventDefault();
     const fd = new FormData(e.target);
     fd.append("image_id", _id);
+    fd.append("name", user.name);
+    fd.append("user", user._id);
     const data = await createCommentImage.mutateAsync(fd);
-    console.log(data);
+    addComment(data);
+
+    e.target.reset();
   };
 
   return (
@@ -34,19 +42,26 @@ function ModalImage({ _id, src, toggleOpen, isOpen }) {
         <h3>Deja un comentario</h3>
         <form onSubmit={handleSubmit}>
           <div className="group">
-            <input type="text" name="name" placeholder="Nombre" required />
-          </div>
-
-          <div className="group">
             <textarea
               name="content"
               rows="4"
               placeholder="¡Di lo que opinas!"
+              disabled={createCommentImage.isLoading}
               required
             />
           </div>
-          <Btn text="Comentar" />
+
+          <ErrorText
+            text="Ocurrió un error al comentar"
+            isVisible={createCommentImage.isError}
+          />
+
+          <Btn
+            text={createCommentImage.isLoading ? "Comentado..." : "Comentar"}
+            disabled={createCommentImage.isLoading}
+          />
         </form>
+        <ModalImageComments comments={comments} />
       </div>
     </div>
   );

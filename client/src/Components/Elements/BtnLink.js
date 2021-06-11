@@ -1,16 +1,16 @@
 import React from "react";
 
-function Btn({
+function BtnLink({
   className = "",
   text = undefined,
   children = undefined,
   ...props
 }) {
   return (
-    <button {...props} className={"button" + className}>
+    <button {...props} className={"button-link" + className}>
       {text || children}
     </button>
   );
 }
 
-export default Btn;
+export default BtnLink;

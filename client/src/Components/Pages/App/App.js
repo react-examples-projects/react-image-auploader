@@ -6,15 +6,19 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "../../Elements/Navbar";
 import useTitle from "../../Hooks/useTitle";
 
-const ImageLazy = lazy(() => import("../../Image/Image"));
+const ImageLazy = lazy(() => import("../../Elements/ImagePost/ImagePost"));
 
 function App() {
-  const { images, isLoading, isError } = useImages();
+  const { images, isLoading, isError, refetch } = useImages();
   const [imagesArray, setImagesArray] = useState(() => images);
   useTitle("Explorar nuevas imágenes");
   useEffect(() => {
     setImagesArray(images);
   }, [images]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   if (isLoading) return <Loader />;
 

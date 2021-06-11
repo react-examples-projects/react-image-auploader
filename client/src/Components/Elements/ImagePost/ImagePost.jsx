@@ -1,7 +1,9 @@
 import { memo, useState, useCallback } from "react";
 import ModalImage from "../Modals/ModalImage";
+import useComments from "../../Hooks/useComments";
 
-function Image({ url_image, name, ...args }) {
+function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
+  const { comments, addComment } = useComments({ commentsImage });
   const [isOpen, setOpen] = useState(false);
   const toggleOpen = useCallback(() => {
     setOpen((open) => !open);
@@ -21,12 +23,12 @@ function Image({ url_image, name, ...args }) {
       </div>
       <ModalImage
         src={url_image}
-        toggleOpen={toggleOpen}
-        isOpen={isOpen}
+        {...{ toggleOpen, isOpen, comments, addComment }}
         {...args}
       />
     </>
   );
 }
 
-export default memo(Image);
+export default memo(ImagePost);
+ 

@@ -1,12 +1,12 @@
 import { memo, useRef } from "react";
-import css from "../Style.module.scss";
+import css from "../../../Pages/Style.module.scss";
 import { BiImages } from "react-icons/bi";
-import Btn from "../../Elements/Btn";
-import { uploadImage } from "../../../Helpers/api";
-import ErrorText from "../../Elements/ErrorText";
+import Btn from "../../../Elements/Btn";
+import { uploadImage } from "../../../../Helpers/api";
+import ErrorText from "../../../Elements/ErrorText";
 import { useMutation } from "react-query";
 import Loader from "react-loader-spinner";
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../../Hooks/useCurrentUser";
 
 function Upload({ setImagesArray }) {
   const inputFiles = useRef(null);

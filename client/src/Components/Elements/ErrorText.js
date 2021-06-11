@@ -1,7 +1,12 @@
 import { memo } from "react";
 import { BiErrorCircle } from "react-icons/bi";
 
-function ErrorText({ isVisible, text = "Ocurrió un error.", ...props }) {
+function ErrorText({
+  isVisible,
+  text = "Ocurrió un error.",
+  children,
+  ...props
+}) {
   return isVisible ? (
     <div
       {...props}
@@ -9,7 +14,9 @@ function ErrorText({ isVisible, text = "Ocurrió un error.", ...props }) {
     >
       <BiErrorCircle style={{ fill: "#ff005c" }} />
       <small>
-        <span style={{ color: "#ff005c", marginLeft: "5px" }}>{text}</span>
+        <span style={{ color: "#ff005c", marginLeft: "5px" }}>
+          {text || children}
+        </span>
       </small>
     </div>
   ) : null;
