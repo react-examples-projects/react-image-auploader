@@ -1,35 +1,83 @@
-import { createPortal } from "react-dom";
-import { memo, useEffect } from "react";
-import ModalUploadComponent from "./Components/ModalUpload";
+import { useRef, useState } from "react";
+import css from "../../Pages/Style.module.scss";
+import { BiImages } from "react-icons/bi";
+import Btn from "../Btn";
+import ErrorText from "../ErrorText";
+import Loader from "react-loader-spinner";
+import useUploadImage from "../../Hooks/useUploadImage";
 
-const container = document.getElementById("modals");
+function Upload({ setImagesArray, toggleOpen }) {
+  const inputFiles = useRef(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const { upload, isError, isLoading } = useUploadImage();
 
-function ModalUpload({ toggleOpen, isOpen, setImagesArray }) {
-  useEffect(() => {
-    function closeModal(e) {
-      if (e.keyCode === 27 && isOpen) toggleOpen();
+  async function handleOnSubmit(e) {
+    e.preventDefault();
+    const newImage = await upload(e.target);
+    setImagesArray((images) => [newImage, ...images]);
+    toggleOpen();
+    if (inputFiles.current) inputFiles.current.value = null;
+  }
+
+  function handleOnChangeFile(e) {
+    if (e.target.files.length) {
+      const file = e.target.files[0];
+      const fr = new FileReader();
+      fr.onload = () => setImagePreview(fr.result);
+      return fr.readAsDataURL(file);
     }
-
-    window.addEventListener("keyup", closeModal);
-    return () => window.removeEventListener("keyup", closeModal);
-  }, [isOpen, toggleOpen]);
+    setImagePreview(null);
+  }
 
   return (
-    <div className="modal-container center">
-      <div className="modal-wrapper">
-        <button className="modal-close" onClick={toggleOpen}>
-          ✖
-        </button>
-        <ModalUploadComponent {...{ setImagesArray, toggleOpen }} />
-      </div>
+    <div className={css.container}>
+      <h2>Subir imágenes</h2>
+      <p className={css.lead}>
+        Selecciona archivos de imágen, no deben de sobrepasar los{" "}
+        <strong>3mb</strong> de peso.
+      </p>
+
+      <form
+        autoComplete="off"
+        onSubmit={handleOnSubmit}
+        encType="multipart/form-data"
+      >
+        <div className="group">
+          <BiImages className="groupIcon" />
+          <input
+            ref={inputFiles}
+            type="file"
+            accept="image/*"
+            name="images"
+            id="images"
+            onChange={handleOnChangeFile}
+            disabled={isLoading}
+            required
+            multiple
+          />
+        </div>
+
+        <ErrorText
+          isVisible={isError}
+          text="Ocurrió un error, verifica tu conexión."
+        />
+
+        {imagePreview && <img src={imagePreview} />}
+
+        <div className="group">
+          <Btn type="submit" disabled={isLoading}>
+            <div className={css.buttonContent}>
+              {isLoading ? (
+                <Loader height={20} width={20} color="#fff" type="Oval" />
+              ) : (
+                <span>Subir</span>
+              )}
+            </div>
+          </Btn>
+        </div>
+      </form>
     </div>
   );
 }
 
-function ModalWrapper(props) {
-  return props.isOpen
-    ? createPortal(<ModalUpload {...props} />, container)
-    : null;
-}
-
-export default memo(ModalWrapper);
+export default Upload;

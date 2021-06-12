@@ -1,27 +1,13 @@
-import { memo, useState } from "react";
 import ModalUpload from "./Modals/ModalUpload";
 import Btn from "./Btn";
 import useCurrentUser from "../Hooks/useCurrentUser";
 import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { removeToken } from "../../Helpers/token";
-import { clearCache } from "../../Helpers/cache";
+import Modal from "./Modals/Modal";
 
 function Navbar({ setImagesArray }) {
-  const { push } = useHistory();
-  const [isOpen, setIsOpen] = useState(false);
-  const { user, setUser } = useCurrentUser();
-
-  const toggleOpen = () => setIsOpen((c) => !c);
-  const logout = () => {
-    setUser({});
-    removeToken();
-    clearCache();
-    push("/");
-  };
-
-  return (
+  const { user, logout } = useCurrentUser();
+  const children = (toggleOpen) => (
     <>
       <nav className="nav">
         {user?.isAdmin && (
@@ -48,9 +34,16 @@ function Navbar({ setImagesArray }) {
           <BiExit style={{ marginLeft: "5px", fontSize: "1rem" }} />
         </Btn>
       </nav>
-      <ModalUpload {...{ isOpen, toggleOpen, setImagesArray }} />
     </>
+  );
+  const renderModal = (toggleOpen) => (
+    <ModalUpload {...{ setImagesArray, toggleOpen }} />
+  );
+
+  return (
+    <Modal {...{ children, renderModal }} style={{ alignItems: "center" }} />
   );
 }
 
-export default memo(Navbar);
+export default Navbar;
+  

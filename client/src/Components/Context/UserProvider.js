@@ -1,14 +1,8 @@
-import {
-  createContext,
-  useState,
-  useMemo,
-  useEffect,
-  useCallback,
-} from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { getUserInfo } from "../../Helpers/api";
-import { getToken } from "../../Helpers/token";
-
-export const UserContext = createContext();
+import { clearCache } from "../../Helpers/cache";
+import { getToken, removeToken } from "../../Helpers/token";
+import UserContext from "./UserContext";
 
 export default function UserProvider(props) {
   const [user, setUserInfo] = useState({ userError: false });
@@ -16,7 +10,16 @@ export default function UserProvider(props) {
     (data) => setUserInfo((u) => ({ ...u, ...data })),
     []
   );
-  const value = useMemo(() => ({ user, setUser }), [user, setUser]);
+  const logout = useCallback(() => {
+    setUserInfo({});
+    removeToken();
+    clearCache();
+  }, [setUser]);
+
+  const value = useMemo(
+    () => ({ user, setUser, logout }),
+    [user, setUser, logout]
+  );
 
   useEffect(() => {
     async function userInfo() {

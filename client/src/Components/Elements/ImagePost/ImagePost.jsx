@@ -1,34 +1,26 @@
-import { memo, useState, useCallback } from "react";
 import ModalImage from "../Modals/ModalImage";
 import useComments from "../../Hooks/useComments";
+import Modal from "../Modals/Modal";
 
 function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
   const { comments, addComment } = useComments({ commentsImage });
-  const [isOpen, setOpen] = useState(false);
-  const toggleOpen = useCallback(() => {
-    setOpen((open) => !open);
-  }, []);
-
-  return (
-    <>
-      <div className="img" onClick={toggleOpen}>
-        <div className="img-figure">
-          <img src={url_image} alt={url_image} loading="lazy" />
-        </div>
-        <div className="img-info">
-          <a href={url_image} target="_blank" rel="noreferrer">
-            {name}
-          </a>
-        </div>
+  const children = (toggleOpen) => (
+    <div className="img" onClick={toggleOpen}>
+      <div className="img-figure">
+        <img src={url_image} alt={url_image} loading="lazy" />
       </div>
-      <ModalImage
-        src={url_image}
-        {...{ toggleOpen, isOpen, comments, addComment }}
-        {...args}
-      />
-    </>
+      <div className="img-info">
+        <a href={url_image} target="_blank" rel="noreferrer">
+          {name}
+        </a>
+      </div>  
+    </div>
   );
+  const renderModal = (
+    <ModalImage src={url_image} {...{ comments, addComment }} {...args} />
+  );
+
+  return <Modal {...{ children, renderModal }} />;
 }
 
-export default memo(ImagePost);
- 
+export default ImagePost;

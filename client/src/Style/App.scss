@@ -113,19 +113,15 @@ svg + input {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 102%;
-  background: rgba(0, 0, 0, 0.815);
+  height: 100%;
+  background: rgba(0, 0, 0, 0.89);
   z-index: 500;
-
-  &.center {
-    align-items: center;
-  }
 
   .modal-wrapper {
     display: flex;
     flex-direction: column;
     max-width: 650px;
-    width: 100%;
+    width: auto;
     overflow: hidden auto;
     padding: 0 0.4rem;
     margin: 5rem 1rem;
