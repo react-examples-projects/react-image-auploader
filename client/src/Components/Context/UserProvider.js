@@ -14,12 +14,12 @@ export default function UserProvider(props) {
     setUserInfo({});
     removeToken();
     clearCache();
-  }, [setUser]);
+  }, []);
 
   const value = useMemo(
     () => ({ user, setUser, logout }),
     [user, setUser, logout]
-  );
+  ); 
 
   useEffect(() => {
     async function userInfo() {

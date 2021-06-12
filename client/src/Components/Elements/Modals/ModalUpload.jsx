@@ -62,8 +62,14 @@ function Upload({ setImagesArray, toggleOpen }) {
           text="Ocurrió un error, verifica tu conexión."
         />
 
-        {imagePreview && <img src={imagePreview} />}
-
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="It will upload to server"
+            title="It will upload to server"
+          />
+        )}
+      
         <div className="group">
           <Btn type="submit" disabled={isLoading}>
             <div className={css.buttonContent}>

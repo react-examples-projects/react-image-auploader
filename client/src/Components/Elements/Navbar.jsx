@@ -46,4 +46,3 @@ function Navbar({ setImagesArray }) {
 }
 
 export default Navbar;
-  

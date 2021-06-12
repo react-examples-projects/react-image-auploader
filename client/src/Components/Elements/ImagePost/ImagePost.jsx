@@ -1,6 +1,7 @@
 import ModalImage from "../Modals/ModalImage";
 import useComments from "../../Hooks/useComments";
 import Modal from "../Modals/Modal";
+import css from "../../../Style/Modal.module.scss";
 
 function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
   const { comments, addComment } = useComments({ commentsImage });
@@ -13,14 +14,16 @@ function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
         <a href={url_image} target="_blank" rel="noreferrer">
           {name}
         </a>
-      </div>  
+      </div>
     </div>
   );
   const renderModal = (
     <ModalImage src={url_image} {...{ comments, addComment }} {...args} />
   );
 
-  return <Modal {...{ children, renderModal }} />;
+  return (
+    <Modal {...{ children, renderModal }} className={css.modalWrapperUpload} />
+  );
 }
 
 export default ImagePost;
