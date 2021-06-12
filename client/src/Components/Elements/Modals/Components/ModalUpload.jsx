@@ -51,6 +51,7 @@ function Upload({ setImagesArray, toggleOpen }) {
             name="images"
             id="images"
             onChange={handleOnChangeFile}
+            disabled={isLoading}
             required
             multiple
           />
@@ -66,9 +67,10 @@ function Upload({ setImagesArray, toggleOpen }) {
         <div className="group">
           <Btn type="submit" disabled={isLoading}>
             <div className={css.buttonContent}>
-              <span>Subir</span>
-              {isLoading && (
+              {isLoading ? (
                 <Loader height={20} width={20} color="#fff" type="Oval" />
+              ) : (
+                <span>Subir</span>
               )}
             </div>
           </Btn>
