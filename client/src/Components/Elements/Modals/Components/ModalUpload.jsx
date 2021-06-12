@@ -1,31 +1,32 @@
-import { memo, useRef } from "react";
+import { memo, useRef, useState } from "react";
 import css from "../../../Pages/Style.module.scss";
 import { BiImages } from "react-icons/bi";
 import Btn from "../../../Elements/Btn";
-import { uploadImage } from "../../../../Helpers/api";
 import ErrorText from "../../../Elements/ErrorText";
-import { useMutation } from "react-query";
 import Loader from "react-loader-spinner";
-import useCurrentUser from "../../../Hooks/useCurrentUser";
+import useUploadImage from "../../../Hooks/useUploadImage";
 
-function Upload({ setImagesArray }) {
+function Upload({ setImagesArray, toggleOpen }) {
   const inputFiles = useRef(null);
-  const { user } = useCurrentUser();
-  const { isError, isLoading, mutateAsync } = useMutation((payload) =>
-    uploadImage(payload)
-  );
+  const [imagePreview, setImagePreview] = useState(null);
+  const { upload, isError, isLoading } = useUploadImage();
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    const payload = new FormData(e.target);
-    payload.append("name", user.name);
-    const res = await mutateAsync(payload);
-    const newImage = {
-      name: user.name,
-      ...res?.data,
-    };
+    const newImage = await upload(e.target);
     setImagesArray((images) => [newImage, ...images]);
+    toggleOpen();
     if (inputFiles.current) inputFiles.current.value = null;
+  }
+
+  function handleOnChangeFile(e) {
+    if (e.target.files.length) {
+      const file = e.target.files[0];
+      const fr = new FileReader();
+      fr.onload = () => setImagePreview(fr.result);
+      return fr.readAsDataURL(file);
+    }
+    setImagePreview(null);
   }
 
   return (
@@ -49,6 +50,7 @@ function Upload({ setImagesArray }) {
             accept="image/*"
             name="images"
             id="images"
+            onChange={handleOnChangeFile}
             required
             multiple
           />
@@ -58,6 +60,9 @@ function Upload({ setImagesArray }) {
           isVisible={isError}
           text="Ocurrió un error, verifica tu conexión."
         />
+
+        {imagePreview && <img src={imagePreview} />}
+
         <div className="group">
           <Btn type="submit" disabled={isLoading}>
             <div className={css.buttonContent}>

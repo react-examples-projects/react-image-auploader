@@ -25,7 +25,10 @@ class ImageController {
     const data = await this.uploadImages(url64);
     const newImage = this.ImageModel({ url_image: data.url, name });
     await newImage.save();
-    return data;
+    return {
+      ...data,
+      _id: newImage._id,
+    };
   }
 }
 

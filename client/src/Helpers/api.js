@@ -27,23 +27,23 @@ export async function getImages() {
 }
 
 export async function setLogin(auth) {
-  const data = await instance.post(login, auth);
-  return data?.data;
+  const res = await instance.post(login, auth);
+  return res?.data;
 }
 
 export async function uploadImage(payload) {
-  const data = await instance.post(upload, payload, config());
-  return data?.data;
+  const res = await instance.post(upload, payload, config());
+  return res?.data?.data;
 }
 
 export async function setPerfilPhoto(payload) {
-  const data = await instance.post(perfilPhoto, payload, config());
-  return data?.data?.data;
+  const res = await instance.post(perfilPhoto, payload, config());
+  return res?.data?.data;
 }
 
 export async function verifyToken() {
-  const data = await instance.get(token, config());
-  return Boolean(data?.data?.ok);
+  const res = await instance.get(token, config());
+  return Boolean(res?.data?.ok);
 }
 
 export async function getUserInfo() {
@@ -53,6 +53,6 @@ export async function getUserInfo() {
 
 
 export async function createComment(payload){
-  const data = await instance.post(comments, payload, config());
-  return data?.data?.data;
+  const res = await instance.post(comments, payload, config());
+  return res?.data?.data;
 }

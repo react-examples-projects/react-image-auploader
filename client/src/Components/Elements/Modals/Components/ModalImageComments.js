@@ -15,7 +15,9 @@ export default function ModalImageComments({ comments }) {
       {comments.map(({ content, _id, user }) => {
         return (
           <div key={_id} className="comment">
-            <h4 className={user.isAdmin && "text-admin"}>{user.name}</h4>
+            <h4 className={user.isAdmin ? "text-admin" : undefined}>
+              {user.name}
+            </h4>
             <p>{content}</p>
             {userCurrent._id === user._id && (
               <div className="comment-options">

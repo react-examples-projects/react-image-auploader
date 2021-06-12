@@ -15,12 +15,12 @@ function ModalUpload({ toggleOpen, isOpen, setImagesArray }) {
   }, [isOpen, toggleOpen]);
 
   return (
-    <div className="modal-container">
+    <div className="modal-container center">
       <div className="modal-wrapper">
         <button className="modal-close" onClick={toggleOpen}>
           ✖
         </button>
-        <ModalUploadComponent setImagesArray={setImagesArray} />
+        <ModalUploadComponent {...{ setImagesArray, toggleOpen }} />
       </div>
     </div>
   );

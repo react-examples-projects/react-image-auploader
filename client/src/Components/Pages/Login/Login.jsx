@@ -90,7 +90,10 @@ export default function Login() {
               )}
             </div>
           </Btn>
-          <small className={css.lead} style={{ fontSize: "80%" }}>
+          <small
+            className={css.lead}
+            style={{ fontSize: "80%", textAlign: "center" }}
+          >   
             Si no tienes cuenta, puedes crearla <Link to="/signup">aca</Link>.
           </small>
         </div>
