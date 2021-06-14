@@ -1,6 +1,8 @@
 import useCurrentUser from "../../../Hooks/useCurrentUser";
 import BtnLink from "../../../Elements/BtnLink";
-export default function ModalImageComments({ comments }) {
+import PropTypes from "prop-types";
+
+function ModalImageComments({ comments }) {
   const { user: userCurrent } = useCurrentUser();
   if (!comments.length) {
     return (
@@ -31,3 +33,9 @@ export default function ModalImageComments({ comments }) {
     </div>
   );
 }
+
+ModalImageComments.propTypes = {
+  comments: PropTypes.array.isRequired,
+};
+
+export default ModalImageComments;

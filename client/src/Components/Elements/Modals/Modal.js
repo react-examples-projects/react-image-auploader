@@ -1,9 +1,11 @@
 import { createPortal } from "react-dom";
 import useToggle from "../../Hooks/useToggle";
 import cls from "classnames";
+import PropTypes from "prop-types";
+
 const container = document.getElementById("modals");
 
-export default function Modal({ children, renderModal, className, ...args }) {
+function Modal({ children, renderModal, className, ...args }) {
   const [isOpen, toggleOpen] = useToggle();
   const render = isOpen ? (
     <div className="modal-container" {...args}>
@@ -25,3 +27,19 @@ export default function Modal({ children, renderModal, className, ...args }) {
     </>
   );
 }
+
+Modal.propTypes = {
+  className: PropTypes.string,
+  renderModal: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.func,
+  ]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.element,
+    PropTypes.func,
+  ]).isRequired,
+};
+
+export default Modal;

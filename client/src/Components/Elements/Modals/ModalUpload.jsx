@@ -5,6 +5,7 @@ import Btn from "../Btn";
 import ErrorText from "../ErrorText";
 import Loader from "react-loader-spinner";
 import useUploadImage from "../../Hooks/useUploadImage";
+import PropTypes from "prop-types";
 
 function Upload({ setImagesArray, toggleOpen }) {
   const inputFiles = useRef(null);
@@ -69,7 +70,7 @@ function Upload({ setImagesArray, toggleOpen }) {
             title="It will upload to server"
           />
         )}
-      
+
         <div className="group">
           <Btn type="submit" disabled={isLoading}>
             <div className={css.buttonContent}>
@@ -85,5 +86,10 @@ function Upload({ setImagesArray, toggleOpen }) {
     </div>
   );
 }
+
+Upload.propTypes = {
+  setImagesArray: PropTypes.func.isRequired,
+  toggleOpen: PropTypes.func.isRequired,
+};
 
 export default Upload;

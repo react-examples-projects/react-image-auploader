@@ -1,6 +1,8 @@
 import ModalImage from "../Modals/ModalImage";
 import useComments from "../../Hooks/useComments";
 import Modal from "../Modals/Modal";
+import PropTypes from "prop-types";
+
 import css from "../../../Style/Modal.module.scss";
 
 function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
@@ -25,5 +27,11 @@ function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
     <Modal {...{ children, renderModal }} className={css.modalWrapperUpload} />
   );
 }
+
+ImagePost.propTypes = {
+  url_image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  comments: PropTypes.array.isRequired,
+};
 
 export default ImagePost;

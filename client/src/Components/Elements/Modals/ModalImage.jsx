@@ -3,6 +3,7 @@ import ModalImageComments from "./Components/ModalImageComments";
 import Btn from "../../Elements/Btn";
 import ErrorText from "../../Elements/ErrorText";
 import useCurrentUser from "../../Hooks/useCurrentUser";
+import PropTypes from "prop-types";
 
 function ModalImage({ _id, src, comments, addComment }) {
   const { createCommentImage } = useComments();
@@ -49,5 +50,12 @@ function ModalImage({ _id, src, comments, addComment }) {
     </>
   );
 }
+
+ModalImage.propTypes = {
+  _id: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
+  comments: PropTypes.array.isRequired,
+  addComment: PropTypes.func.isRequired,
+};
 
 export default ModalImage;

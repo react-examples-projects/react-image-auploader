@@ -1,6 +1,5 @@
-import { memo } from "react";
 import { BiErrorCircle } from "react-icons/bi";
-
+import PropTypes from "prop-types";
 function ErrorText({
   isVisible,
   text = "Ocurrió un error.",
@@ -22,4 +21,10 @@ function ErrorText({
   ) : null;
 }
 
-export default memo(ErrorText);
+ErrorText.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  text: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.element]),
+};
+
+export default ErrorText;

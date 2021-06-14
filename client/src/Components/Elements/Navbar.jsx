@@ -4,7 +4,8 @@ import useCurrentUser from "../Hooks/useCurrentUser";
 import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import Modal from "./Modals/Modal";
-
+import PropTypes from "prop-types"
+ 
 function Navbar({ setImagesArray }) {
   const { user, logout } = useCurrentUser();
   const children = (toggleOpen) => (
@@ -43,6 +44,10 @@ function Navbar({ setImagesArray }) {
   return (
     <Modal {...{ children, renderModal }} style={{ alignItems: "center" }} />
   );
+}
+
+Navbar.propTypes = {
+  setImagesArray: PropTypes.func.isRequired
 }
 
 export default Navbar;
