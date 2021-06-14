@@ -1,12 +1,10 @@
 import "../../../Style/App.scss";
-import ImageLoader from "../../Loaders/ImageLoader";
 import Loader from "../../Loaders/loader";
 import useImages from "../../Hooks/useImages";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../../Elements/Navbar";
 import useTitle from "../../Hooks/useTitle";
-
-const ImageLazy = lazy(() => import("../../Elements/ImagePost/ImagePost"));
+import ImageList from "../../Elements/ImageList/ImageList";
 
 function App() {
   const { images, isLoading, isError, refetch } = useImages();
@@ -24,15 +22,8 @@ function App() {
 
   return (
     <>
-      {isError && <p>A ocurred error</p>}
       <Navbar setImagesArray={setImagesArray} />
-      <div className="massory">
-        {imagesArray.map((img, index) => (
-          <Suspense fallback={<ImageLoader />} key={index}>
-            <ImageLazy {...img} />
-          </Suspense>
-        ))}
-      </div>
+      <ImageList {...{ imagesArray, isError }} />
     </>
   );
 }

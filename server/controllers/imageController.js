@@ -24,11 +24,8 @@ class ImageController {
   async insertImage(url64, name) {
     const data = await this.uploadImages(url64);
     const newImage = this.ImageModel({ url_image: data.url, name });
-    await newImage.save();
-    return {
-      ...data,
-      _id: newImage._id,
-    };
+    const img = await newImage.save();
+    return img;
   }
 }
 

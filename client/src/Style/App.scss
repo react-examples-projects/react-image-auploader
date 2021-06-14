@@ -305,6 +305,20 @@ svg + input {
   overflow: hidden;
 }
 
+.there-dont-images {
+  width: 100%;
+  max-width: 350px;
+  margin: auto;
+  margin-top: 5rem;
+  > img {
+    width: 100%;
+  }
+  h2{
+    margin-top: 1rem;
+    text-align: center;
+  }
+}
+
 @keyframes loading {
   0% {
     background-position-y: 0;

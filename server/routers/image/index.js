@@ -18,7 +18,7 @@ router.post("/upload", async (req, res, next) => {
       req.files.images.data,
       req.body.name
     );
-    success(res, data);
+    success(res, data, 201);
   } catch (err) {
     next(err);
   }
