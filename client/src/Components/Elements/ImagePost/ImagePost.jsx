@@ -1,6 +1,8 @@
 import ModalImage from "../Modals/ModalImage";
 import useComments from "../../Hooks/useComments";
 import Modal from "../Modals/Modal";
+import { BiComment } from "react-icons/bi";
+
 import PropTypes from "prop-types";
 
 import css from "../../../Style/Modal.module.scss";
@@ -16,6 +18,10 @@ function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
         <a href={url_image} target="_blank" rel="noreferrer">
           {name}
         </a>
+
+        <span className="comments-count">
+          <BiComment /> {commentsImage.length}
+        </span>
       </div>
     </div>
   );

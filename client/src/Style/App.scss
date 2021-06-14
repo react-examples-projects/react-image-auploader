@@ -63,7 +63,7 @@ svg + input {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -71,7 +71,7 @@ svg + input {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: rgb(66, 66, 66);
   border-radius: 4px;
 }
 
@@ -173,8 +173,8 @@ svg + input {
 .comment {
   width: 100%;
   background: rgb(20, 20, 20);
-  padding: 2rem;
-  border-radius: 5px;
+  padding: 1rem;
+  border-radius: 4px;
 
   &:not(:last-child) {
     margin-bottom: 1rem;
@@ -194,7 +194,7 @@ svg + input {
   }
 
   p {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     line-height: 1.6;
     font-size: 14px;
   }
@@ -231,6 +231,8 @@ svg + input {
     }
 
     .img-info {
+      display: flex;
+      align-items: center;
       position: absolute;
       font-size: 12px;
       padding: 0.8rem;
@@ -239,10 +241,19 @@ svg + input {
       bottom: 0;
       > a {
         color: #fff;
-        font-weight: bold;
-        letter-spacing: 1px;
+        font-weight: 500;
         &:hover {
           text-decoration: underline;
+        }
+      }
+
+      > .comments-count {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 3px;
         }
       }
     }
@@ -313,7 +324,7 @@ svg + input {
   > img {
     width: 100%;
   }
-  h2{
+  h2 {
     margin-top: 1rem;
     text-align: center;
   }

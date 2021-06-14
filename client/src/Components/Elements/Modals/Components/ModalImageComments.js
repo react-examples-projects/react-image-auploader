@@ -1,9 +1,6 @@
-import useCurrentUser from "../../../Hooks/useCurrentUser";
-import BtnLink from "../../../Elements/BtnLink";
 import PropTypes from "prop-types";
-
+import ModalImageComment from "./ModalImageComment";
 function ModalImageComments({ comments }) {
-  const { user: userCurrent } = useCurrentUser();
   if (!comments.length) {
     return (
       <h3 style={{ marginTop: "2rem" }}>
@@ -14,22 +11,9 @@ function ModalImageComments({ comments }) {
 
   return (
     <div>
-      {comments.map(({ content, _id, user }) => {
-        return (
-          <div key={_id} className="comment">
-            <h4 className={user.isAdmin ? "text-admin" : undefined}>
-              {user.name}
-            </h4>
-            <p>{content}</p>
-            {userCurrent._id === user._id && (
-              <div className="comment-options">
-                <BtnLink text="Editar" />
-                <BtnLink text="Eliminar" />
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {comments.map((comment) => (
+        <ModalImageComment {...comment} key={comment._id} />
+      ))}
     </div>
   );
 }
