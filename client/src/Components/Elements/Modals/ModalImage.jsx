@@ -5,8 +5,9 @@ import ErrorText from "../../Elements/ErrorText";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import PropTypes from "prop-types";
 
-function ModalImage({ _id, src, comments, addComment }) {
-  const { createCommentImage } = useComments();
+function ModalImage({ _id, src, commentsImage }) {
+  const { comments, addComment, createCommentImage } =
+    useComments(commentsImage);
   const { user } = useCurrentUser();
 
   const handleSubmit = async (e) => {
@@ -54,8 +55,7 @@ function ModalImage({ _id, src, comments, addComment }) {
 ModalImage.propTypes = {
   _id: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
-  comments: PropTypes.array.isRequired,
-  addComment: PropTypes.func.isRequired,
+  commentsImage: PropTypes.array.isRequired,
 };
 
 export default ModalImage;

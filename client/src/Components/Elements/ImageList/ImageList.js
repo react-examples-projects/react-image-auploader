@@ -15,8 +15,8 @@ export default function ImageList({ imagesArray, isError }) {
   }
   return (
     <div className="massory">
-      {imagesArray.map((img, index) => (
-        <Suspense fallback={<ImageLoader />} key={index}>
+      {imagesArray.map((img) => (
+        <Suspense fallback={<ImageLoader />} key={img._id}>
           <ImagePostLazy {...img} />
         </Suspense>
       ))}

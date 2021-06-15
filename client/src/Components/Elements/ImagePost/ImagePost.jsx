@@ -1,14 +1,10 @@
 import ModalImage from "../Modals/ModalImage";
-import useComments from "../../Hooks/useComments";
 import Modal from "../Modals/Modal";
 import { BiComment } from "react-icons/bi";
-
 import PropTypes from "prop-types";
-
 import css from "../../../Style/Modal.module.scss";
-
-function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
-  const { comments, addComment } = useComments({ commentsImage });
+function ImagePost({ url_image, name, comments, ...args }) {
+  console.log("Image Post render");
   const children = (toggleOpen) => (
     <div className="img" onClick={toggleOpen}>
       <div className="img-figure">
@@ -20,13 +16,13 @@ function ImagePost({ url_image, name, comments: commentsImage, ...args }) {
         </a>
 
         <span className="comments-count">
-          <BiComment /> {commentsImage.length}
+          <BiComment /> {comments.length}
         </span>
       </div>
     </div>
   );
   const renderModal = (
-    <ModalImage src={url_image} {...{ comments, addComment }} {...args} />
+    <ModalImage src={url_image} commentsImage={comments} {...args} />
   );
 
   return (

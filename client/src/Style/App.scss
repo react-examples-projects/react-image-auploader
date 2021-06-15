@@ -352,7 +352,7 @@ svg + input {
   }
 }
 
-@media screen and (max-width: 680px) {
+@media screen and (max-width: 500px) {
   * {
     font-size: 12px;
   }
@@ -360,9 +360,7 @@ svg + input {
   .massory {
     columns: 1;
   }
-}
 
-@media screen and (max-width: 500px) {
   .modal-close {
     right: 16px;
     top: -36px;
