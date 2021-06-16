@@ -27,7 +27,7 @@ export default function useVerifyToken() {
       setIsValidToken(false);
       setIsLoading(false);
     } else if (cache.get(getToken())) {
-      console.log("%cToken correcto tomado del cache", "font-size:20px");
+      console.log("%cToken correcto tomado del cache", "font-size:18px");
       setIsValidToken(true);
       setIsLoading(false);
     } else {
