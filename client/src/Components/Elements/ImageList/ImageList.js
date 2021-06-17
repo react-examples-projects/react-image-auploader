@@ -1,11 +1,16 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, memo } from "react";
 import ImageLoader from "../../Loaders/ImageLoader";
+import Loader from "../../Loaders/loader";
 import ThereNotImages from "../../../Images/there_not_image.svg";
+import useImagesGlobal from "../../Hooks/HooksStore/useImages";
 const ImagePostLazy = lazy(() => import("../ImagePost/ImagePost"));
 
-export default function ImageList({ imagesArray, isError }) {
+function ImageList() {
+  console.log("ImageList Render();")
+  const { data, isLoading, isError } = useImagesGlobal().images;
   if (isError) return <p>A ocurred error</p>;
-  if (!imagesArray.length) {
+  if (isLoading) return <Loader />;
+  if (!data.length) {
     return (
       <div className="there-dont-images">
         <img src={ThereNotImages} alt="There don't images right now :(" />
@@ -13,9 +18,10 @@ export default function ImageList({ imagesArray, isError }) {
       </div>
     );
   }
+
   return (
     <div className="massory">
-      {imagesArray.map((img) => (
+      {data.map((img) => (
         <Suspense fallback={<ImageLoader />} key={img._id}>
           <ImagePostLazy {...img} />
         </Suspense>
@@ -23,3 +29,5 @@ export default function ImageList({ imagesArray, isError }) {
     </div>
   );
 }
+
+export default memo(ImageList);

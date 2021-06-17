@@ -4,9 +4,9 @@ import useCurrentUser from "../Hooks/useCurrentUser";
 import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import Modal from "./Modals/Modal";
-import PropTypes from "prop-types"
- 
-function Navbar({ setImagesArray }) {
+import { memo } from "react";
+
+function Navbar() {
   const { user, logout } = useCurrentUser();
   const children = (toggleOpen) => (
     <>
@@ -37,17 +37,11 @@ function Navbar({ setImagesArray }) {
       </nav>
     </>
   );
-  const renderModal = (toggleOpen) => (
-    <ModalUpload {...{ setImagesArray, toggleOpen }} />
-  );
+  const renderModal = (toggleOpen) => <ModalUpload toggleOpen={toggleOpen} />;
 
   return (
     <Modal {...{ children, renderModal }} style={{ alignItems: "center" }} />
   );
 }
 
-Navbar.propTypes = {
-  setImagesArray: PropTypes.func.isRequired
-}
-
-export default Navbar;
+export default memo(Navbar);

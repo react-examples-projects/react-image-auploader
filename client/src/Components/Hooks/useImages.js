@@ -2,17 +2,10 @@ import { getImages } from "../../Helpers/api";
 import { useQuery } from "react-query";
 
 export default function useImages() {
-  const {
-    isLoading,
-    isError,
-    data: images = [],
-    ...args
-  } = useQuery("images", getImages);
-
+  const { data = [], isLoading, isError } = useQuery("images", getImages);
   return {
-    images,
+    images: data,
     isLoading,
     isError,
-    ...args,
   };
 }

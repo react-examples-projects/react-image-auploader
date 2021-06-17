@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { getUserInfo } from "../../Helpers/api";
-import { clearCache } from "../../Helpers/cache";
-import { getToken, removeToken } from "../../Helpers/token";
+import { getUserInfo } from "../../../Helpers/api";
+import { clearCache } from "../../../Helpers/cache";
+import { getToken, removeToken } from "../../../Helpers/token";
 import UserContext from "./UserContext";
 
 export default function UserProvider(props) {
@@ -23,7 +23,7 @@ export default function UserProvider(props) {
 
   useEffect(() => {
     async function userInfo() {
-      try {
+      try { 
         const user = await getUserInfo();
         if (user) setUser(user);
       } catch (error) {

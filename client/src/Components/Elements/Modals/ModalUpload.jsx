@@ -5,17 +5,19 @@ import Btn from "../Btn";
 import ErrorText from "../ErrorText";
 import Loader from "react-loader-spinner";
 import useUploadImage from "../../Hooks/useUploadImage";
+import useImages from "../../Hooks/HooksStore/useImages";
 import PropTypes from "prop-types";
 
-function Upload({ setImagesArray, toggleOpen }) {
+function Upload({ toggleOpen }) {
   const inputFiles = useRef(null);
   const [imagePreview, setImagePreview] = useState(null);
   const { upload, isError, isLoading } = useUploadImage();
+  const { addImage } = useImages();
 
   async function handleOnSubmit(e) {
     e.preventDefault();
     const newImage = await upload(e.target);
-    setImagesArray((images) => [newImage, ...images]);
+    addImage(newImage);
     toggleOpen();
     if (inputFiles.current) inputFiles.current.value = null;
   }
@@ -88,7 +90,6 @@ function Upload({ setImagesArray, toggleOpen }) {
 }
 
 Upload.propTypes = {
-  setImagesArray: PropTypes.func.isRequired,
   toggleOpen: PropTypes.func.isRequired,
 };
 
