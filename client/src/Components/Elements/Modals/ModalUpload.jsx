@@ -1,21 +1,25 @@
-import { useRef, useState } from "react";
 import css from "../../Pages/Style.module.scss";
-import { BiImages } from "react-icons/bi";
-import Btn from "../Btn";
 import ErrorText from "../ErrorText";
-import Loader from "react-loader-spinner";
 import useUploadImage from "../../Hooks/useUploadImage";
 import useImages from "../../Hooks/HooksStore/useImages";
-import PropTypes from "prop-types";
+import BtnLoader from "../BtnLoader";
 
+import PropTypes from "prop-types";
+import Form from "react-bootstrap/Form";
+import { useRef, useState } from "react";
 function Upload({ toggleOpen }) {
   const inputFiles = useRef(null);
+  const [validated, setValidated] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const { upload, isError, isLoading } = useUploadImage();
   const { addImage } = useImages();
 
   async function handleOnSubmit(e) {
     e.preventDefault();
+    const form = e.target;
+    if (!form.checkValidity()) return setValidated(true);
+    setValidated(false);
+
     const newImage = await upload(e.target);
     addImage(newImage);
     toggleOpen();
@@ -34,32 +38,30 @@ function Upload({ toggleOpen }) {
 
   return (
     <div className={css.container}>
-      <h2>Subir imágenes</h2>
+      <h3 className="font-weight-bold">Subir imágenes</h3>
       <p className={css.lead}>
         Selecciona archivos de imágen, no deben de sobrepasar los{" "}
         <strong>3mb</strong> de peso.
       </p>
 
-      <form
+      <Form
         autoComplete="off"
+        validated={validated}
+        noValidate
         onSubmit={handleOnSubmit}
         encType="multipart/form-data"
       >
-        <div className="group">
-          <BiImages className="groupIcon" />
-          <input
+        <Form.Group controlId="images">
+          <Form.File
             ref={inputFiles}
-            type="file"
             accept="image/*"
             name="images"
-            id="images"
             onChange={handleOnChangeFile}
             disabled={isLoading}
             required
             multiple
           />
-        </div>
-
+        </Form.Group>
         <ErrorText
           isVisible={isError}
           text="Ocurrió un error, verifica tu conexión."
@@ -73,18 +75,8 @@ function Upload({ toggleOpen }) {
           />
         )}
 
-        <div className="group">
-          <Btn type="submit" disabled={isLoading}>
-            <div className={css.buttonContent}>
-              {isLoading ? (
-                <Loader height={20} width={20} color="#fff" type="Oval" />
-              ) : (
-                <span>Subir</span>
-              )}
-            </div>
-          </Btn>
-        </div>
-      </form>
+        <BtnLoader text="Subir" isLoading={isLoading} variant="success" block />
+      </Form>
     </div>
   );
 }

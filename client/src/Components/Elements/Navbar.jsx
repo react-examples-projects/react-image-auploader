@@ -1,9 +1,10 @@
 import ModalUpload from "./Modals/ModalUpload";
-import Btn from "./Btn";
 import useCurrentUser from "../Hooks/useCurrentUser";
-import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";
-import { Link } from "react-router-dom";
 import Modal from "./Modals/Modal";
+
+import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import { memo } from "react";
 
 function Navbar() {
@@ -12,33 +13,24 @@ function Navbar() {
     <>
       <nav className="nav">
         {user?.isAdmin && (
-          <Btn
-            onClick={toggleOpen}
-            style={{ width: "auto", background: "#0db373" }}
-          >
+          <Button onClick={toggleOpen} variant="success">
             Subir imagen
             <BiUpload style={{ marginLeft: "5px", fontSize: "1rem" }} />
-          </Btn>
+          </Button>
         )}
-        <Link to="/perfil">
-          <Btn style={{ width: "auto" }}>
-            Ver mi cuenta
-            <BiUserCircle style={{ marginLeft: "5px", fontSize: "1rem" }} />
-          </Btn>
+        <Link to="/perfil" className="btn btn-success ml-auto mr-2">
+          Ver mi cuenta
+          <BiUserCircle style={{ marginLeft: "5px", fontSize: "1rem" }} />
         </Link>
 
-        <Btn
-          style={{ width: "auto", marginLeft: "auto", background: "#e23450" }}
-          onClick={logout}
-        >
+        <Button onClick={logout} variant="danger">
           Salir de la cuenta
           <BiExit style={{ marginLeft: "5px", fontSize: "1rem" }} />
-        </Btn>
+        </Button>
       </nav>
     </>
   );
   const renderModal = (toggleOpen) => <ModalUpload toggleOpen={toggleOpen} />;
-
   return (
     <Modal {...{ children, renderModal }} style={{ alignItems: "center" }} />
   );

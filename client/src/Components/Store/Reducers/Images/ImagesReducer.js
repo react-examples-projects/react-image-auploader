@@ -1,7 +1,6 @@
 import Types from "../../Actions/Types/Images";
 
 export default function ImagesReducer(state, action) {
-  debugger;
   switch (action.type) {
     case Types.ADD_IMAGE:
       return {

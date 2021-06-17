@@ -1,3 +1,8 @@
+$primary_color: #1687a7;
+$focus_primary: #1688a748;
+$body_bg: #161822;
+$img-radius: 4px;
+
 @mixin focus($border, $shadow) {
   &:focus {
     border-color: $border;
@@ -12,10 +17,6 @@
   }
 }
 
-$primary_color: #1687a7;
-$focus_primary: #1688a748;
-$body_bg: #161822;
-
 *,
 *::before {
   box-sizing: border-box;
@@ -29,8 +30,6 @@ $body_bg: #161822;
   text-decoration: none;
   color: #fff;
 }
-
-$img-radius: 4px;
 
 body {
   background: $body_bg;
@@ -47,15 +46,8 @@ button:disabled {
 
 input,
 textarea {
-  display: block;
-  width: 100%;
   background: transparent !important;
-  padding: 0.8rem;
-  border: 1px solid #525461;
-  border-radius: 5px;
-  outline: none;
-  @include focus($primary_color, $focus_primary);
-  @include disabled();
+  color: #fff !important;
 }
 
 svg + input {
@@ -85,19 +77,6 @@ svg + input {
   left: 0;
   > .button {
     margin-right: 1rem;
-  }
-}
-
-.group {
-  margin-bottom: 1.2rem;
-  position: relative;
-
-  &Icon {
-    position: absolute;
-    z-index: 10;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 8px;
   }
 }
 
@@ -167,7 +146,7 @@ svg + input {
     border: 0;
     border-radius: 50%;
     cursor: pointer;
-    padding: 0.3rem 0.7rem;
+    padding: 0.2rem 0.7rem;
   }
 }
 
@@ -279,6 +258,7 @@ svg + input {
 }
 
 .button {
+  font-size: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
