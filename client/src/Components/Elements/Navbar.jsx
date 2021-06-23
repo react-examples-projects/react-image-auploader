@@ -4,30 +4,70 @@ import Modal from "./Modals/Modal";
 
 import { BiUpload, BiUserCircle, BiExit } from "react-icons/bi";
 import Button from "react-bootstrap/Button";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Control from "react-bootstrap/FormControl";
 import { Link } from "react-router-dom";
 import { memo } from "react";
 
-function Navbar() {
+function NavbarPage() {
   const { user, logout } = useCurrentUser();
+  const cssIcon = { marginLeft: "5px", fontSize: "1rem" };
+  const cssButton = { borderRadius: "20px" };
   const children = (toggleOpen) => (
     <>
-      <nav className="nav">
-        {user?.isAdmin && (
-          <Button onClick={toggleOpen} variant="success">
-            Subir imagen
-            <BiUpload style={{ marginLeft: "5px", fontSize: "1rem" }} />
-          </Button>
-        )}
-        <Link to="/perfil" className="btn btn-success ml-auto mr-2">
-          Ver mi cuenta
-          <BiUserCircle style={{ marginLeft: "5px", fontSize: "1rem" }} />
-        </Link>
+      <Navbar className="nav" expand="md">
+        <Navbar.Toggle aria-controls="navbar" className="mb-2"/>
+        <Navbar.Collapse id="navbar">
+          <Nav className="w-100">
+            {user?.isAdmin && (
+              <Nav.Item className="mb-md-0 mb-2">
+                <Button
+                  onClick={toggleOpen}
+                  variant="outline-success"
+                  style={cssButton}
+                >
+                  Subir imagen
+                  <BiUpload style={cssIcon} />
+                </Button>
+              </Nav.Item>
+            )}
 
-        <Button onClick={logout} variant="danger">
-          Salir de la cuenta
-          <BiExit style={{ marginLeft: "5px", fontSize: "1rem" }} />
-        </Button>
-      </nav>
+            <Nav.Item className="ml-md-auto mr-2 mb-md-0 mb-2">
+              <Control
+                type="search"
+                placeholder="Buscar imágenes..."
+                style={{
+                  borderRadius: "20px",
+                  maxWidth: "300px",
+                }}
+              />
+            </Nav.Item>
+
+            <Nav.Item className="mb-md-0 mb-2">
+              <Link
+                to="/perfil"
+                className="btn btn-outline-success mr-2"
+                style={cssButton}
+              >
+                Mi cuenta
+                <BiUserCircle style={cssIcon} />
+              </Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Button
+                onClick={logout}
+                variant="outline-danger"
+                style={cssButton}
+              >
+                Salir
+                <BiExit style={cssIcon} />
+              </Button>
+            </Nav.Item>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
     </>
   );
   const renderModal = (toggleOpen) => <ModalUpload toggleOpen={toggleOpen} />;
@@ -36,4 +76,4 @@ function Navbar() {
   );
 }
 
-export default memo(Navbar);
+export default memo(NavbarPage);

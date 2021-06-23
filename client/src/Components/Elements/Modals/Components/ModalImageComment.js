@@ -12,8 +12,8 @@ function ModalImageComment({ content, _id, user }) {
     
   return (
     <div key={_id} className="comment">
-      <h4 className={user.isAdmin ? "text-admin" : undefined}>{user.name}</h4>
-      <p>
+      <h6 className={user.isAdmin ? "text-admin" : undefined}>{user.name}</h6>
+      <p className="m-0">
         {comment}
         {content.length > 200 && (
           <BtnLink

@@ -3,9 +3,9 @@ import ModalImageComment from "./ModalImageComment";
 function ModalImageComments({ comments }) {
   if (!comments.length) {
     return (
-      <h3 style={{ marginTop: "2rem" }}>
+      <h5 className="mt-3 text-center">
         Nadie a comentado, sé el primero en hacerlo
-      </h3>
+      </h5>
     );
   }
 

@@ -67,16 +67,38 @@ svg + input {
   border-radius: 4px;
 }
 
+.navbar-toggler {
+  border-color: #ffffff69 !important;
+
+  &:not(.collapsed) {
+    .navbar-toggler-icon {
+      background-image: url("../Images/menu_close.png") !important;
+      background-size: 40px 40px;
+    }
+  }
+}
+
+.navbar-toggler-icon {
+  background-image: url("../Images/menu.png") !important;
+  width: 30px;
+  height: 30px;
+}
+
 .nav {
-  display: flex;
-  background: #000000;
+  background: #2f3136;
   padding: 1rem 2rem;
   position: sticky;
   top: 0;
   z-index: 100;
   left: 0;
-  > .button {
-    margin-right: 1rem;
+
+  @media screen and (max-width: 767px) {
+    .nav-item .btn,
+    .nav-item input {
+      text-align: center;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
   }
 }
 

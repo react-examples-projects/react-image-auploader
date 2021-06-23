@@ -1,4 +1,4 @@
-export const api = "http://190.75.106.73:5000/api/";
+export const api = "http://localhost:5000/api/";
 export const image = "/images";
 export const login = "/auth/login";
 export const upload = "/images/upload";
