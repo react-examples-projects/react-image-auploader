@@ -13,3 +13,10 @@ export function setImagesAction(payload) {
     type: Types.SET_IMAGES,
   };
 }
+
+export function addCommentImages(payload) {
+  return {
+    payload,
+    type: Types.ADD_COMMENT_IMAGES,
+  };
+}

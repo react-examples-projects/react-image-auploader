@@ -7,6 +7,7 @@ import useCurrentUser from "../../Hooks/useCurrentUser";
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
 import { useState } from "react";
+
 function ModalImage({ _id, src, commentsImage }) {
   const [validated, setValidated] = useState(false);
   const { comments, addComment, createCommentImage } =
@@ -24,7 +25,7 @@ function ModalImage({ _id, src, commentsImage }) {
     fd.append("name", user.name);
     fd.append("user", user._id);
     const data = await createCommentImage.mutateAsync(fd);
-    addComment(data);
+    addComment(_id, data);
     e.target.reset();
   };
 

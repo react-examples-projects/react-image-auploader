@@ -1,9 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Routers from "./Components/Routers";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ErrorBoundary } from "react-error-boundary";
+
+import Routers from "./Components/Routers";
 import UserProvider from "./Components/Context/User/UserProvider";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import PageError from "./Components/Elements/ErrorBoundaries/PageError";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./Style/App.scss";
 
 const client = new QueryClient({
@@ -18,11 +21,13 @@ const client = new QueryClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <QueryClientProvider client={client}>
-      <UserProvider>
-        <Routers />
-      </UserProvider>
-    </QueryClientProvider>
+    <ErrorBoundary FallbackComponent={PageError}>
+      <QueryClientProvider client={client}>
+        <UserProvider>
+          <Routers />
+        </UserProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById("root")
 );

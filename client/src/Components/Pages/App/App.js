@@ -6,7 +6,6 @@ import ImagesProvider from "../../Context/Images/ImagesProvider";
 
 function App() {
   useTitle("Explorar nuevas imágenes");
-  
   return (
     <>
       <ImagesProvider>

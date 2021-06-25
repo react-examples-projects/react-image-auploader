@@ -3,6 +3,10 @@
   min-width: 650px;
   max-width: 650px;
 
+  @media screen and (max-width: 780px) {
+    min-width: auto;
+  }
+
   > img {
     width: auto;
     display: block;
