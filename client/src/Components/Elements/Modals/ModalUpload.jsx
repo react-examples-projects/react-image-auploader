@@ -7,8 +7,12 @@ import BtnLoader from "../BtnLoader";
 import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
 import { useRef, useState } from "react";
+import "react-tagsinput/react-tagsinput.css";
+import TagsInput from "react-tagsinput";
+
 function Upload({ toggleOpen }) {
   const inputFiles = useRef(null);
+  const [tags, setTags] = useState([]);
   const [validated, setValidated] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const { upload, isError, isLoading } = useUploadImage();
@@ -36,6 +40,10 @@ function Upload({ toggleOpen }) {
     setImagePreview(null);
   }
 
+  function handleOnChangeTag(tag) {
+    setTags(tag);
+  }
+
   return (
     <div className={css.container}>
       <h3 className="font-weight-bold">Subir imágenes</h3>
@@ -51,6 +59,23 @@ function Upload({ toggleOpen }) {
         onSubmit={handleOnSubmit}
         encType="multipart/form-data"
       >
+        <Form.Group controlId="title">
+          <Form.Control
+            type="text"
+            name="title"
+            placeholder="Título de la obra"
+            disabled={isLoading}
+            required
+          />
+        </Form.Group>
+        <Form.Group controlId="title">
+          <TagsInput
+            value={tags }
+            onChange={handleOnChangeTag}
+            className="bg-transparent border rounded-sm px-1 form-tags"
+          />
+        </Form.Group>
+
         <Form.Group controlId="images">
           <Form.File
             ref={inputFiles}

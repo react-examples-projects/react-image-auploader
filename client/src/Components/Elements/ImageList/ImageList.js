@@ -9,9 +9,8 @@ import ImageListError from "../ErrorBoundaries/ImageListError";
 const ImagePostLazy = lazy(() => import("../ImagePost/ImagePost"));
 
 function ImageList() {
-  console.log("ImageList Render();");
   const { data, isLoading, isError } = useImagesGlobal().images;
-  
+
   if (isError) return <ImageListError />;
   if (isLoading) return <Loader />;
   if (!data.length) {

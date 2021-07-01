@@ -1,15 +1,17 @@
-import Btn from "../../Elements/Btn";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import useTitle from "../../Hooks/useTitle";
 import Loader from "react-loader-spinner";
 import css from "./MyPerfil.module.scss";
-import { BiImageAdd, BiUserCheck } from "react-icons/bi";
-import { AiOutlineMail } from "react-icons/ai";
 import { setPerfilPhoto } from "../../../Helpers/api";
 import { useMutation } from "react-query";
+import { useRef } from "react";
+import { Button } from "react-bootstrap";
+import useLazyloadImage from "../../Hooks/useLazyloadImage";
 
 function MyPerfil() {
+  const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();
+  const src = useLazyloadImage(user.perfil_photo);
   const { isLoading, mutateAsync } = useMutation((payload) =>
     setPerfilPhoto(payload)
   );
@@ -24,12 +26,21 @@ function MyPerfil() {
     setUser({ perfil_photo: data.url });
   };
 
+  const onOpenFileChooser = () => {
+    buttonFile.current && buttonFile.current.click();
+  };
+
   return (
-    <div className={css.container}>
-      <div className={css.columns}>
-        <div className={css.column}>
-          <div className={css.perfilContainer}>
-            <img className={css.perfil} src={user.perfil_photo} alt="" />
+    <div className="container">
+      <div className="row justify-content-center align-items-center mt-5">
+        <div className="col-auto">
+          <div className="w-auto position-relative overflow-hidden">
+            <img
+              className="img-fluid rounded-circle"
+              src={src}
+              alt="Your profile pic"
+              style={{ width: "200px", height: "200px", objectFit: "cover" }}
+            />
             {isLoading && (
               <>
                 <div className={css.perfilLoaderOverlay} />
@@ -44,31 +55,28 @@ function MyPerfil() {
             )}
           </div>
 
-          <div className="group">
-            <BiImageAdd className="groupIcon" />
-            <input
-              type="file"
-              className={css.file}
-              onChange={onChangePerfilPhoto}
-            />
-          </div>
+          <input
+            type="file"
+            onChange={onChangePerfilPhoto}
+            ref={buttonFile}
+            className="form-control-file d-none"
+          />
         </div>
-        <div className={css.column}>
-          <h1 className={css.username}>{user.name}</h1>
+        <div className="col-auto">
+          <h4 className="mb-3 font-weight-bold">{user.name}</h4>
 
-          <div className="group">
-            <AiOutlineMail className="groupIcon" />
-            <input type="text" defaultValue={user.email} disabled />
-          </div>
-
+          <p>{user.email}</p>
           {user.isAdmin && (
-            <div className="group">
-              <BiUserCheck className="groupIcon" />
-              <input type="text" defaultValue="Administrador" disabled />
-            </div>
+            <h6 className="text-warning font-weight-bold my-2">
+              Administrador
+            </h6>
           )}
-
-          <Btn>Cambiar contraseña</Btn>
+          <div className="mt-4">
+            <Button variant="outline-success mr-2">Cambiar contraseña</Button>
+            <Button variant="outline-success" onClick={onOpenFileChooser}>
+              Cambiar Imágen
+            </Button>
+          </div>
         </div>
       </div>
     </div>

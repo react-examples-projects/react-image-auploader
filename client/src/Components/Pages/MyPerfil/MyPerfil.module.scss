@@ -1,46 +1,9 @@
-.container {
-  width: 100%;
-  max-width: 800px;
-  margin: auto;
-  margin-top: 5rem;
-}
-
-.columns {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.column {
-  flex: 0 1 auto;
-  padding: 0 15px;
-
-  &:nth-child(1) {
-    width: 100%;
-    max-width: 250px;
-  }
-}
-
-.perfil {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.perfilContainer {
-  position: relative;
-}
-
 .perfilLoader {
   position: absolute;
   top: 50%;
   left: 50%;
   z-index: 5;
   transform: translate(-50%, -50%);
-
-  
 }
 
 .perfilLoaderOverlay {
@@ -51,12 +14,4 @@
   left: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.575);
-}
-
-.file {
-  margin-top: 1rem;
-}
-
-.username {
-  margin-bottom: 1rem;
 }

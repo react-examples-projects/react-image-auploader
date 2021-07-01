@@ -3,6 +3,7 @@ import ModalImageComments from "./Components/ModalImageComments";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
 import useCurrentUser from "../../Hooks/useCurrentUser";
+import useLazyloadImage from "../../Hooks/useLazyloadImage";
 
 import Form from "react-bootstrap/Form";
 import PropTypes from "prop-types";
@@ -13,6 +14,7 @@ function ModalImage({ _id, src, commentsImage }) {
   const { comments, addComment, createCommentImage } =
     useComments(commentsImage);
   const { user } = useCurrentUser();
+  const srcLazy = useLazyloadImage(src);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ function ModalImage({ _id, src, commentsImage }) {
 
   return (
     <>
-      <img src={src} className="modal-img" alt="Preview" />
+      <img src={srcLazy} className="modal-img" alt="Preview" />
       <hr />
       <h5 className="mb-3">Deja un comentario</h5>
       <Form
