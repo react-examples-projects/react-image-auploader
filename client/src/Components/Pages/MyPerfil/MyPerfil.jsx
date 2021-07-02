@@ -11,7 +11,7 @@ import useLazyloadImage from "../../Hooks/useLazyloadImage";
 function MyPerfil() {
   const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();
-  const src = useLazyloadImage(user.perfil_photo);
+  const src = useLazyloadImage({ src: user.perfil_photo });
   const { isLoading, mutateAsync } = useMutation((payload) =>
     setPerfilPhoto(payload)
   );

@@ -203,20 +203,24 @@ svg + input {
 }
 
 .massory {
-  columns: 4;
-  column-gap: 0;
-  break-inside: avoid;
-  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 5rem;
+  margin: 0 auto;
+  margin-top: 4em;
+
   .img {
     cursor: pointer;
     position: relative;
     margin: 0 6px;
+    flex: 0 1 calc(25% - 6px * 2);
+
     margin-bottom: 10px;
     border-radius: $img-radius;
 
     .img-figure {
       position: relative;
+      height: 200px;
 
       &::before {
         content: "";
@@ -262,7 +266,9 @@ svg + input {
 
     img {
       width: 100%;
+      height: 100%;
       display: block;
+      object-fit: cover;
       transition: all 0.2s ease;
       border-radius: $img-radius;
     }
@@ -380,26 +386,16 @@ svg + input {
 }
 
 @media screen and (max-width: 980px) {
-  .massory {
-    columns: 3;
-  }
 }
 
 @media screen and (max-width: 750px) {
-  .massory {
-    columns: 2;
-  }
 }
 
 @media screen and (max-width: 500px) {
   * {
     font-size: 12px;
   }
-
-  .massory {
-    columns: 1;
-  }
-
+  
   .modal-close {
     right: 16px;
     top: -36px;
