@@ -1,8 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import placeholderImg from "../../Images/image_loading.gif";
 
-export default function useLazyloadImage(src) {
-  const [imgSrc, setSrc] = useState(placeholderImg || src);
+export default function useLazyloadImage({
+  src,
+  placeholder = placeholderImg,
+}) {
+  const [imgSrc, setSrc] = useState(placeholder || src);
 
   const onLoad = useCallback(() => {
     setSrc(src);

@@ -6,7 +6,7 @@ import css from "../../../Style/Modal.module.scss";
 import { memo } from "react";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 function ImagePost({ url_image, name, comments, title, ...args }) {
-  const src = useLazyloadImage(url_image);
+  const src = useLazyloadImage({ src: url_image });
 
   const children = (toggleOpen) => (
     <div className="img" onClick={toggleOpen}>
@@ -14,7 +14,7 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
         <img src={src} alt={url_image} loading="lazy" />
       </div>
       <div className="img-info">
-        <p>
+        <p className="m-0">
           <p className="mb-0 mr-2">{title}</p>
           <a href={url_image} target="_blank" rel="noreferrer">
             <small> {name}</small>
@@ -28,7 +28,12 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
     </div>
   );
   const renderModal = (
-    <ModalImage src={url_image} commentsImage={comments} {...args} />
+    <ModalImage
+      src={url_image}
+      commentsImage={comments}
+      title={title}
+      {...args}
+    />
   );
 
   return (

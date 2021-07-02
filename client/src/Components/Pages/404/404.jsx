@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Btn from "../../Elements/Btn";
+import { Button } from "react-bootstrap";
+
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import useBody from "../../Hooks/useBody";
 import notFoundBg from "../../../Images/404.jpg";
@@ -27,7 +28,7 @@ export default function NotFound() {
       </p>
 
       <Link to={user.id ? "/home" : "/"}>
-        <Btn>Go to {user.id ? "home" : "login"}</Btn>
+        <Button>Go to {user.id ? "home" : "login"}</Button>
       </Link>
     </div>
   );

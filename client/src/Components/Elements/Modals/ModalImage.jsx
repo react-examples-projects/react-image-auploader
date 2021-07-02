@@ -4,17 +4,17 @@ import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
-
-import Form from "react-bootstrap/Form";
+import placeholder from "../../../Images/image_post_loading.gif";
+import { Form, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-function ModalImage({ _id, src, commentsImage }) {
+function ModalImage({ _id, src, tags, title, commentsImage }) {
   const [validated, setValidated] = useState(false);
   const { comments, addComment, createCommentImage } =
     useComments(commentsImage);
   const { user } = useCurrentUser();
-  const srcLazy = useLazyloadImage(src);
+  const srcLazy = useLazyloadImage({ src, placeholder });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,7 +33,18 @@ function ModalImage({ _id, src, commentsImage }) {
 
   return (
     <>
+      <h3>{title}</h3>
       <img src={srcLazy} className="modal-img" alt="Preview" />
+      <div className="tags">
+        {tags.map((tag) => {
+          return (
+            <Badge variant="dark" className="mr-1 font-weight-light">
+              {tag}
+            </Badge>
+          );
+        })}
+      </div>
+
       <hr />
       <h5 className="mb-3">Deja un comentario</h5>
       <Form
