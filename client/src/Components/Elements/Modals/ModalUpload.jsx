@@ -21,10 +21,13 @@ function Upload({ toggleOpen }) {
   async function handleOnSubmit(e) {
     e.preventDefault();
     const form = e.target;
+    const data = new FormData(form);
+    for (let tag of tags) data.append("tags[]", tag);
+
     if (!form.checkValidity()) return setValidated(true);
     setValidated(false);
 
-    const newImage = await upload(e.target);
+    const newImage = await upload(data);
     addImage(newImage);
     toggleOpen();
     if (inputFiles.current) inputFiles.current.value = null;
@@ -70,7 +73,7 @@ function Upload({ toggleOpen }) {
         </Form.Group>
         <Form.Group controlId="title">
           <TagsInput
-            value={tags }
+            value={tags}
             onChange={handleOnChangeTag}
             className="bg-transparent border rounded-sm px-1 form-tags"
           />

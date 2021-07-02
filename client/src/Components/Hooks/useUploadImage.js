@@ -8,8 +8,7 @@ export default function useUploadImage() {
     uploadImage(payload)
   );
 
-  const upload = async (data) => {
-    const payload = new FormData(data);
+  const upload = async (payload) => {
     payload.append("name", user.name);
     const newImage = await mutateAsync(payload);
     return newImage;

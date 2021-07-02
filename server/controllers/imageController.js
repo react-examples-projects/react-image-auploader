@@ -21,9 +21,14 @@ class ImageController {
     return images;
   }
 
-  async insertImage(url64, name) {
-    const data = await this.uploadImages(url64);
-    const newImage = this.ImageModel({ url_image: data.url, name });
+  async insertImage({ url_base64, name, title, tags }) {
+    const data = await this.uploadImages(url_base64);
+    const newImage = this.ImageModel({
+      url_image: data.url,
+      name,
+      title,
+      tags,
+    });
     const img = await newImage.save();
     return img;
   }

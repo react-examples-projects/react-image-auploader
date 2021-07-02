@@ -17,7 +17,7 @@ function ImageList() {
     return (
       <div className="there-dont-images">
         <img src={ThereNotImages} alt="There don't images right now :(" />
-        <h2>Parece que ahora mismo no hay publicaciones, vuelve más tarde</h2>
+        <h2>No hay publicaciones aún</h2>
       </div>
     );
   }

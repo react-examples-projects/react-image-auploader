@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import css from "../../../Style/Modal.module.scss";
 import { memo } from "react";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
-function ImagePost({ url_image, name, comments, ...args }) {
+function ImagePost({ url_image, name, comments, title, ...args }) {
   const src = useLazyloadImage(url_image);
 
   const children = (toggleOpen) => (
@@ -14,9 +14,12 @@ function ImagePost({ url_image, name, comments, ...args }) {
         <img src={src} alt={url_image} loading="lazy" />
       </div>
       <div className="img-info">
-        <a href={url_image} target="_blank" rel="noreferrer">
-          {name}
-        </a>
+        <p>
+          <p className="mb-0 mr-2">{title}</p>
+          <a href={url_image} target="_blank" rel="noreferrer">
+            <small> {name}</small>
+          </a>
+        </p>
 
         <span className="comments-count">
           <BiComment /> {comments.length}

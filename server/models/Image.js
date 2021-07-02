@@ -4,7 +4,7 @@ require("./Comment");
 const ImageSchema = new Schema({
   url_image: { type: String, required: true, trim: true },
   name: { type: String, required: true, trim: true },
-  title: { type: String, default: "Sin título", trim: true },
+  title: { type: String, trim: true },
   tags: { type: Array, default: [] },
   comments: [
     {
