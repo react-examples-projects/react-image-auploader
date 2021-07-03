@@ -14,8 +14,8 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
         <img src={src} alt={url_image} loading="lazy" />
       </div>
       <div className="img-info">
-        <p className="m-0">
-          <p className="mb-0 mr-2">{title}</p>
+        <p className="m-0" style={{ maxWidth: "80%" }}>
+          <p className="mb-0 mr-2 text-truncate mw-100">{title}</p>
           <a href={url_image} target="_blank" rel="noreferrer">
             <small> {name}</small>
           </a>

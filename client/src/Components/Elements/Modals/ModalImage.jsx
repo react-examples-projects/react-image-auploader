@@ -33,7 +33,9 @@ function ModalImage({ _id, src, tags, title, commentsImage }) {
 
   return (
     <>
-      <h3>{title}</h3>
+      <h3 className="title" style={{ maxWidth: "92%" }}>
+        {title}
+      </h3>
       <img src={srcLazy} className="modal-img" alt="Preview" />
       <div className="tags">
         {tags.map((tag) => {

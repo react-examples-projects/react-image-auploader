@@ -102,6 +102,14 @@ svg + input {
   }
 }
 
+.row-wrapper {
+  max-width: 1400px;
+}
+
+.title {
+  font-family: "Archivo Black", sans-serif;
+}
+
 .text-admin {
   color: rgb(224, 146, 0);
 }
@@ -207,7 +215,6 @@ svg + input {
   flex-wrap: wrap;
   margin-bottom: 5rem;
   margin: 0 auto;
-  margin-top: 4em;
 
   .img {
     cursor: pointer;
@@ -218,6 +225,7 @@ svg + input {
     margin-bottom: 10px;
     border-radius: $img-radius;
 
+    
     .img-figure {
       position: relative;
       height: 200px;
@@ -273,6 +281,14 @@ svg + input {
       border-radius: $img-radius;
     }
   }
+}
+
+.massory,
+.trending,
+.favorites {
+  padding: 1.2rem;
+  background: #0c0e15;
+  border-radius: 10px;
 }
 
 .image-loader {
@@ -385,17 +401,27 @@ svg + input {
   }
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 992px) {
+  .massory .img {
+    flex: 0 1 calc(33.33% - 6px * 2);
+  }
 }
 
 @media screen and (max-width: 750px) {
+  .massory .img {
+    flex: 0 1 calc(100% - 6px * 2);
+
+    .img-figure {
+      height: auto;
+    }
+  }
 }
 
 @media screen and (max-width: 500px) {
   * {
     font-size: 12px;
   }
-  
+
   .modal-close {
     right: 16px;
     top: -36px;
