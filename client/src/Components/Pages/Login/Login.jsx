@@ -1,5 +1,5 @@
 import useBody from "../../Hooks/useBody";
-import bg_login from "../../../Images/bg_login.jpg";
+import bg_login from "../../../Images/bg_login2.jpg";
 import { setToken } from "../../../Helpers/token";
 import ErrorText from "../../Elements/ErrorText";
 import BtnLoader from "../../Elements/BtnLoader";

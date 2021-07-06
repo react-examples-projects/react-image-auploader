@@ -9,7 +9,7 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
   const src = useLazyloadImage({ src: url_image });
 
   const children = (toggleOpen) => (
-    <div className="img" onClick={toggleOpen}>
+    <div className="img" onClick={toggleOpen} title="Has click para ver más...">
       <div className="img-figure">
         <img src={src} alt={url_image} loading="lazy" />
       </div>
