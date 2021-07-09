@@ -9,13 +9,13 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
   const src = useLazyloadImage({ src: url_image });
 
   const children = (toggleOpen) => (
-    <div className="img" onClick={toggleOpen} title="Has click para ver más...">
-      <div className="img-figure">
+    <article className="img" onClick={toggleOpen} title="Has click para ver más...">
+      <figure className="img-figure mb-0">
         <img src={src} alt={url_image} loading="lazy" />
-      </div>
+      </figure>
       <div className="img-info">
         <p className="m-0" style={{ maxWidth: "80%" }}>
-          <p className="mb-0 mr-2 text-truncate mw-100">{title}</p>
+          <span className="d-block mb-0 mr-2 text-truncate mw-100" rel="author">{title}</span>
           <a href={url_image} target="_blank" rel="noreferrer">
             <small> {name}</small>
           </a>
@@ -25,7 +25,7 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
           <BiComment /> {comments.length}
         </span>
       </div>
-    </div>
+    </article>
   );
   const renderModal = (
     <ModalImage

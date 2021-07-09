@@ -7,9 +7,10 @@ import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
 import { Form, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
-function ModalImage({ _id, src, tags, title, commentsImage }) {
+function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [validated, setValidated] = useState(false);
   const { comments, addComment, createCommentImage } =
     useComments(commentsImage);
@@ -46,9 +47,22 @@ function ModalImage({ _id, src, tags, title, commentsImage }) {
           );
         })}
       </div>
-
+      <div className="d-flex">
+        <small className="d-block text-muted">
+          Publicado por
+          <Link
+            to={`/perfil/${userPost._id}`}
+            className="ml-1 text-reset font-weight-bold"
+          >
+            {userPost.name}
+          </Link>
+        </small>
+      </div>
       <hr />
-      <h5 className="mb-3">Deja un comentario</h5>
+      <h5 className="mb-3">
+        Deja un comentario
+        {comments.length > 0 && <span> {`(${comments.length})`} </span>}
+      </h5>
       <Form
         autoComplete="off"
         validated={validated}

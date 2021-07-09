@@ -237,7 +237,7 @@ svg + input {
 
 .comment {
   width: 100%;
-  background: rgb(20, 20, 20);
+  background: #0d0d0d;
   padding: 1rem;
   border-radius: 4px;
 
@@ -476,7 +476,7 @@ svg + input {
 
 @media screen and (max-width: 992px) {
   .massory .img {
-    flex: 0 1 calc(33.33% - 6px * 2);
+    flex: 0 1 calc(50% - 6px * 2);
   }
 }
 

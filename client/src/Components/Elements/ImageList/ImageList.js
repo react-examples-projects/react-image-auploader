@@ -23,13 +23,13 @@ function ImageList() {
   }
 
   return (
-    <div className="massory">
+    <section className="massory">
       {data.map((img) => (
         <Suspense fallback={<ImageLoader />} key={img._id}>
           <ImagePostLazy {...img} />
         </Suspense>
       ))}
-    </div>
+    </section>
   );
 }
 

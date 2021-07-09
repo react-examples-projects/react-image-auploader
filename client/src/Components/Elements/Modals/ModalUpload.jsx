@@ -2,6 +2,7 @@ import css from "../../Pages/Style.module.scss";
 import ErrorText from "../ErrorText";
 import useUploadImage from "../../Hooks/useUploadImage";
 import useImages from "../../Hooks/HooksStore/useImages";
+import useCurrentUser from "../../Hooks/useCurrentUser";
 import BtnLoader from "../BtnLoader";
 
 import PropTypes from "prop-types";
@@ -17,11 +18,13 @@ function Upload({ toggleOpen }) {
   const [imagePreview, setImagePreview] = useState(null);
   const { upload, isError, isLoading } = useUploadImage();
   const { addImage } = useImages();
+  const { user } = useCurrentUser();
 
   async function handleOnSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
+    data.append("user", user._id);
     for (let tag of tags) data.append("tags[]", tag);
 
     if (!form.checkValidity()) return setValidated(true);

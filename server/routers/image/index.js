@@ -13,13 +13,14 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/upload", async (req, res, next) => {
-  const { name, title } = req.body;
+  const { name, title, user } = req.body;
   try {
     const data = await ImageController.insertImage({
       url_base64: req.files.images.data,
       name,
       title,
       tags: req.body["tags[]"],
+      user,
     });
     success(res, data, 201);
   } catch (err) {
