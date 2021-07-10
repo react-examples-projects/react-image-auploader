@@ -5,11 +5,14 @@ import useImages from "../../Hooks/useImages";
 
 export default function ImagesProvider({ children }) {
   // it's necessary extract `setImages` to keep the state updated from backend
-  const { state, setImages, addImage, addComment } = useImageReducer();
+  const { state, setImages, addImage, addComment, removeComment } =
+    useImageReducer();
+    
   const { images, isLoading, isError } = useImages();
+
   const value = useMemo(
-    () => ({ ...state, setImages, addImage, addComment }),
-    [state, setImages, addImage, addComment]
+    () => ({ ...state, setImages, addImage, addComment, removeComment }),
+    [state, setImages, addImage, addComment, removeComment]
   );
 
   useEffect(() => {

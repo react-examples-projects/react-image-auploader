@@ -1,6 +1,8 @@
 import Types from "../../Actions/Types/Images";
 
 export default function ImagesReducer(state, action) {
+  let imagesUpdated;
+  
   switch (action.type) {
     case Types.ADD_IMAGE:
       return {
@@ -18,8 +20,8 @@ export default function ImagesReducer(state, action) {
       };
 
     case Types.ADD_COMMENT_IMAGES:
-      const imagesCopy = [...state.images.data];
-      const imagesUpdated = imagesCopy.map((image) => {
+      imagesUpdated = state.images.data.map((image) => {
+        // search the post image to add the comment
         if (action.payload.imageId === image._id) {
           // Add comment to the specific image
           delete action.payload.imageId;
@@ -35,6 +37,25 @@ export default function ImagesReducer(state, action) {
         },
       };
 
+    case Types.REMOVE_COMMENT_IMAGES:
+      const { imageId, commentId } = action.payload;
+      imagesUpdated = state.images.data.map((image) => {
+        // search the post image to edit the comments
+        if (imageId === image._id) {
+          // Save all comments except the comment to delete
+          image.comments = image.comments.filter(
+            (comment) => commentId !== comment._id
+          );
+        }
+        return image;
+      });
+      return {
+        ...state,
+        images: {
+          ...state.images,
+          data: imagesUpdated,
+        },
+      };
     default:
       return state;
   }

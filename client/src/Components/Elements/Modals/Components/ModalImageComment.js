@@ -1,15 +1,23 @@
 import useCurrentUser from "../../../Hooks/useCurrentUser";
+import { deleteComment } from "../../../../Helpers/api";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { BiCaretRight, BiCaretLeft } from "react-icons/bi";
 
-function ModalImageComment({ content, _id, user }) {
+function ModalImageComment({ content, _id, removeComment, user }) {
   const { user: userCurrent } = useCurrentUser();
   const [isVisibleComment, setVisibleComment] = useState(false);
   const isLargeComment = content.length > 200 && !isVisibleComment;
   const comment = isLargeComment
     ? content.substring(0, 200) + "... "
     : content + " ";
+
+  const _deleteComment = () => {
+    // global context
+    removeComment(_id);
+    // api
+    deleteComment(_id);
+  };
 
   return (
     <div key={_id} className="comment">
@@ -25,12 +33,12 @@ function ModalImageComment({ content, _id, user }) {
           >
             {isVisibleComment ? (
               <span>
-                <BiCaretLeft/>
+                <BiCaretLeft />
                 Mostrar menos
               </span>
             ) : (
               <span className="text-light">
-                <BiCaretRight className="mr-1"/>
+                <BiCaretRight className="mr-1" />
                 Mostrar más
               </span>
             )}
@@ -42,7 +50,12 @@ function ModalImageComment({ content, _id, user }) {
           <Button size="sm" variant="link" className="text-secondary">
             Editar
           </Button>
-          <Button size="sm" variant="link" className="text-secondary">
+          <Button
+            size="sm"
+            variant="link"
+            className="text-secondary"
+            onClick={_deleteComment}
+          >
             Eliminar
           </Button>
         </div>

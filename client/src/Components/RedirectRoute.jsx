@@ -1,7 +1,8 @@
 import { Route, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import { existsToken } from "../Helpers/token";
 
-export default function PrivateRoute({ component: Component, ...rest }) {
+function RedirectRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
@@ -11,3 +12,13 @@ export default function PrivateRoute({ component: Component, ...rest }) {
     />
   );
 }
+
+RedirectRoute.propTypes = {
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.node,
+  ]).isRequired,
+};
+
+export default RedirectRoute;

@@ -74,7 +74,7 @@ function Upload({ toggleOpen }) {
             required
           />
         </Form.Group>
-        <Form.Group controlId="title">
+        <Form.Group controlId="tags">
           <TagsInput
             value={tags}
             onChange={handleOnChangeTag}

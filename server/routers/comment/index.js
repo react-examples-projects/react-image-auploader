@@ -22,4 +22,14 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const data = await CommentController.deleteComment(id);
+    success(res, data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

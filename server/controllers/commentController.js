@@ -29,6 +29,11 @@ class CommentController {
       .execPopulate();
     return saved;
   }
+
+  async deleteComment(id) {
+    const data = this.CommentModel.deleteOne({ _id: id });
+    return data;
+  }  
 }
 
 module.exports = new CommentController();

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import ModalImageComment from "./ModalImageComment";
-function ModalImageComments({ comments }) {
+function ModalImageComments({ comments, removeComment }) {
   if (!comments.length) {
     return (
       <h5 className="mt-3 text-center">
@@ -12,7 +12,7 @@ function ModalImageComments({ comments }) {
   return (
     <div>
       {comments.map((comment) => (
-        <ModalImageComment {...comment} key={comment._id} />
+        <ModalImageComment {...comment} removeComment={removeComment} key={comment._id} />
       ))}
     </div>
   );

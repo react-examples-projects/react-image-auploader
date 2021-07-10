@@ -12,8 +12,12 @@ import { useState } from "react";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [validated, setValidated] = useState(false);
-  const { comments, addComment, createCommentImage } =
-    useComments(commentsImage);
+  const {
+    comments,
+    addComment,
+    removeComment: _removeComment,
+    createCommentImage,
+  } = useComments(commentsImage);
   const { user } = useCurrentUser();
   const srcLazy = useLazyloadImage({ src, placeholder });
 
@@ -31,6 +35,8 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     addComment(_id, data);
     e.target.reset();
   };
+
+  const removeComment = (commentId) => _removeComment(_id, commentId);
 
   return (
     <>
@@ -92,7 +98,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           block
         />
       </Form>
-      <ModalImageComments comments={comments} />
+      <ModalImageComments comments={comments} removeComment={removeComment} />
     </>
   );
 }

@@ -12,3 +12,11 @@
     margin: 1rem 0;
   }
 }
+
+.containerCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}

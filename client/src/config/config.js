@@ -7,3 +7,4 @@ export const token = "/auth/verify-token";
 export const userInfo = "/user/user";
 export const perfilPhoto = "/user/perfil-photo";
 export const comments = "/comment";
+export const deleteComment = (id) => `${comments}/${id}`;

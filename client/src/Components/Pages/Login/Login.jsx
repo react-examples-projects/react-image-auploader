@@ -49,7 +49,7 @@ export default function Login() {
   }
 
   return (
-    <div className={css.container}>
+    <div className={cs(css.container, css.containerCenter)}>
       <h4 className="text-center font-weight-bold">Inicia Sesión</h4>
       <p className={cs(css.lead, "text-center")}>
         Necesitas tener una cuenta para acceder al contenido de esta página.
