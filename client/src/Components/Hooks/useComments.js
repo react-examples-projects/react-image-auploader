@@ -3,6 +3,11 @@ import { useMutation } from "react-query";
 import { useState } from "react";
 import useImages from "./HooksStore/useImages";
 
+/**
+ * Manage the comments of a post image
+ * @param {Array.<Object>} commentsImage The image comments
+ * @returns {Object} The functions to manage the comments
+ */
 export default function useComments(commentsImage) {
   const createCommentImage = useMutation((payload) => createComment(payload));
   const [comments, setComments] = useState(commentsImage);

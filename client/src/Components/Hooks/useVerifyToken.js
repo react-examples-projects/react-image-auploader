@@ -3,6 +3,10 @@ import { removeToken, getToken } from "../../Helpers/token";
 import { verifyToken } from "../../Helpers/api";
 import cache from "../../Helpers/cache";
 
+/**
+ * Verify token from the backend
+ * @returns {Object} A object if the token is valid, and the loader flag
+ */
 export default function useVerifyToken() {
   const [isValidToken, setIsValidToken] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +37,7 @@ export default function useVerifyToken() {
     } else {
       verify();
     }
-  }, []);    
+  }, []);
 
   return { isValidToken, isLoading };
 }

@@ -9,6 +9,7 @@ import { Form, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { toFormData } from "../../../Helpers/utils";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [validated, setValidated] = useState(false);
@@ -23,14 +24,13 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) return setValidated(true);
+    if (!e.target.checkValidity()) return setValidated(true);
     setValidated(false);
-
-    const fd = new FormData(e.target);
-    fd.append("image_id", _id);
-    fd.append("name", user.name);
-    fd.append("user", user._id);
+    const fd = toFormData(e.target, {
+      image_id: _id,
+      name: user.name,
+      user: user._id,
+    });
     const data = await createCommentImage.mutateAsync(fd);
     addComment(_id, data);
     e.target.reset();

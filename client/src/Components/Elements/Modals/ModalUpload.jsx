@@ -4,6 +4,7 @@ import useUploadImage from "../../Hooks/useUploadImage";
 import useImages from "../../Hooks/HooksStore/useImages";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import BtnLoader from "../BtnLoader";
+import { imageToBase64, toFormData } from "../../../Helpers/utils";
 
 import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
@@ -22,26 +23,20 @@ function Upload({ toggleOpen }) {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    const form = e.target;
-    const data = new FormData(form);
-    data.append("user", user._id);
-    for (let tag of tags) data.append("tags[]", tag);
-
-    if (!form.checkValidity()) return setValidated(true);
+    if (!e.target.checkValidity()) return setValidated(true);
     setValidated(false);
 
+    const data = toFormData(e.target, { tags, user: user._id });
     const newImage = await upload(data);
     addImage(newImage);
     toggleOpen();
     if (inputFiles.current) inputFiles.current.value = null;
   }
 
-  function handleOnChangeFile(e) {
+  async function handleOnChangeFile(e) {
     if (e.target.files.length) {
-      const file = e.target.files[0];
-      const fr = new FileReader();
-      fr.onload = () => setImagePreview(fr.result);
-      return fr.readAsDataURL(file);
+      const imageUrl = await imageToBase64(e.target.files[0]);
+      return setImagePreview(imageUrl);
     }
     setImagePreview(null);
   }
