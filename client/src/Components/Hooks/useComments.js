@@ -11,8 +11,11 @@ import useImages from "./HooksStore/useImages";
 export default function useComments(commentsImage) {
   const createCommentImage = useMutation((payload) => createComment(payload));
   const [comments, setComments] = useState(commentsImage);
-  const { addComment: _addComment, removeComment: _removeComment } =
-    useImages();
+  const {
+    addComment: _addComment,
+    removeComment: _removeComment,
+    editComment: _editComment,
+  } = useImages();
 
   const addComment = (imageId, comment) => {
     setComments((c) => [comment, ...c]);
@@ -24,8 +27,21 @@ export default function useComments(commentsImage) {
   const removeComment = (imageId, commentId) => {
     setComments((c) => c.filter((comment) => comment._id !== commentId));
 
-    // Remove the the comment in the global context
+    // Remove in the comment in the global context
     _removeComment({ imageId, commentId });
+  };
+
+  const editComment = ({ imageId, commentId, commentContent }) => {
+    setComments((c) =>
+      c.map((comment) => {
+        if (comment._id === commentId) {
+          comment.content = commentContent;
+        }
+        return comment;
+      })
+    );
+    // Edit comment of the post image in the global context
+    _editComment({ imageId, commentId, commentContent });
   };
   return {
     comments,
@@ -33,5 +49,6 @@ export default function useComments(commentsImage) {
     addComment,
     removeComment,
     createCommentImage,
+    editComment,
   };
 }

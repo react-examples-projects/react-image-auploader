@@ -1,10 +1,13 @@
 import useCurrentUser from "../../../Hooks/useCurrentUser";
-import { deleteComment } from "../../../../Helpers/api";
+import {
+  deleteComment,
+  editComment as _editComment,
+} from "../../../../Helpers/api";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
 import { BiCaretRight, BiCaretLeft } from "react-icons/bi";
 
-function ModalImageComment({ content, _id, removeComment, user }) {
+function ModalImageComment({ content, _id, removeComment, editComment, user }) {
   const { user: userCurrent } = useCurrentUser();
   const [isVisibleComment, setVisibleComment] = useState(false);
   const isLargeComment = content.length > 200 && !isVisibleComment;
@@ -17,6 +20,14 @@ function ModalImageComment({ content, _id, removeComment, user }) {
     removeComment(_id);
     // api
     deleteComment(_id);
+  };
+
+  const _editComement = () => {
+    // global context
+    editComment(_id, "Editado!");
+
+    // api
+    _editComment(_id, "Editado!");
   };
 
   return (
@@ -47,7 +58,12 @@ function ModalImageComment({ content, _id, removeComment, user }) {
       </p>
       {userCurrent._id === user._id && (
         <div className="comment-options">
-          <Button size="sm" variant="link" className="text-secondary">
+          <Button
+            size="sm"
+            variant="link"
+            className="text-secondary"
+            onClick={_editComement}
+          >
             Editar
           </Button>
           <Button

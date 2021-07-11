@@ -7,6 +7,7 @@ import {
   addImageAction,
   addCommentImagesAction,
   removeCommentImagesAction,
+  editCommentImagesAction,
 } from "../../Store/Actions/ImagesActions";
 
 export default function useImageReducer() {
@@ -28,5 +29,17 @@ export default function useImageReducer() {
     dispatch(removeCommentImagesAction({ imageId, commentId }));
   }, []);
 
-  return { state, dispatch, setImages, addImage, addComment, removeComment };
+  const editComment = useCallback(({ imageId, commentId, commentContent }) => {
+    dispatch(editCommentImagesAction({ imageId, commentId, commentContent }));
+  }, []);
+
+  return {
+    state,
+    dispatch,
+    setImages,
+    addImage,
+    addComment,
+    removeComment,
+    editComment,
+  };
 }

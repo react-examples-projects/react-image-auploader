@@ -32,4 +32,15 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+router.put("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const content = req.body.content;
+    const data = await CommentController.editComment(id, content);
+    success(res, data);
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

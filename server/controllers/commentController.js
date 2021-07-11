@@ -31,9 +31,19 @@ class CommentController {
   }
 
   async deleteComment(id) {
-    const data = this.CommentModel.deleteOne({ _id: id });
+    const data = await this.CommentModel.deleteOne({ _id: id });
     return data;
-  }  
+  }
+
+  async editComment(_id, content) {
+    const data = await this.CommentModel.updateOne(
+      { _id },
+      {
+        content,
+      }
+    );
+    return data;
+  }
 }
 
 module.exports = new CommentController();

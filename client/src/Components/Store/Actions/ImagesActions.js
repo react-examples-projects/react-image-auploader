@@ -55,3 +55,17 @@ export function removeCommentImagesAction(payload) {
     type: Types.REMOVE_COMMENT_IMAGES,
   };
 }
+
+/**
+ * Return an action to edit a comment into an image post to the global context
+ * @param {Object} payload The image comment information
+ * @param {Number} payload.imageId The image id to remove the comment
+ * @param {String} payload.commentId The id comment to remove
+ * @param {String} payload.commentContent The new content to edit into comment
+ */
+export function editCommentImagesAction(payload) {
+  return {
+    payload,
+    type: Types.EDIT_COMMENT_IMAGES,
+  };
+}

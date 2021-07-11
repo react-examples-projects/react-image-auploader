@@ -17,6 +17,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     comments,
     addComment,
     removeComment: _removeComment,
+    editComment: _editComment,
     createCommentImage,
   } = useComments(commentsImage);
   const { user } = useCurrentUser();
@@ -37,6 +38,8 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   };
 
   const removeComment = (commentId) => _removeComment(_id, commentId);
+  const editComment = (commentId, commentContent) =>
+    _editComment({ imageId: _id, commentId, commentContent });
 
   return (
     <>
@@ -98,7 +101,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           block
         />
       </Form>
-      <ModalImageComments comments={comments} removeComment={removeComment} />
+      <ModalImageComments {...{ comments, removeComment, editComment }} />
     </>
   );
 }

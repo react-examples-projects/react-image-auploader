@@ -8,6 +8,7 @@ import {
   perfilPhoto,
   comments,
   deleteComment as _deleteComment,
+  editComment as _editComment,
 } from "../config/config";
 import { getToken } from "./token";
 import axios from "axios";
@@ -106,5 +107,16 @@ export async function createComment(payload) {
  */
 export async function deleteComment(id) {
   const res = await instance.delete(_deleteComment(id), config());
+  return res?.data?.data;
+}
+
+/**
+ * Edit a comment in an image post
+ * @param {Number} id The id comment to delete
+ * @param {String} content The new content to modify in the comment
+ * @returns {Object} The rows deleted from database
+ */
+export async function editComment(id, content) {
+  const res = await instance.put(_editComment(id), { content }, config());
   return res?.data?.data;
 }
