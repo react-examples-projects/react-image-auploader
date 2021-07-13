@@ -8,7 +8,7 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-import { BiUserCircle, BiCog, BiMoney, BiExit } from "react-icons/bi";
+import { BiUserCircle, BiCog, BiExit } from "react-icons/bi";
 import "react-pro-sidebar/dist/css/styles.css";
 
 export default function Sidenavbar() {
@@ -16,9 +16,12 @@ export default function Sidenavbar() {
   return (
     <ProSidebar role="navigation">
       <SidebarHeader className="p-4">
-        <h5 className="m-0 text-muted text-uppercase font-weight-bold">
-          Animez
-        </h5>
+        <h1
+          className="m-0 text-muted text-uppercase font-weight-bold"
+          style={{ fontSize: "1.5rem" }}
+        >
+          Manjuro
+        </h1>
       </SidebarHeader>
 
       <SidebarContent className="mt-3">
@@ -29,29 +32,25 @@ export default function Sidenavbar() {
             icon={<BiUserCircle />}
           >
             <MenuItem className="text-muted mb-2 text-uppercase">
-              My perfil
+              My profile
             </MenuItem>
             <MenuItem className="text-muted mb-2 text-uppercase">
               Favorites
             </MenuItem>
+            <MenuItem
+              className="text-muted mb-2 text-uppercase"
+              icon={<BiCog />}
+            >
+              Settings
+            </MenuItem>
+            <MenuItem
+              className="text-muted mb-2 text-uppercase"
+              icon={<BiExit />}
+              onClick={logout}
+            >
+              Logout
+            </MenuItem>
           </SubMenu>
-
-          <MenuItem className="text-muted mb-2 text-uppercase" icon={<BiCog />}>
-            Settings
-          </MenuItem>
-          <MenuItem
-            className="text-muted mb-2 text-uppercase"
-            icon={<BiMoney />}
-          >
-            Donate us
-          </MenuItem>
-          <MenuItem
-            className="text-muted mb-2 text-uppercase"
-            icon={<BiExit />}
-            onClick={logout}
-          >
-            Logout
-          </MenuItem>
         </Menu>
       </SidebarContent>
 

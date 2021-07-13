@@ -13,9 +13,7 @@ function ModalImageComments({ comments, removeComment, editComment }) {
     <div>
       {comments.map((comment) => (
         <ModalImageComment
-          {...comment}
-          removeComment={removeComment}
-          editComment={editComment}
+          {...{ ...comment, removeComment, editComment }}
           key={comment._id}
         />
       ))}

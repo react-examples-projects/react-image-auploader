@@ -21,8 +21,11 @@ export function imageToBase64(imageFile) {
 export function toFormData(form, params) {
   const fd = new FormData(form);
   for (const [v, k] of Object.entries(params)) {
+    console.log(v, k);
     if (Array.isArray(k)) {
-      fd.append(`${v}[]`, k);
+      for (let item of k) {
+        fd.append(`${v}[]`, item);
+      }
     } else {
       fd.append(v, k);
     }

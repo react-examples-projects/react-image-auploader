@@ -16,6 +16,7 @@ class ImageController {
               name: 1,
               isAdmin: 1,
               _id: 1,
+              perfil_photo: 1,
             },
           },
         },
@@ -42,15 +43,17 @@ class ImageController {
       user,
     });
     const img = await newImage.save();
-    const imgPopulated = img.populate({
-      path: "user",
-      select: {
-        _id: 1,
-        name: 1,
-        perfil_photo: 1,
-      },
-    }).execPopulate();
-    return imgPopulated;     
+    const imgPopulated = img
+      .populate({
+        path: "user",
+        select: {
+          _id: 1,
+          name: 1,
+          perfil_photo: 1,
+        },
+      })
+      .execPopulate();
+    return imgPopulated;
   }
 }
 

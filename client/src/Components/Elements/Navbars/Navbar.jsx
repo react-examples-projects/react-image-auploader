@@ -44,10 +44,10 @@ function NavbarPage() {
             >
               <Image
                 src={user.perfil_photo}
-                fluid
+                style={{ objectFit: "cover" }}
                 roundedCircle
-                width="50"
-                height="50"
+                width="40"
+                height="40"
               />
             </Nav.Item>
           </Nav>
