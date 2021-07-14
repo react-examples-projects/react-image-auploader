@@ -24,10 +24,11 @@ class CommentController {
           name: 1,
           isAdmin: 1,
           _id: 1,
+          perfil_photo: 1,
         },
       })
       .execPopulate();
-    return saved;
+    return populated;
   }
 
   async deleteComment(id) {

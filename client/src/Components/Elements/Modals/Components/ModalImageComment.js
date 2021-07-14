@@ -1,8 +1,4 @@
 import useCurrentUser from "../../../Hooks/useCurrentUser";
-import {
-  deleteComment,
-  editComment as _editComment,
-} from "../../../../Helpers/api";
 import useToggle from "../../../Hooks/useToggle";
 
 import { Button, FormControl, Image } from "react-bootstrap";
@@ -10,7 +6,7 @@ import { useState } from "react";
 import { BiCaretRight, BiCaretLeft } from "react-icons/bi";
 
 function ModalImageComment({ content, _id, removeComment, editComment, user }) {
-  console.log(user);
+  console.log(content);
   const { user: userCurrent } = useCurrentUser();
   const [isEditingMode, toggleEditingMode] = useToggle();
   const [commentContentEdited, setCommentContentEdite] = useState(content);
@@ -21,18 +17,11 @@ function ModalImageComment({ content, _id, removeComment, editComment, user }) {
     : content + " ";
 
   const _deleteComment = () => {
-    // global context
     removeComment(_id);
-    // api
-    deleteComment(_id);
   };
 
   const _editComement = () => {
-    // global context
     editComment(_id, commentContentEdited);
-
-    // api
-    _editComment(_id, commentContentEdited);
     toggleEditingMode();
   };
 

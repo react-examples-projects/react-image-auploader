@@ -95,6 +95,10 @@ svg + input {
   height: 30px;
 }
 
+div.pro-sidebar {
+  min-width: 220px;
+}
+
 .pro-sidebar-inner {
   background: #0e0f16 !important;
   .pro-menu-item {
@@ -159,6 +163,7 @@ svg + input {
 .content {
   overflow: hidden auto;
   max-height: 100%;
+  width: 100%;
 }
 
 .title {
@@ -275,7 +280,7 @@ svg + input {
     cursor: pointer;
     position: relative;
     margin: 0 6px;
-    flex: 0 1 calc(33% - 6px * 2);
+    flex: 0 1 calc(25% - 6px * 2);
 
     margin-bottom: 10px;
     border-radius: $img-radius;

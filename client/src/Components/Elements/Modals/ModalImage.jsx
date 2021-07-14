@@ -5,21 +5,17 @@ import ErrorText from "../../Elements/ErrorText";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
+import { toFormData } from "../../../Helpers/utils";
+
 import { Form, Badge } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { toFormData } from "../../../Helpers/utils";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [validated, setValidated] = useState(false);
-  const {
-    comments,
-    addComment,
-    removeComment: _removeComment,
-    editComment: _editComment,
-    createCommentImage,
-  } = useComments(commentsImage);
+  const { comments, addComment, createCommentImage, ...imagesProps } =
+    useComments(commentsImage);
   const { user } = useCurrentUser();
   const srcLazy = useLazyloadImage({ src, placeholder });
 
@@ -32,14 +28,18 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
       name: user.name,
       user: user._id,
     });
-    const data = await createCommentImage.mutateAsync(fd);
-    addComment(_id, data);
+    const comment = await createCommentImage.mutateAsync(fd);
+    addComment(comment, _id);
     e.target.reset();
   };
 
-  const removeComment = (commentId) => _removeComment(_id, commentId);
-  const editComment = (commentId, commentContent) =>
-    _editComment({ imageId: _id, commentId, commentContent });
+  const removeComment = (commentId) => {
+    imagesProps.removeComment(_id, commentId);
+  };
+
+  const editComment = (commentId, commentContent) => {
+    imagesProps.editComment({ imageId: _id, commentId, commentContent });
+  };
 
   return (
     <>

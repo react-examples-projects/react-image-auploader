@@ -1,4 +1,8 @@
-import { createComment } from "../../Helpers/api";
+import {
+  createComment,
+  deleteComment as deleteCommentApi,
+  editComment as editCommentApi,
+} from "../../Helpers/api";
 import { useMutation } from "react-query";
 import { useState } from "react";
 import useImages from "./HooksStore/useImages";
@@ -11,24 +15,20 @@ import useImages from "./HooksStore/useImages";
 export default function useComments(commentsImage) {
   const createCommentImage = useMutation((payload) => createComment(payload));
   const [comments, setComments] = useState(commentsImage);
-  const {
-    addComment: _addComment,
-    removeComment: _removeComment,
-    editComment: _editComment,
-  } = useImages();
+  const images = useImages();
 
-  const addComment = (imageId, comment) => {
+  const addComment = async (comment, imageId) => {
     setComments((c) => [comment, ...c]);
-
     // Add the new comment in the global context
-    _addComment({ imageId, ...comment });
+    images.addComment({ imageId, ...comment });
   };
 
   const removeComment = (imageId, commentId) => {
     setComments((c) => c.filter((comment) => comment._id !== commentId));
-
     // Remove in the comment in the global context
-    _removeComment({ imageId, commentId });
+    images.removeComment({ imageId, commentId });
+    //delete from api
+    deleteCommentApi(commentId);
   };
 
   const editComment = ({ imageId, commentId, commentContent }) => {
@@ -41,7 +41,9 @@ export default function useComments(commentsImage) {
       })
     );
     // Edit comment of the post image in the global context
-    _editComment({ imageId, commentId, commentContent });
+    images.editComment({ imageId, commentId, commentContent });
+    // edit from api
+    editCommentApi(commentId, commentContent);
   };
   return {
     comments,

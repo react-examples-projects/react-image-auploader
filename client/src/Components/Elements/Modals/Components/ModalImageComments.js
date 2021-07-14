@@ -11,12 +11,15 @@ function ModalImageComments({ comments, removeComment, editComment }) {
 
   return (
     <div>
-      {comments.map((comment) => (
-        <ModalImageComment
-          {...{ ...comment, removeComment, editComment }}
-          key={comment._id}
-        />
-      ))}
+      {comments.map((comment) => {
+        console.log(comment);
+        return (
+          <ModalImageComment
+            {...{ ...comment, removeComment, editComment }}
+            key={comment._id}
+          />
+        );
+      })}
     </div>
   );
 }
