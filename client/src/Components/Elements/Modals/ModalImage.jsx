@@ -2,21 +2,23 @@ import useComments from "../../Hooks/useComments";
 import ModalImageComments from "./Components/ModalImageComments";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
-import useCurrentUser from "../../Hooks/useCurrentUser";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
 import { toFormData } from "../../../Helpers/utils";
-
-import { Form, Badge } from "react-bootstrap";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { Form, Badge, Dropdown } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import useImageDelete from "../../Hooks/useImageDelete";
+import useImages from "../../Hooks/HooksStore/useImages";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [validated, setValidated] = useState(false);
   const { comments, addComment, createCommentImage, ...imagesProps } =
     useComments(commentsImage);
-  const { user } = useCurrentUser();
+  const deleteImage = useImageDelete();
+  const { removeImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
 
   const handleSubmit = async (e) => {
@@ -25,8 +27,6 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     setValidated(false);
     const fd = toFormData(e.target, {
       image_id: _id,
-      name: user.name,
-      user: user._id,
     });
     const comment = await createCommentImage.mutateAsync(fd);
     addComment(comment, _id);
@@ -41,6 +41,11 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     imagesProps.editComment({ imageId: _id, commentId, commentContent });
   };
 
+  const _removeImage = async () => {
+    await deleteImage.mutateAsync(_id);
+    removeImage(_id);
+  };
+
   return (
     <>
       <h3 className="title" style={{ maxWidth: "92%" }}>
@@ -48,15 +53,15 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
       </h3>
       <img src={srcLazy} className="modal-img" alt="Preview" />
       <div className="tags">
-        {tags.map((tag) => {
+        {tags.map((tag, i) => {
           return (
-            <Badge variant="dark" className="mr-1 font-weight-light">
+            <Badge variant="dark" className="mr-1 font-weight-light" key={i}>
               {tag}
             </Badge>
           );
         })}
       </div>
-      <div className="d-flex">
+      <div className="d-flex align-items-center justify-content-between mt-1">
         <small className="d-block text-muted">
           Publicado por
           <Link
@@ -66,6 +71,31 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             {userPost.name}
           </Link>
         </small>
+        <Dropdown>
+          <Dropdown.Toggle
+            className="p-0 justify-content-end dropdown-image-modal-toggle"
+            drop="start"
+            variant="link"
+            size="lg"
+          >
+            <BiDotsVerticalRounded />
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu
+            className="border-0"
+            style={{ backgroundColor: "#0d0d0d" }}
+          >
+            <Dropdown.Item
+              className="text-white dropdown-modal-image-item"
+              onClick={_removeImage}
+            >
+              Eliminar
+            </Dropdown.Item>
+            <Dropdown.Item className="text-white dropdown-modal-image-item">
+              Editar
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
       <hr />
       <h5 className="mb-3">

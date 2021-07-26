@@ -6,7 +6,6 @@ import { useState } from "react";
 import { BiCaretRight, BiCaretLeft } from "react-icons/bi";
 
 function ModalImageComment({ content, _id, removeComment, editComment, user }) {
-  console.log(content);
   const { user: userCurrent } = useCurrentUser();
   const [isEditingMode, toggleEditingMode] = useToggle();
   const [commentContentEdited, setCommentContentEdite] = useState(content);

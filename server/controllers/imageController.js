@@ -55,6 +55,14 @@ class ImageController {
       .execPopulate();
     return imgPopulated;
   }
+
+  async deleteImage(id, idUser) {
+    const imageDeleted = await this.ImageModel.deleteOne({
+      _id: id,
+      user: idUser,
+    });
+    return imageDeleted;
+  }
 }
 
 module.exports = new ImageController();

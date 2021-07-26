@@ -13,14 +13,14 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/upload", async (req, res, next) => {
-  const { name, title, user } = req.body;
+  const { title } = req.body;
   try {
     const data = await ImageController.insertImage({
       url_base64: req.files.images.data,
-      name,
+      name: req.user.name,
       title,
       tags: req.body["tags[]"],
-      user,
+      user: req.user._id,
     });
     success(res, data, 201);
   } catch (err) {
@@ -28,4 +28,16 @@ router.post("/upload", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const data = await ImageController.deleteImage(id, req.user._id);
+    success(res, {
+      ...data,
+      id,
+    });
+  } catch (err) {  
+    next(err);
+  }
+});
 module.exports = router;

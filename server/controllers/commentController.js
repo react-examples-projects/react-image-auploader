@@ -31,14 +31,14 @@ class CommentController {
     return populated;
   }
 
-  async deleteComment(id) {
-    const data = await this.CommentModel.deleteOne({ _id: id });
+  async deleteComment(id, idUser) {
+    const data = await this.CommentModel.deleteOne({ _id: id, user: idUser });
     return data;
   }
 
-  async editComment(_id, content) {
+  async editComment(_id, content, idUser) {
     const data = await this.CommentModel.updateOne(
-      { _id },
+      { _id, user: idUser },
       {
         content,
       }

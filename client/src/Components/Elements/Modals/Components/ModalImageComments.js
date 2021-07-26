@@ -12,7 +12,6 @@ function ModalImageComments({ comments, removeComment, editComment }) {
   return (
     <div>
       {comments.map((comment) => {
-        console.log(comment);
         return (
           <ModalImageComment
             {...{ ...comment, removeComment, editComment }}

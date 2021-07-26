@@ -269,6 +269,14 @@ div.pro-sidebar {
     font-size: 14px;
   }
 }
+.dropdown-image-modal-toggle::after {
+  display: none;
+}
+
+.dropdown-modal-image-item:hover {
+  background: #2c2c2c;
+  cursor: pointer;
+}
 
 .massory {
   display: flex;

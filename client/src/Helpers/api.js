@@ -57,6 +57,16 @@ export async function uploadImage(payload) {
 }
 
 /**
+ * Delete an image from the backend
+ * @param {id} Number The image id
+ * @returns {Object} the image deleted
+ */
+export async function deleteImage(id) {
+  const res = await instance.delete(`${image}/${id}`, config());
+  return res?.data?.data;
+}
+
+/**
  * Set profile user image to the backend
  * @param {Object} payload The image information
  * @param {File} payload.perfil_photo The binary image file

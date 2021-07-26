@@ -5,6 +5,7 @@ import ImagesReducer from "../../Store/Reducers/Images/ImagesReducer";
 import {
   setImagesAction,
   addImageAction,
+  removeImageAction,
   addCommentImagesAction,
   removeCommentImagesAction,
   editCommentImagesAction,
@@ -19,6 +20,10 @@ export default function useImageReducer() {
 
   const addImage = useCallback((_image) => {
     dispatch(addImageAction(_image));
+  }, []);
+
+  const removeImage = useCallback((id) => {
+    dispatch(removeImageAction(id));
   }, []);
 
   const addComment = useCallback((comment) => {
@@ -38,6 +43,7 @@ export default function useImageReducer() {
     dispatch,
     setImages,
     addImage,
+    removeImage,
     addComment,
     removeComment,
     editComment,

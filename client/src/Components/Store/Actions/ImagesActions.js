@@ -18,6 +18,17 @@ export function addImageAction(payload) {
 }
 
 /**
+ * Return an action to delete an images post to the global context
+ * @param {Number} payload The id image
+ */
+export function removeImageAction(payload) {
+  return {
+    payload,
+    type: Types.REMOVE_IMAGE,
+  };
+}
+
+/**
  * Return an action to set all images post to the global context
  * @param {Array.<Object>} payload The image array
  */

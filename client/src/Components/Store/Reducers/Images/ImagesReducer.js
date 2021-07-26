@@ -13,6 +13,18 @@ export default function ImagesReducer(state, action) {
         },
       };
 
+    case Types.REMOVE_IMAGE:
+      imagesUpdated = state.images.data.filter(
+        (image) => image._id !== action.payload
+      );
+      return {
+        ...state,
+        images: {
+          ...state.images,
+          data: imagesUpdated,
+        },
+      };
+
     case Types.SET_IMAGES:
       return {
         ...state,

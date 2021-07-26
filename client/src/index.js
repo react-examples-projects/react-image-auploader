@@ -8,6 +8,7 @@ import UserProvider from "./Components/Context/User/UserProvider";
 import PageError from "./Components/Elements/ErrorBoundaries/PageError";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Style/App.scss";
+import ImagesProvider from "./Components/Context/Images/ImagesProvider";
 
 const client = new QueryClient({
   defaultOptions: {
@@ -24,7 +25,9 @@ ReactDOM.render(
     <ErrorBoundary FallbackComponent={PageError}>
       <QueryClientProvider client={client}>
         <UserProvider>
-          <Routers />
+          <ImagesProvider>
+            <Routers />
+          </ImagesProvider>
         </UserProvider>
       </QueryClientProvider>
     </ErrorBoundary>
