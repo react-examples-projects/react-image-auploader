@@ -1,4 +1,4 @@
-import useComments from "../../Hooks/useComments";
+import useComments from "../../Hooks/Comments/useComments";
 import ModalImageComments from "./Components/ModalImageComments";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
@@ -34,11 +34,11 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   };
 
   const removeComment = (commentId) => {
-    imagesProps.removeComment(_id, commentId);
+    return imagesProps.removeComment(_id, commentId);
   };
 
   const editComment = (commentId, commentContent) => {
-    imagesProps.editComment({ imageId: _id, commentId, commentContent });
+    return imagesProps.editComment({ imageId: _id, commentId, commentContent });
   };
 
   const _removeImage = async () => {

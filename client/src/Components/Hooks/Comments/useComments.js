@@ -2,10 +2,10 @@ import {
   createComment,
   deleteComment as deleteCommentApi,
   editComment as editCommentApi,
-} from "../../Helpers/api";
+} from "../../../Helpers/api";
+import useImages from "../HooksStore/useImages";
 import { useMutation } from "react-query";
 import { useState } from "react";
-import useImages from "./HooksStore/useImages";
 
 /**
  * Manage the comments of a post image
