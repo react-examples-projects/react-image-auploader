@@ -9,12 +9,15 @@ import {
   SidebarContent,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
+import useMediaQuery from "../../Hooks/useMediaQuery";
 
 export default function Sidenavbar() {
+  const isMobile = useMediaQuery("max-width: 992px");
   const { logout } = useCurrentUser();
+
   return (
-    <ProSidebar role="navigation" collapsed={false}>
-      <SidebarHeader className="p-3">
+    <ProSidebar role="navigation" collapsed={isMobile}>
+      <SidebarHeader className="p-3 d-none d-lg-block">
         <h1
           className="m-0 text-muted text-uppercase font-weight-bold"
           style={{ fontSize: "1.5rem" }}
@@ -50,7 +53,7 @@ export default function Sidenavbar() {
         </Menu>
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 d-none d-lg-block">
         <p className="m-0 text-muted font-weight-bold">More information</p>
       </SidebarFooter>
     </ProSidebar>

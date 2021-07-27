@@ -38,7 +38,7 @@ function NavbarPage() {
             </Nav.Item>
 
             <Nav.Item
-              className="mb-md-0 mb-2 d-flex align-items-center"
+              className="mb-md-0 mb-2 d-none d-lg-flex align-items-center"
               as={Link}
               to="/perfil"
             >

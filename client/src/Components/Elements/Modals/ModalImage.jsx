@@ -86,6 +86,9 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             style={{ backgroundColor: "#0d0d0d" }}
           >
             <Dropdown.Item
+              as={BtnLoader}
+              variant="link"
+              isLoading={deleteImage.isLoading}
               className="text-white dropdown-modal-image-item"
               onClick={_removeImage}
             >

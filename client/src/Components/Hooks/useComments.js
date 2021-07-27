@@ -17,21 +17,25 @@ export default function useComments(commentsImage) {
   const [comments, setComments] = useState(commentsImage);
   const images = useImages();
 
-  const addComment = async (comment, imageId) => {
+  const addComment = (comment, imageId) => {
     setComments((c) => [comment, ...c]);
     // Add the new comment in the global context
     images.addComment({ imageId, ...comment });
   };
 
-  const removeComment = (imageId, commentId) => {
+  const removeComment = async (imageId, commentId) => {
+    //delete from api
+    await deleteCommentApi(commentId);
+
     setComments((c) => c.filter((comment) => comment._id !== commentId));
     // Remove in the comment in the global context
     images.removeComment({ imageId, commentId });
-    //delete from api
-    deleteCommentApi(commentId);
   };
 
-  const editComment = ({ imageId, commentId, commentContent }) => {
+  const editComment = async ({ imageId, commentId, commentContent }) => {
+    // edit from api
+    await editCommentApi(commentId, commentContent);
+
     setComments((c) =>
       c.map((comment) => {
         if (comment._id === commentId) {
@@ -42,8 +46,6 @@ export default function useComments(commentsImage) {
     );
     // Edit comment of the post image in the global context
     images.editComment({ imageId, commentId, commentContent });
-    // edit from api
-    editCommentApi(commentId, commentContent);
   };
   return {
     comments,
