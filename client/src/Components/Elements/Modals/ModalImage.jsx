@@ -100,6 +100,10 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           </Dropdown.Menu>
         </Dropdown>
       </div>
+      <ErrorText
+        isVisible={deleteImage.isError}
+        text="Error al eliminar la publicación"
+      />
       <hr />
       <h5 className="mb-3">
         Deja un comentario

@@ -7,6 +7,7 @@ import { useMutation } from "react-query";
 import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
+import { Link } from "react-router-dom";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
@@ -73,8 +74,15 @@ function MyPerfil() {
           )}
           <div className="mt-4">
             <Button variant="outline-success mr-2">Cambiar contraseña</Button>
-            <Button variant="outline-success" onClick={onOpenFileChooser}>
+            <Button variant="outline-success mr-2" onClick={onOpenFileChooser}>
               Cambiar Imágen
+            </Button>
+            <Button
+              variant="outline-secondary d-block mt-2"
+              as={Link}
+              to="/home"
+            >
+              Regresar al inicio
             </Button>
           </div>
         </div>
