@@ -10,10 +10,10 @@ export default function PageError() {
   });
   return (
     <div
-      className="vh-100 w-100 mx-auto d-flex flex-column justify-content-center align-item text-center text-md-left"
+      className="vh-100 w-100 mx-auto d-flex flex-column justify-content-center align-items-center text-center text-md-left"
       style={{ maxWidth: "800px" }}
     >
-      <h1 className="font-weight-bold">Algo no estal bien...</h1>
+      <h1 className="title">Algo no estal bien...</h1>
 
       <ErrorContent />
     </div>

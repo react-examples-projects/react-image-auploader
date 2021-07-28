@@ -1,6 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { getUserInfo } from "../../../Helpers/api";
-import { clearCache } from "../../../Helpers/cache";
 import { getToken, removeToken } from "../../../Helpers/token";
 import UserContext from "./UserContext";
 
@@ -13,22 +12,21 @@ export default function UserProvider(props) {
   const logout = useCallback(() => {
     setUserInfo({});
     removeToken();
-    clearCache();
+    window.location.href = "/";
   }, []);
 
   const value = useMemo(
     () => ({ user, setUser, logout }),
     [user, setUser, logout]
-  ); 
+  );
 
   useEffect(() => {
     async function userInfo() {
-      try { 
+      try {
         const user = await getUserInfo();
         if (user) setUser(user);
       } catch (error) {
         setUser({ userError: true });
-        console.warn("%cError in downloading the user info:");
         console.log(error);
       }
     }

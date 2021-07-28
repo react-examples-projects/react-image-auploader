@@ -16,15 +16,6 @@ const message = {
   },
 };
 
-function isRequestAjaxOrApi(req) {
-  return (
-    !req.accepts("text/html") ||
-    req.xhr ||
-    req.accepts("application/json") ||
-    req.accepts("text/plain")
-  );
-}
-
 function getTokenInfo(token) {
   return jwt.verify(token, SECRET_TOKEN, (err, payload) => ({
     isValid: !err,
@@ -32,4 +23,4 @@ function getTokenInfo(token) {
   }));
 }
 
-module.exports = { isRequestAjaxOrApi, message, getTokenInfo };
+module.exports = { message, getTokenInfo };

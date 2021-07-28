@@ -44,7 +44,7 @@ export default function Login() {
     if (res.ok) {
       setToken(res.data.token);
       setUser(res.data.user);
-      push("/home");
+      setTimeout(() => push("/home"), 150);
     }
   }
 

@@ -20,15 +20,17 @@ export default function NotFound() {
 
   return (
     <div className={css.container}>
-      <h1>Not Found</h1>
+      <h1 className="title mb-3" style={{ fontSize: "4rem" }}>
+        Not Found
+      </h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore fuga in
         ex tempora commodi tenetur praesentium debitis pariatur recusandae
         dignissimos!
       </p>
 
-      <Link to={user.id ? "/home" : "/"}>
-        <Button>Go to {user.id ? "home" : "login"}</Button>
+      <Link to={user.id ? "/home" : "/"} >
+        <Button size="lg">Go to {user.id ? "home" : "login"}</Button>
       </Link>
     </div>
   );

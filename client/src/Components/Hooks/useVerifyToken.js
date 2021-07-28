@@ -1,43 +1,20 @@
-import { useState, useEffect } from "react";
-import { removeToken, getToken } from "../../Helpers/token";
+import { existsToken, removeToken } from "../../Helpers/token";
 import { verifyToken } from "../../Helpers/api";
-import cache from "../../Helpers/cache";
+import { useQuery } from "react-query";
+import { useEffect } from "react";
 
 /**
  * Verify token from the backend
  * @returns {Object} A object if the token is valid, and the loader flag
  */
 export default function useVerifyToken() {
-  const [isValidToken, setIsValidToken] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading, isError } = useQuery("token", verifyToken, {
+    enabled: existsToken(),
+  });
 
   useEffect(() => {
-    async function verify() {
-      try {
-        const isValid = await verifyToken();
-        setIsValidToken(isValid);
-        setIsLoading(false);
-        if (isValid) {
-          cache.set(getToken(), true);
-        } else {
-          removeToken();
-        }
-      } catch {
-        removeToken();
-      }
-    }
+    if (isError) removeToken();
+  }, [isError]);
 
-    if (!getToken()) {
-      setIsValidToken(false);
-      setIsLoading(false);
-    } else if (cache.get(getToken())) {
-      console.log("%cToken correcto tomado del cache", "font-size:18px");
-      setIsValidToken(true);
-      setIsLoading(false);
-    } else {
-      verify();
-    }
-  }, []);
-
-  return { isValidToken, isLoading };
+  return { isValidToken: isError ? false : data, isLoading };
 }
