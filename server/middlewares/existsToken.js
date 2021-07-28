@@ -11,7 +11,7 @@ function existsToken(req, res, next) {
       req.user = tokenInfo.payload;
       return next();
     }
-    invalidToken(res);
+    return invalidToken(res);
   }
 
   error(res, "The authorization header missing");
