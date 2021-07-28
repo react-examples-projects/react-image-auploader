@@ -1,5 +1,6 @@
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import { BiUserCircle, BiCog, BiExit, BiHeartCircle } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import {
   ProSidebar,
   Menu,
@@ -29,32 +30,32 @@ export default function Sidenavbar() {
       <SidebarContent className="mt-3">
         <Menu iconShape="square">
           <MenuItem
-            className="text-muted mb-2 text-uppercase"
+            className="d-md-block d-lg-none text-muted mb-2 text-uppercase"
             icon={<BiUserCircle />}
           >
-            My profile
+            <Link to="/perfil">Mi perfil</Link>
           </MenuItem>
           <MenuItem
             className="text-muted mb-2 text-uppercase"
             icon={<BiHeartCircle />}
           >
-            Favorites
+            Favoritas
           </MenuItem>
           <MenuItem className="text-muted mb-2 text-uppercase" icon={<BiCog />}>
-            Settings
+            Configuración
           </MenuItem>
           <MenuItem
             className="text-muted mb-2 text-uppercase"
             icon={<BiExit />}
             onClick={logout}
           >
-            Logout
+            Salir
           </MenuItem>
         </Menu>
       </SidebarContent>
 
       <SidebarFooter className="p-4 d-none d-lg-block">
-        <p className="m-0 text-muted font-weight-bold">More information</p>
+        <p className="m-0 text-muted font-weight-bold">Más información</p>
       </SidebarFooter>
     </ProSidebar>
   );
