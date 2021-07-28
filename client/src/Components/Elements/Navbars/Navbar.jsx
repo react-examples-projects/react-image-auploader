@@ -13,7 +13,7 @@ function NavbarPage() {
   const children = (toggleOpen) => (
     <>
       <Navbar className="nav" expand="lg">
-        <Navbar.Toggle aria-controls="navbar" className="ml-auto mb-2" />
+        <Navbar.Toggle aria-controls="navbar" className="ml-auto mb-2 border-0" />
         <Navbar.Collapse id="navbar">
           <Nav className="w-100">
             {user?.isAdmin && (
@@ -30,7 +30,7 @@ function NavbarPage() {
                 role="search"
                 type="search"
                 placeholder="Buscar imágenes..."
-                className="ml-md-auto mx-0 mx-sm-2"
+                className="mr-lg-2 ml-md-auto mx-0"
                 style={{
                   maxWidth: "500px",
                 }}
