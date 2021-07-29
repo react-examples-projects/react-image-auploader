@@ -36,7 +36,23 @@ router.delete("/:id", async (req, res, next) => {
       ...data,
       id,
     });
-  } catch (err) {  
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { title, tags } = req.body;
+    const data = await ImageController.updateImage({ id, title, tags });
+    success(res, {
+      ...data,
+      title,
+      tags,
+      id,
+    });
+  } catch (err) {
     next(err);
   }
 });

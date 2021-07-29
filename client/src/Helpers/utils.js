@@ -31,3 +31,14 @@ export function toFormData(form, params) {
   }
   return fd;
 }
+
+/**
+ * Clear a string of accents/diacritics
+ * @param {String} str The text for clear
+ * @returns The string cleaned
+ */
+export function normalizeString(str) {
+  let normalized = str.trim();
+  normalized = normalized.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return normalized;
+}

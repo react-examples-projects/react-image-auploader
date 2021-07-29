@@ -1,6 +1,7 @@
 class ImageController {
   constructor() {
     this.ImageModel = require("../models/Image");
+    this.CommentController = require("../controllers/commentController");
     this.uploadImages = require("../helpers/requests").uploadImages;
   }
 
@@ -57,11 +58,20 @@ class ImageController {
   }
 
   async deleteImage(id, idUser) {
+    const commentsDelete = await this.CommentController.deleteAllCommentsByPost(id);
     const imageDeleted = await this.ImageModel.deleteOne({
       _id: id,
       user: idUser,
     });
-    return imageDeleted;
+    return {
+      ...imageDeleted,
+      commentsDelete,
+    };
+  }
+
+  async updateImage({ id, ...content }) {
+    const imageUpdated = await this.ImageModel.findByIdAndUpdate(id, content);
+    return imageUpdated;
   }
 }
 

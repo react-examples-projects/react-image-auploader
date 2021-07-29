@@ -45,6 +45,11 @@ class CommentController {
     );
     return data;
   }
+
+  async deleteAllCommentsByPost(image_id) {
+    const data = await this.CommentModel.deleteMany({ image_id });
+    return data;
+  }
 }
 
 module.exports = new CommentController();

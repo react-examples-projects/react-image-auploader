@@ -7,6 +7,7 @@ import {
   userInfo,
   perfilPhoto,
   comments,
+  updateImage as _updateImage,
   deleteComment as _deleteComment,
   editComment as _editComment,
 } from "../config/config";
@@ -48,11 +49,22 @@ export async function setLogin(auth) {
  * @param {String} payload.title The image title
  * @param {Array.<String>} payload.tags The tags image
  * @param {Array.<File>} payload.images The binaries images files
- * @param {Number} payload.user The user id
  * @returns {Object} The uploaded image information
  */
 export async function uploadImage(payload) {
   const res = await instance.post(upload, payload, config());
+  return res?.data?.data;
+}
+
+/**
+ * Update a image to the backend
+ * @param {Number} id The image post id
+ * @param {String} payload.title The image title
+ * @param {Array.<String>} payload.tags The tags image
+ * @returns {Object} The updated image information
+ */
+export async function updateImage(id, payload) {
+  const res = await instance.put(_updateImage(id), payload, config());
   return res?.data?.data;
 }
 
@@ -101,8 +113,6 @@ export async function getUserInfo() {
  * @param {Object} payload The image comment information
  * @param {String} payload.content The comment content
  * @param {Object} payload.image_id The image id to add the comment
- * @param {String} payload.name The author name
- * @param {Number} payload.user The user id
  * @returns {Object} The comment information
  */
 export async function createComment(payload) {

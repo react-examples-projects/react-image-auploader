@@ -1,39 +1,39 @@
+import { normalizeString } from "../../../../Helpers/utils";
 import Types from "../../Actions/Types/Images";
 
-export default function ImagesReducer(state, action) {
+export default function ImagesReducer(state, { type, payload }) {
+  const { images } = state;
   let imagesUpdated;
 
-  switch (action.type) {
+  switch (type) {
     case Types.ADD_IMAGE:
       return {
         ...state,
         images: {
-          ...state.images,
-          data: [action.payload, ...state.images.data],
+          ...images,
+          data: [payload, ...images.data],
         },
       };
 
     case Types.REMOVE_IMAGE:
-      imagesUpdated = state.images.data.filter(
-        (image) => image._id !== action.payload
-      );
+      imagesUpdated = images.data.filter((image) => image._id !== payload);
       return {
         ...state,
         images: {
-          ...state.images,
+          ...images,
           data: imagesUpdated,
         },
       };
 
     case Types.SEARCH_IMAGES: {
-      const searchText = action.payload.trim().toLowerCase();
-      const foundImages = state.images.data.filter((imgs) =>
-        imgs.title.trim().toLowerCase().includes(searchText)
+      const searchText = normalizeString(payload.toLowerCase());
+      const foundImages = images.data.filter((imgs) =>
+        normalizeString(imgs.title.toLowerCase()).includes(searchText)
       );
       return {
         ...state,
         images: {
-          ...state.images,
+          ...images,
           foundSearches: searchText.length > 0 ? foundImages : [],
         },
       };
@@ -42,30 +42,30 @@ export default function ImagesReducer(state, action) {
     case Types.SET_IMAGES:
       return {
         ...state,
-        images: action.payload,
+        images: payload,
       };
 
     case Types.ADD_COMMENT_IMAGES:
-      imagesUpdated = state.images.data.map((image) => {
+      imagesUpdated = images.data.map((image) => {
         // search the post image to add the comment
-        if (action.payload.imageId === image._id) {
+        if (payload.imageId === image._id) {
           // Add comment to the specific image
-          delete action.payload.imageId;
-          image.comments = [...image.comments, action.payload];
+          delete payload.imageId;
+          image.comments = [...image.comments, payload];
         }
         return image;
       });
       return {
         ...state,
         images: {
-          ...state.images,
+          ...images,
           data: imagesUpdated,
         },
       };
 
     case Types.REMOVE_COMMENT_IMAGES:
-      const { imageId, commentId } = action.payload;
-      imagesUpdated = state.images.data.map((image) => {
+      const { imageId, commentId } = payload;
+      imagesUpdated = images.data.map((image) => {
         // search the post image to edit the comments
         if (imageId === image._id) {
           // Save all comments except the comment to delete
@@ -78,21 +78,21 @@ export default function ImagesReducer(state, action) {
       return {
         ...state,
         images: {
-          ...state.images,
+          ...images,
           data: imagesUpdated,
         },
       };
 
     case Types.EDIT_COMMENT_IMAGES:
-      imagesUpdated = state.images.data.map((image) => {
+      imagesUpdated = images.data.map((image) => {
         // search the post image to remove the comment
-        if (action.payload.imageId === image._id) {
+        if (payload.imageId === image._id) {
           // Remove comment to the specific image
-          delete action.payload.imageId;
+          delete payload.imageId;
           image.comments = image.comments.map((comment) => {
             // search the comment to modify the content
-            if (comment._id === action.payload.commentId) {
-              comment.content = action.payload.commentContent;
+            if (comment._id === payload.commentId) {
+              comment.content = payload.commentContent;
             }
             return comment;
           });

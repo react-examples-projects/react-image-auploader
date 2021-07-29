@@ -12,14 +12,23 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import useImageDelete from "../../Hooks/useImageDelete";
 import useImages from "../../Hooks/HooksStore/useImages";
+import TagsInput from "react-tagsinput";
+import useToggle from "../../Hooks/useToggle";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [validated, setValidated] = useState(false);
+  const [updateTags, setUpdateTags] = useState(tags);
+  const [isEditingMode, toggleEditingMode] = useToggle();
+
   const { comments, addComment, createCommentImage, ...imagesProps } =
     useComments(commentsImage);
   const deleteImage = useImageDelete();
   const { removeImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
+
+  function handleOnChangeTag(tag) {
+    setUpdateTags(tag);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,14 +62,23 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
       </h3>
       <img src={srcLazy} className="modal-img" alt="Preview" />
       <div className="tags">
-        {tags.map((tag, i) => {
-          return (
-            <Badge variant="dark" className="mr-1 font-weight-light" key={i}>
-              {tag}
-            </Badge>
-          );
-        })}
+        {isEditingMode ? (
+          <TagsInput
+            value={updateTags}
+            onChange={handleOnChangeTag}
+            className="bg-transparent border rounded-sm px-1 form-tags"
+          />
+        ) : (
+          tags.map((tag, i) => {
+            return (
+              <Badge variant="dark" className="mr-1 font-weight-light" key={i}>
+                {tag}
+              </Badge>
+            );
+          })
+        )}
       </div>
+
       <div className="d-flex align-items-center justify-content-between mt-1">
         <small className="d-block text-muted">
           Publicado por
