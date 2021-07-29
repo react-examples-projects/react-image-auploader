@@ -6,7 +6,7 @@ import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
 import { toFormData } from "../../../Helpers/utils";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Form, Badge, Dropdown, Button } from "react-bootstrap";
+import { Form, Badge, Dropdown, Button, FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -59,9 +59,22 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
   return (
     <>
-      <h3 className="title" style={{ maxWidth: "92%" }}>
-        {title}
-      </h3>
+      {isEditingMode ? (
+        <FormControl
+          defaultValue={title}
+          size="lg"
+          className="my-2"
+          style={{ maxWidth: "90%" }}
+          title={title}
+          placeholder="Escribe el nuevo título..."
+          autoFocus
+        />
+      ) : (
+        <h3 className="title" style={{ maxWidth: "92%" }}>
+          {title}
+        </h3>
+      )}
+
       <img src={srcLazy} className="modal-img" alt="Preview" />
       <div className="tags">
         {isEditingMode ? (
@@ -128,10 +141,11 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
               <Dropdown.Item
                 className="text-white dropdown-modal-image-item"
                 onClick={toggleEditingMode}
+                as="span"
               >
                 {isEditingMode ? "Cancelar edición" : "Editar publicación"}
               </Dropdown.Item>
-              
+
               <Dropdown.Item
                 as={BtnLoader}
                 variant="link"

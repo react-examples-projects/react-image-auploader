@@ -75,6 +75,7 @@ function Upload({ toggleOpen }) {
             value={tags}
             onChange={handleOnChangeTag}
             className="bg-transparent border rounded-sm px-1 form-tags"
+            disabled={isLoading}
           />
         </Form.Group>
 
