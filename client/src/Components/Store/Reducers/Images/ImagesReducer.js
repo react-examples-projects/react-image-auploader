@@ -25,6 +25,27 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
+    case Types.UPDATE_IMAGE:
+      imagesUpdated = images.data.map((image) => {
+        if (image._id === payload.imageId) {
+          console.log(payload);
+          delete payload.imageId;
+          return {
+            ...image,
+            ...payload,
+          };
+        }
+        return image;
+      });
+      return {
+        ...state,
+
+        images: {
+          ...images,
+          data: imagesUpdated,
+        },
+      };
+
     case Types.SEARCH_IMAGES: {
       const searchText = normalizeString(payload.toLowerCase());
       const foundImages = images.data.filter((imgs) =>

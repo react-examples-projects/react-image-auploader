@@ -13,6 +13,7 @@ export default function ImagesProvider({ children }) {
     searchImages,
     addComment,
     removeComment,
+    updateImage,
     editComment,
   } = useImageReducer();
 
@@ -25,6 +26,7 @@ export default function ImagesProvider({ children }) {
       addImage,
       searchImages,
       removeImage,
+      updateImage,
       addComment,
       removeComment,
       editComment,
@@ -34,6 +36,7 @@ export default function ImagesProvider({ children }) {
       setImages,
       addImage,
       removeImage,
+      updateImage,
       searchImages,
       addComment,
       removeComment,

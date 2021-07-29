@@ -27,6 +27,21 @@ export function removeImageAction(payload) {
     type: Types.REMOVE_IMAGE,
   };
 }
+
+/**
+ * Return an action to update an images post to the global context
+ * @param {Object} payload The object image
+ * @param {Number} payload.imageId The image id for update
+ * @param {String} payload.title The updated title
+ * @param {Array} payload.tags The updated tags
+ */
+export function updateImageAction(payload) {
+  return {
+    payload,
+    type: Types.UPDATE_IMAGE,
+  };
+}
+
 /**
  * Return an action to find images post to the global context
  * @param {Number} payload The text for find

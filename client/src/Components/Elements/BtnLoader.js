@@ -31,6 +31,7 @@ BtnLoader.propTypes = {
     PropTypes.node,
     PropTypes.element,
     PropTypes.elementType,
+    PropTypes.string
   ]),
 };
 

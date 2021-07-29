@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import useImageDelete from "../../Hooks/useImageDelete";
+import useUpdateImage from "../../Hooks/useUpdateImage";
 import useImages from "../../Hooks/HooksStore/useImages";
 import TagsInput from "react-tagsinput";
 import useToggle from "../../Hooks/useToggle";
@@ -20,12 +21,14 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const { user } = useCurrentUser();
   const [validated, setValidated] = useState(false);
   const [updateTags, setUpdateTags] = useState(tags);
+  const [updateTitle, setUpdateTitle] = useState(title);
   const [isEditingMode, toggleEditingMode] = useToggle();
 
   const { comments, addComment, createCommentImage, ...imagesProps } =
     useComments(commentsImage);
-  const deleteImage = useImageDelete();
-  const { removeImage } = useImages();
+  const deleteImageMutation = useImageDelete();
+  const updateImageMutation = useUpdateImage();
+  const { removeImage, updateImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
 
   function handleOnChangeTag(tag) {
@@ -53,20 +56,32 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   };
 
   const _removeImage = async () => {
-    await deleteImage.mutateAsync(_id);
+    await deleteImageMutation.mutateAsync(_id);
     removeImage(_id);
+  };
+
+  const _updateImage = async () => {
+    await updateImageMutation.mutateAsync({
+      id: _id,
+      title: updateTitle,
+      tags: updateTags,
+    });
+    updateImage({ imageId: _id, title: updateTitle, tags: updateTags });
+    toggleEditingMode();
   };
 
   return (
     <>
       {isEditingMode ? (
         <FormControl
-          defaultValue={title}
+          value={updateTitle}
+          onChange={(e) => setUpdateTitle(e.target.value)}
           size="lg"
           className="my-2"
           style={{ maxWidth: "90%" }}
           title={title}
           placeholder="Escribe el nuevo título..."
+          disabled={updateImageMutation.isLoading}
           autoFocus
         />
       ) : (
@@ -82,6 +97,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             value={updateTags}
             onChange={handleOnChangeTag}
             className="bg-transparent border rounded-sm px-1 form-tags"
+            disabled={updateImageMutation.isLoading}
           />
         ) : (
           tags.map((tag, i) => {
@@ -101,6 +117,8 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             variant="outline-success"
             className="mr-2"
             text="Guardar edición"
+            isLoading={updateImageMutation.isLoading}
+            onClick={_updateImage}
           />
           <Button
             size="sm"
@@ -111,7 +129,11 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           </Button>
         </div>
       )}
-
+      <ErrorText
+        className="mt-2 mb-0"
+        isVisible={updateImageMutation.isError}
+        text="Error al editar la publicación"
+      />
       <div className="d-flex align-items-center justify-content-between mt-1">
         <small className="d-block text-muted">
           Publicado por
@@ -139,9 +161,10 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
               style={{ backgroundColor: "#0d0d0d" }}
             >
               <Dropdown.Item
+                as={BtnLoader}
+                isLoading={updateImageMutation.isLoading}
                 className="text-white dropdown-modal-image-item"
                 onClick={toggleEditingMode}
-                as="span"
               >
                 {isEditingMode ? "Cancelar edición" : "Editar publicación"}
               </Dropdown.Item>
@@ -149,7 +172,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
               <Dropdown.Item
                 as={BtnLoader}
                 variant="link"
-                isLoading={deleteImage.isLoading}
+                isLoading={deleteImageMutation.isLoading}
                 className="text-white dropdown-modal-image-item"
                 onClick={_removeImage}
               >
@@ -161,7 +184,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
       </div>
 
       <ErrorText
-        isVisible={deleteImage.isError}
+        isVisible={deleteImageMutation.isError}
         text="Error al eliminar la publicación"
       />
       <hr />
