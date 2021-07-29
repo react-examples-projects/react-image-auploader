@@ -27,6 +27,16 @@ export function removeImageAction(payload) {
     type: Types.REMOVE_IMAGE,
   };
 }
+/**
+ * Return an action to find images post to the global context
+ * @param {Number} payload The text for find
+ */
+export function searchImagesAction(payload) {
+  return {
+    payload,
+    type: Types.SEARCH_IMAGES,
+  };
+}
 
 /**
  * Return an action to set all images post to the global context

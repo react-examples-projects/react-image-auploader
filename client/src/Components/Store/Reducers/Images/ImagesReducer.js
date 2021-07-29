@@ -25,6 +25,20 @@ export default function ImagesReducer(state, action) {
         },
       };
 
+    case Types.SEARCH_IMAGES: {
+      const searchText = action.payload.trim().toLowerCase();
+      const foundImages = state.images.data.filter((imgs) =>
+        imgs.title.trim().toLowerCase().includes(searchText)
+      );
+      return {
+        ...state,
+        images: {
+          ...state.images,
+          foundSearches: searchText.length > 0 ? foundImages : [],
+        },
+      };
+    }
+
     case Types.SET_IMAGES:
       return {
         ...state,

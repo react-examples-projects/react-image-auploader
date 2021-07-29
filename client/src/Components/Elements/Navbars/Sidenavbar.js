@@ -6,7 +6,6 @@ import {
   Menu,
   MenuItem,
   SidebarHeader,
-  SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -39,7 +38,7 @@ export default function Sidenavbar() {
             className="text-muted mb-2 text-uppercase"
             icon={<BiHeartCircle />}
           >
-            Favoritas
+            Favoritos
           </MenuItem>
           <MenuItem className="text-muted mb-2 text-uppercase" icon={<BiCog />}>
             Configuración
@@ -53,10 +52,6 @@ export default function Sidenavbar() {
           </MenuItem>
         </Menu>
       </SidebarContent>
-
-      <SidebarFooter className="p-4 d-none d-lg-block">
-        <p className="m-0 text-muted font-weight-bold">Más información</p>
-      </SidebarFooter>
     </ProSidebar>
   );
 }

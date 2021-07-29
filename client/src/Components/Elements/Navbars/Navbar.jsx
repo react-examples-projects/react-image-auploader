@@ -1,5 +1,6 @@
 import ModalUpload from "../Modals/ModalUpload";
 import useCurrentUser from "../../Hooks/useCurrentUser";
+import useImagesGlobal from "../../Hooks/HooksStore/useImages";
 import Modal from "../Modals/Modal";
 
 import { BiUpload } from "react-icons/bi";
@@ -9,11 +10,20 @@ import { memo } from "react";
 
 function NavbarPage() {
   const { user } = useCurrentUser();
+  const { searchImages } = useImagesGlobal();
+
+  const onChangeImageSearch = (e) => {
+    searchImages(e.target.value);
+  };
+
   const cssIcon = { marginLeft: "5px", fontSize: "1rem" };
   const children = (toggleOpen) => (
     <>
       <Navbar className="nav" expand="lg">
-        <Navbar.Toggle aria-controls="navbar" className="ml-auto mb-2 border-0" />
+        <Navbar.Toggle
+          aria-controls="navbar"
+          className="ml-auto mb-2 border-0"
+        />
         <Navbar.Collapse id="navbar">
           <Nav className="w-100">
             {user?.isAdmin && (
@@ -31,6 +41,7 @@ function NavbarPage() {
                 type="search"
                 placeholder="Buscar imágenes..."
                 className="mr-lg-2 ml-md-auto mx-0"
+                onChange={onChangeImageSearch}
                 style={{
                   maxWidth: "500px",
                 }}

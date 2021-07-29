@@ -1,6 +1,7 @@
 const store = {
   images: {
     data: [],
+    foundSearches: [],
     isLoading: false,
     isError: false,
   },

@@ -8,6 +8,7 @@ import {
   removeImageAction,
   addCommentImagesAction,
   removeCommentImagesAction,
+  searchImagesAction,
   editCommentImagesAction,
 } from "../../Store/Actions/ImagesActions";
 
@@ -24,6 +25,10 @@ export default function useImageReducer() {
 
   const removeImage = useCallback((id) => {
     dispatch(removeImageAction(id));
+  }, []);
+
+  const searchImages = useCallback((search) => {
+    dispatch(searchImagesAction(search));
   }, []);
 
   const addComment = useCallback((comment) => {
@@ -44,6 +49,7 @@ export default function useImageReducer() {
     setImages,
     addImage,
     removeImage,
+    searchImages,
     addComment,
     removeComment,
     editComment,

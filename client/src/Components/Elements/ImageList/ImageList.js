@@ -9,8 +9,8 @@ import ImageListError from "../ErrorBoundaries/ImageListError";
 const ImagePostLazy = lazy(() => import("../ImagePost/ImagePost"));
 
 function ImageList() {
-  const { data, isLoading, isError } = useImagesGlobal().images;
-
+  const { data, foundSearches, isLoading, isError } = useImagesGlobal().images;
+  const images = foundSearches?.length > 0 ? foundSearches : data;
   if (isError) return <ImageListError />;
   if (isLoading) return <Loader />;
   if (!data.length) {
@@ -24,7 +24,7 @@ function ImageList() {
 
   return (
     <section className="massory">
-      {data.map((img) => (
+      {images.map((img) => (
         <Suspense fallback={<ImageLoader />} key={img._id}>
           <ImagePostLazy {...img} />
         </Suspense>
