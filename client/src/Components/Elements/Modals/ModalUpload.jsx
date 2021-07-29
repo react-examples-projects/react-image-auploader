@@ -59,12 +59,15 @@ function Upload({ toggleOpen }) {
         encType="multipart/form-data"
       >
         <Form.Group controlId="title">
+          <p className={css.lead}>
+            Si no hay título, se marcará como "Sin título".
+          </p>
           <Form.Control
             type="text"
             name="title"
             placeholder="Título de la obra"
+            style={{ fontSize: "14px" }}
             disabled={isLoading}
-            required
           />
         </Form.Group>
         <Form.Group controlId="tags">

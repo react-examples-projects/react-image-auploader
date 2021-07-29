@@ -4,6 +4,7 @@ import { setToken } from "../../../Helpers/token";
 import ErrorText from "../../Elements/ErrorText";
 import BtnLoader from "../../Elements/BtnLoader";
 import css from "../Style.module.scss";
+import useTitle from "../../Hooks/useTitle";
 import useAuth from "../../Hooks/useAuth";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 
@@ -22,6 +23,7 @@ const cssBody = {
 };
 
 export default function Login() {
+  useTitle("Iniciar sesión");
   useBody(cssBody);
   const [validated, setValidated] = useState(false);
   const { setUser } = useCurrentUser();

@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import { Link } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
@@ -32,7 +33,18 @@ function MyPerfil() {
   };
 
   return (
-    <div className="container">
+    <div className="container position-relative">
+      <Button
+        variant="outline-secondary"
+        as={Link}
+        to="/home"
+        className="position-absolute"
+        size="sm"
+        style={{ top: "15%", left:"-60px" }}
+      >
+        <BiArrowBack />
+      </Button>
+
       <div className="row justify-content-center align-items-center mt-5">
         <div className="col-auto">
           <div className="w-auto position-relative overflow-hidden">
@@ -76,13 +88,6 @@ function MyPerfil() {
             <Button variant="outline-success mr-2">Cambiar contraseña</Button>
             <Button variant="outline-success mr-2" onClick={onOpenFileChooser}>
               Cambiar Imágen
-            </Button>
-            <Button
-              variant="outline-secondary d-block mt-2"
-              as={Link}
-              to="/home"
-            >
-              Regresar al inicio
             </Button>
           </div>
         </div>

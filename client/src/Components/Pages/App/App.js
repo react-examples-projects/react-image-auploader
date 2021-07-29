@@ -4,7 +4,7 @@ import ImageList from "../../Elements/ImageList/ImageList";
 import Layout from "../../Elements/Layouts/Layout";
 
 function App() {
-  useTitle("Explorar nuevas imágenes");
+  useTitle("Explorar");
   return (
     <>
       <Layout>
