@@ -18,7 +18,7 @@ function BtnLoader({ children, text, isLoading, ...args }) {
       {isLoading ? (
         <Loader height={18} width={18} color="#fff" type="Oval" />
       ) : (
-        <span className="d-block">{text || children}</span>
+        <span className="d-block text-reset">{text || children}</span>
       )}
     </Button>
   );

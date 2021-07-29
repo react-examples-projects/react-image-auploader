@@ -6,7 +6,7 @@ import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
 import { toFormData } from "../../../Helpers/utils";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Form, Badge, Dropdown } from "react-bootstrap";
+import { Form, Badge, Dropdown, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -14,8 +14,10 @@ import useImageDelete from "../../Hooks/useImageDelete";
 import useImages from "../../Hooks/HooksStore/useImages";
 import TagsInput from "react-tagsinput";
 import useToggle from "../../Hooks/useToggle";
+import useCurrentUser from "../../Hooks/useCurrentUser";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
+  const { user } = useCurrentUser();
   const [validated, setValidated] = useState(false);
   const [updateTags, setUpdateTags] = useState(tags);
   const [isEditingMode, toggleEditingMode] = useToggle();
@@ -79,6 +81,24 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
         )}
       </div>
 
+      {isEditingMode && (
+        <div className="d-flex mt-2">
+          <BtnLoader
+            size="sm"
+            variant="outline-success"
+            className="mr-2"
+            text="Guardar edición"
+          />
+          <Button
+            size="sm"
+            variant="outline-danger"
+            onClick={toggleEditingMode}
+          >
+            Cancelar edición
+          </Button>
+        </div>
+      )}
+
       <div className="d-flex align-items-center justify-content-between mt-1">
         <small className="d-block text-muted">
           Publicado por
@@ -89,35 +109,43 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             {userPost.name}
           </Link>
         </small>
-        <Dropdown>
-          <Dropdown.Toggle
-            className="p-0 justify-content-end dropdown-image-modal-toggle"
-            drop="start"
-            variant="link"
-            size="lg"
-          >
-            <BiDotsVerticalRounded />
-          </Dropdown.Toggle>
 
-          <Dropdown.Menu
-            className="border-0"
-            style={{ backgroundColor: "#0d0d0d" }}
-          >
-            <Dropdown.Item
-              as={BtnLoader}
+        {userPost._id === user._id && (
+          <Dropdown>
+            <Dropdown.Toggle
+              className="p-0 justify-content-end dropdown-image-modal-toggle"
+              drop="start"
               variant="link"
-              isLoading={deleteImage.isLoading}
-              className="text-white dropdown-modal-image-item"
-              onClick={_removeImage}
+              size="lg"
             >
-              Eliminar
-            </Dropdown.Item>
-            <Dropdown.Item className="text-white dropdown-modal-image-item">
-              Editar
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+              <BiDotsVerticalRounded />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu
+              className="border-0"
+              style={{ backgroundColor: "#0d0d0d" }}
+            >
+              <Dropdown.Item
+                className="text-white dropdown-modal-image-item"
+                onClick={toggleEditingMode}
+              >
+                {isEditingMode ? "Cancelar edición" : "Editar publicación"}
+              </Dropdown.Item>
+              
+              <Dropdown.Item
+                as={BtnLoader}
+                variant="link"
+                isLoading={deleteImage.isLoading}
+                className="text-white dropdown-modal-image-item"
+                onClick={_removeImage}
+              >
+                Eliminar
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        )}
       </div>
+
       <ErrorText
         isVisible={deleteImage.isError}
         text="Error al eliminar la publicación"
