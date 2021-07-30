@@ -65,7 +65,9 @@ function Upload({ toggleOpen }) {
           <Form.Control
             type="text"
             name="title"
-            placeholder="Título de la obra"
+            placeholder="Título de la públicación"
+            title="Este título se mostrara al publicarse la imágen"
+            aria-label="Título de la públicación"
             style={{ fontSize: "14px" }}
             disabled={isLoading}
           />
@@ -75,6 +77,8 @@ function Upload({ toggleOpen }) {
             value={tags}
             onChange={handleOnChangeTag}
             className="bg-transparent border rounded-sm px-1 form-tags"
+            title="Etiquetas de la publicación"
+            aria-label="Etiquetas de la publicación"
             disabled={isLoading}
           />
         </Form.Group>
@@ -86,6 +90,8 @@ function Upload({ toggleOpen }) {
             name="images"
             onChange={handleOnChangeFile}
             disabled={isLoading}
+            title="Selecciona las imagenes"
+            aria-label="Selecciona las imagenes"
             required
             multiple
           />
@@ -98,8 +104,8 @@ function Upload({ toggleOpen }) {
         {imagePreview && (
           <img
             src={imagePreview}
-            alt="It will upload to server"
-            title="It will upload to server"
+            alt="Previsualización de la imágen"
+            title="Esta imágen se subira al servidor"
           />
         )}
 

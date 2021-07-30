@@ -40,7 +40,9 @@ function MyPerfil() {
         to="/home"
         className="position-absolute"
         size="sm"
-        style={{ top: "15%", left:"-60px" }}
+        style={{ top: "15%", left: "-60px" }}
+        title="Regresar al inicio"
+        aria-label="Regresar al inicio"
       >
         <BiArrowBack />
       </Button>

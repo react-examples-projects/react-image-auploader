@@ -68,6 +68,8 @@ export default function Login() {
             type="text"
             name="email"
             placeholder="Email"
+            title="Debes de colocar tu correo elétronico"
+            arial-label="Debes de colocar tu correo elétronico"
             onChange={handleOnChange}
             value={auth.user}
             required
@@ -79,6 +81,8 @@ export default function Login() {
             type="password"
             name="password"
             placeholder="Password"
+            title="Debes de colocar tu contraseña"
+            arial-label="Debes de colocar tu contraseña"
             onChange={handleOnChange}
             value={auth.password}
             required

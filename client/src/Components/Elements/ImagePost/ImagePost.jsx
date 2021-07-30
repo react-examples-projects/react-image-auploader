@@ -27,7 +27,10 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
           </a>
         </p>
 
-        <span className="comments-count">
+        <span
+          className="comments-count"
+          title={`Cantidad de comentarios de la publicación: ${comments.length}`}
+        >
           <BiComment /> {comments.length}
         </span>
       </div>

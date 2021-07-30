@@ -5,7 +5,7 @@ import ErrorText from "../../Elements/ErrorText";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
 import { toFormData } from "../../../Helpers/utils";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiHeart } from "react-icons/bi";
 import { Form, Badge, Dropdown, Button, FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
@@ -81,6 +81,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           style={{ maxWidth: "90%" }}
           title={title}
           placeholder="Escribe el nuevo título..."
+          aria-label="Escribe el nuevo título"
           disabled={updateImageMutation.isLoading}
           autoFocus
         />
@@ -91,23 +92,44 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
       )}
 
       <img src={srcLazy} className="modal-img" alt="Preview" />
-      <div className="tags">
-        {isEditingMode ? (
-          <TagsInput
-            value={updateTags}
-            onChange={handleOnChangeTag}
-            className="bg-transparent border rounded-sm px-1 form-tags"
-            disabled={updateImageMutation.isLoading}
-          />
-        ) : (
-          tags.map((tag, i) => {
-            return (
-              <Badge variant="dark" className="mr-1 font-weight-light" key={i}>
-                {tag}
-              </Badge>
-            );
-          })
-        )}
+      <div className="d-flex justify-content-between align-items-center">
+        <div
+          className="tags w-100"
+          aria-label="Etiquetas de la publicación"
+          title="Etiquetas de la publicación"
+        >
+          {isEditingMode ? (
+            <TagsInput
+              value={updateTags}
+              onChange={handleOnChangeTag}
+              className="bg-transparent border rounded-sm px-1 form-tags"
+              disabled={updateImageMutation.isLoading}
+              aria-label="Agregar o quitar etiquetas"
+              title="Agregar o quitar etiquetas"
+            />
+          ) : (
+            tags.map((tag, i) => {
+              return (
+                <Badge
+                  variant="dark"
+                  className="mr-1 font-weight-light"
+                  key={i}
+                >
+                  {tag}
+                </Badge>
+              );
+            })
+          )}
+        </div>
+
+        <BtnLoader
+          variant="link"
+          className="p-0 px-1"
+          title="Marcar como favorito"
+          aria-label="Marcar como favorito"
+        >
+          <BiHeart />
+        </BtnLoader>
       </div>
 
       {isEditingMode && (
@@ -140,6 +162,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           <Link
             to={`/perfil/${userPost._id}`}
             className="ml-1 text-reset font-weight-bold"
+            title="Autor de la publicación"
           >
             {userPost.name}
           </Link>

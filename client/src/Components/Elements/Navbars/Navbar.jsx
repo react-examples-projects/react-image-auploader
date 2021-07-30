@@ -39,6 +39,7 @@ function NavbarPage() {
               <FormControl
                 role="search"
                 type="search"
+                aria-label="Buscar imagenes"
                 placeholder="Buscar imágenes..."
                 className="mr-lg-2 ml-md-auto mx-0"
                 onChange={onChangeImageSearch}
@@ -52,6 +53,9 @@ function NavbarPage() {
               className="mb-md-0 mb-2 d-none d-lg-flex align-items-center"
               as={Link}
               to="/perfil"
+              aria-label="Ver mi perfil"
+              title="Ver mi perfil"
+              alt="Imágen de perfil"
             >
               <Image
                 src={user.perfil_photo}

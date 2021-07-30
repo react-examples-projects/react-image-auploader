@@ -82,11 +82,11 @@ function ModalImageComment({ content, _id, removeComment, editComment, user }) {
                 <BtnLoader
                   size="sm"
                   variant="link"
+                  className="text-success"
                   onClick={_editComment}
                   isLoading={editCommentMutation.isLoading}
-                >
-                  <span className="text-success">Guardar</span>
-                </BtnLoader>
+                  text="Guardar"
+                />
               )}
 
               <Button
@@ -97,14 +97,15 @@ function ModalImageComment({ content, _id, removeComment, editComment, user }) {
               >
                 {isEditingMode ? "Cancelar" : "Editar"}
               </Button>
+
               <BtnLoader
                 size="sm"
                 variant="link"
+                className="text-secondary"
                 onClick={() => deleteCommentMutation.mutateAsync()}
                 isLoading={deleteCommentMutation.isLoading}
-              >
-                <span className="text-secondary">Eliminar</span>
-              </BtnLoader>
+                text="Eliminar"
+              />
             </div>
             <ErrorText
               className="mb-0"

@@ -78,6 +78,8 @@ class ImageController {
     ).lean();
     return imageUpdated;
   }
+
+  
 }
 
 module.exports = new ImageController();

@@ -16,8 +16,8 @@ function ImageList() {
   if (!data.length) {
     return (
       <div className="there-dont-images">
-        <img src={ThereNotImages} alt="There don't images right now :(" />
-        <h2>No hay publicaciones aún</h2>
+        <img src={ThereNotImages} alt="No hay publicaciones para mostrar :(" />
+        <h2>No hay publicaciones para mostrar</h2>
       </div>
     );
   }

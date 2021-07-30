@@ -44,7 +44,8 @@ router.delete("/:id", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
-    const { title, tags } = req.body;
+    let { title, tags } = req.body;
+    if (title.trim().length < 1) title = "Sin título";
     const data = await ImageController.updateImage({ id, title, tags });
     success(res, {
       ...data,
