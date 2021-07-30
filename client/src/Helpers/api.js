@@ -1,6 +1,7 @@
 import {
   api,
   image,
+  favoriteImage,
   upload,
   login,
   token,
@@ -66,6 +67,16 @@ export async function uploadImage(payload) {
 export async function updateImage(id, payload) {
   const res = await instance.put(_updateImage(id), payload, config());
   return res?.data?.data;
+}
+
+/**
+ * Toggle a favorite image from the backend
+ * @param {String} imageId The id image for toggle
+ * @returns {Object} The new user information with the new favorite image
+ */
+export async function toggleFavoriteImage(imageId) {
+  const res = await instance.patch(favoriteImage, { imageId }, config());
+  return res?.data;
 }
 
 /**

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const ImageController = require("../../controllers/imageController");
+const UserModel = require("../../models/User");
 const { success } = require("../../helpers/httpResponses");
 
 router.get("/", async (req, res, next) => {
@@ -53,6 +54,35 @@ router.put("/:id", async (req, res, next) => {
       tags,
       id,
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.patch("/favorite", async (req, res, next) => {
+  try {
+    const imageId = req.body.imageId;
+    const userId = req.user._id;
+    const user = await UserModel.findById(userId).lean();
+    const isFavoriteImage = user.favoritesImages
+      .map((id) => id.toString())
+      .includes(imageId);
+    const dynamicQuery = isFavoriteImage
+      ? {
+          $pull: {
+            favoritesImages: {
+              _id: imageId,
+            },
+          },
+        }
+      : {
+          $push: {
+            favoritesImages: imageId,
+          },
+        };
+    const data = await UserModel.findByIdAndUpdate(userId, dynamicQuery);
+    !isFavoriteImage && data.favoritesImages.push(imageId);
+    res.json(data);
   } catch (err) {
     next(err);
   }

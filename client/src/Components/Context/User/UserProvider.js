@@ -19,9 +19,25 @@ export default function UserProvider(props) {
     window.location.href = "/";
   }, []);
 
+  const toggleFavoriteImage = useCallback((id) => {
+    setUserInfo((user) => {
+      const { favoritesImages } = user;
+      const removeFromFavoritesImages = () =>
+        favoritesImages.filter((images) => images._id !== id);
+
+      const userState = {
+        ...user,
+        favoritesImages: favoritesImages.includes(id)
+          ? removeFromFavoritesImages()
+          : [...favoritesImages, id],
+      };
+      return userState;
+    });
+  }, []);
+
   const value = useMemo(
-    () => ({ user, setUser, logout }),
-    [user, setUser, logout]
+    () => ({ user, setUser, toggleFavoriteImage, logout }),
+    [user, setUser, toggleFavoriteImage, logout]
   );
 
   useEffect(() => {

@@ -6,10 +6,13 @@ import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import placeholder from "../../../Images/image_post_loading.gif";
 import { toFormData } from "../../../Helpers/utils";
 import { BiDotsVerticalRounded, BiHeart } from "react-icons/bi";
+import { FcLike } from "react-icons/fc";
+
 import { Form, Badge, Dropdown, Button, FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import useToggleFavoritesImages from "../../Hooks/useToggleFavoritesImages";
 import useImageDelete from "../../Hooks/useImageDelete";
 import useUpdateImage from "../../Hooks/useUpdateImage";
 import useImages from "../../Hooks/HooksStore/useImages";
@@ -19,6 +22,7 @@ import useCurrentUser from "../../Hooks/useCurrentUser";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const { user } = useCurrentUser();
+  const isFavoriteImage = user.favoritesImages.includes(_id);
   const [validated, setValidated] = useState(false);
   const [updateTags, setUpdateTags] = useState(tags);
   const [updateTitle, setUpdateTitle] = useState(title);
@@ -28,6 +32,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     useComments(commentsImage);
   const deleteImageMutation = useImageDelete();
   const updateImageMutation = useUpdateImage();
+  const toggleFavoritesImagesMutation = useToggleFavoritesImages(_id);
   const { removeImage, updateImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
 
@@ -127,8 +132,9 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           className="p-0 px-1"
           title="Marcar como favorito"
           aria-label="Marcar como favorito"
+          onClick={toggleFavoritesImagesMutation.toggleFavorite}
         >
-          <BiHeart />
+          {isFavoriteImage ? <FcLike /> : <BiHeart />}
         </BtnLoader>
       </div>
 
