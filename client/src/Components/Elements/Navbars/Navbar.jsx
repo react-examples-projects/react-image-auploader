@@ -10,8 +10,10 @@ import { memo } from "react";
 
 function NavbarPage() {
   const { user } = useCurrentUser();
-  const { searchImages } = useImagesGlobal();
-
+  const {
+    searchImages,
+    images: { searchText },
+  } = useImagesGlobal();
   const onChangeImageSearch = (e) => {
     searchImages(e.target.value);
   };
@@ -43,6 +45,7 @@ function NavbarPage() {
                 placeholder="Buscar imágenes..."
                 className="mr-lg-2 ml-md-auto mx-0"
                 onChange={onChangeImageSearch}
+                defaultValue={searchText}
                 style={{
                   maxWidth: "500px",
                 }}

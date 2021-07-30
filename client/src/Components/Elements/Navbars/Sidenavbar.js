@@ -1,6 +1,6 @@
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import { BiUser, BiCog, BiExit, BiHeart, BiHomeAlt } from "react-icons/bi";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import {
   ProSidebar,
   Menu,
@@ -65,10 +65,11 @@ export default function Sidenavbar() {
             icon={<BiExit />}
             onClick={logout}
           >
-            <a>Salir</a>
+            <Link>Salir</Link>
           </MenuItem>
         </Menu>
       </SidebarContent>
     </ProSidebar>
   );
 }
+   

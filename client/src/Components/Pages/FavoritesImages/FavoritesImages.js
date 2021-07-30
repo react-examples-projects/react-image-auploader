@@ -7,7 +7,6 @@ import useFavoritesImages from "../../Hooks/useFavoritesImages";
 function FavoritesImages() {
   useTitle("Favoritas");
   const favoritesImages = useFavoritesImages();
-  console.log(favoritesImages);
 
   return (
     <>

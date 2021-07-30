@@ -56,6 +56,7 @@ export default function ImagesReducer(state, { type, payload }) {
         images: {
           ...images,
           foundSearches: searchText.length > 0 ? foundImages : [],
+          searchText,
         },
       };
     }
