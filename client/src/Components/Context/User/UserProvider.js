@@ -23,7 +23,7 @@ export default function UserProvider(props) {
     setUserInfo((user) => {
       const { favoritesImages } = user;
       const removeFromFavoritesImages = () =>
-        favoritesImages.filter((images) => images._id !== id);
+        favoritesImages.filter((favoriteImageId) => favoriteImageId !== id);
 
       const userState = {
         ...user,

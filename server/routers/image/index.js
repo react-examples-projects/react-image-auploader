@@ -70,9 +70,7 @@ router.patch("/favorite", async (req, res, next) => {
     const dynamicQuery = isFavoriteImage
       ? {
           $pull: {
-            favoritesImages: {
-              _id: imageId,
-            },
+            favoritesImages: imageId,
           },
         }
       : {
@@ -81,7 +79,6 @@ router.patch("/favorite", async (req, res, next) => {
           },
         };
     const data = await UserModel.findByIdAndUpdate(userId, dynamicQuery);
-    !isFavoriteImage && data.favoritesImages.push(imageId);
     res.json(data);
   } catch (err) {
     next(err);
