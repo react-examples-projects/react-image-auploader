@@ -8,9 +8,10 @@ import useImagesGlobal from "../../Hooks/HooksStore/useImages";
 import ImageListError from "../ErrorBoundaries/ImageListError";
 const ImagePostLazy = lazy(() => import("../ImagePost/ImagePost"));
 
-function ImageList() {
+function ImageList({ images: imagesToShow }) {
   const { data, foundSearches, isLoading, isError } = useImagesGlobal().images;
-  const images = foundSearches?.length > 0 ? foundSearches : data;
+  const images =
+    imagesToShow || (foundSearches?.length > 0 ? foundSearches : data);
   if (isError) return <ImageListError />;
   if (isLoading) return <Loader />;
   if (!data.length) {

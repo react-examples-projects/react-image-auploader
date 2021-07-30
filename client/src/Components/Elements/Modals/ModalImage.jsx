@@ -35,7 +35,9 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const toggleFavoritesImagesMutation = useToggleFavoritesImages(_id);
   const { removeImage, updateImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
-
+  const titleAria = isFavoriteImage
+    ? "Esta publicación está marcada como favorito"
+    : "Marcar como favorito";
   function handleOnChangeTag(tag) {
     setUpdateTags(tag);
   }
@@ -130,8 +132,9 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
         <BtnLoader
           variant="link"
           className="p-0 px-1"
-          title="Marcar como favorito"
-          aria-label="Marcar como favorito"
+          title={titleAria}
+          aria-label={titleAria}
+          isLoading={toggleFavoritesImagesMutation.isLoading}
           onClick={toggleFavoritesImagesMutation.toggleFavorite}
         >
           {isFavoriteImage ? <FcLike /> : <BiHeart />}
@@ -157,11 +160,24 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           </Button>
         </div>
       )}
+
       <ErrorText
         className="mt-2 mb-0"
+        isVisible={toggleFavoritesImagesMutation.isError}
+        text="Error marcar como favorito"
+      />
+
+      <ErrorText
+        className="my-2"
         isVisible={updateImageMutation.isError}
         text="Error al editar la publicación"
       />
+
+      <ErrorText
+        isVisible={deleteImageMutation.isError}
+        text="Error al eliminar la publicación"
+      />
+
       <div className="d-flex align-items-center justify-content-between mt-1">
         <small className="d-block text-muted">
           Publicado por
@@ -212,10 +228,6 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
         )}
       </div>
 
-      <ErrorText
-        isVisible={deleteImageMutation.isError}
-        text="Error al eliminar la publicación"
-      />
       <hr />
       <h5 className="mb-3">
         Deja un comentario

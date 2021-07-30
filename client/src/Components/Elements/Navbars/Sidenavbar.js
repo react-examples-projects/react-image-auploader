@@ -1,6 +1,6 @@
 import useCurrentUser from "../../Hooks/useCurrentUser";
-import { BiUserCircle, BiCog, BiExit, BiHeartCircle } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { BiUser, BiCog, BiExit, BiHeart, BiHomeAlt } from "react-icons/bi";
+import { NavLink } from "react-router-dom";
 import {
   ProSidebar,
   Menu,
@@ -29,26 +29,43 @@ export default function Sidenavbar() {
       <SidebarContent className="mt-3">
         <Menu iconShape="square">
           <MenuItem
-            className="d-md-block d-lg-none text-muted mb-2 text-uppercase"
-            icon={<BiUserCircle />}
+            className="d-md-block d-lg-none mb-2 text-uppercase"
+            icon={<BiUser />}
           >
-            <Link to="/perfil">Mi perfil</Link>
+            <NavLink to="/perfil" activeClassName="text-white" exact>
+              Mi perfil
+            </NavLink>
+          </MenuItem>
+
+          <MenuItem
+            className="mb-2 text-uppercase"
+            icon={<BiHomeAlt />}
+          >
+            <NavLink to="/home" exact>
+              Mi Inicio
+            </NavLink>
+          </MenuItem>
+
+          <MenuItem
+            className="mb-2 text-uppercase"
+            icon={<BiHeart />}
+          >
+            <NavLink to="/favorites" exact>
+              Favoritos
+            </NavLink>
+          </MenuItem>
+
+          <MenuItem className="mb-2 text-uppercase" icon={<BiCog />}>
+            <NavLink to="/settings" exact>
+              Configuración
+            </NavLink>
           </MenuItem>
           <MenuItem
-            className="text-muted mb-2 text-uppercase"
-            icon={<BiHeartCircle />}
-          >
-            Favoritos
-          </MenuItem>
-          <MenuItem className="text-muted mb-2 text-uppercase" icon={<BiCog />}>
-            Configuración
-          </MenuItem>
-          <MenuItem
-            className="text-muted mb-2 text-uppercase"
+            className="mb-2 text-uppercase"
             icon={<BiExit />}
             onClick={logout}
           >
-            Salir
+            <a>Salir</a>
           </MenuItem>
         </Menu>
       </SidebarContent>

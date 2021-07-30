@@ -10,5 +10,5 @@ export default function useToggleFavoritesImages(imageId) {
     // update the user context
     toggleFavoriteImage(imageId);
   };
-  return { ...toggleFavorite, toggleFavorite };
+  return { ...mutation, toggleFavorite };
 }
