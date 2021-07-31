@@ -1,8 +1,12 @@
 import useCurrentUser from "./useCurrentUser";
 import useImages from "./useImages";
 
+/**
+ * Filter all images to just favorite images
+ * @returns {Array.<Object>} The favorite images filter
+ */
 export default function useFavoritesImages() {
-  const { favoritesImages = [] } = useCurrentUser().user;
+  const { favoritesImages } = useCurrentUser().user;
   const { images } = useImages();
   const toObjects = [];
   
@@ -11,5 +15,5 @@ export default function useFavoritesImages() {
     if (favoriteImage) toObjects.push(favoriteImage);
   }
 
-  return toObjects || [];
+  return toObjects;
 }
