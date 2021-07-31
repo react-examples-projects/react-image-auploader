@@ -128,17 +128,6 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             })
           )}
         </div>
-
-        <BtnLoader
-          variant="link"
-          className="p-0 px-1"
-          title={titleAria}
-          aria-label={titleAria}
-          isLoading={toggleFavoritesImagesMutation.isLoading}
-          onClick={toggleFavoritesImagesMutation.toggleFavorite}
-        >
-          {isFavoriteImage ? <FcLike /> : <BiHeart />}
-        </BtnLoader>
       </div>
 
       {isEditingMode && (
@@ -189,43 +178,56 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             {userPost.name}
           </Link>
         </small>
+       
+        <div className="d-flex align-items-center">
+          <BtnLoader
+            variant="link"
+            className="p-0 px-1"
+            title={titleAria}
+            aria-label={titleAria}
+            isLoading={toggleFavoritesImagesMutation.isLoading}
+            onClick={toggleFavoritesImagesMutation.toggleFavorite}
+          >
+            {isFavoriteImage ? <FcLike /> : <BiHeart />}
+          </BtnLoader>
 
-        {userPost._id === user._id && (
-          <Dropdown>
-            <Dropdown.Toggle
-              className="p-0 justify-content-end dropdown-image-modal-toggle"
-              drop="start"
-              variant="link"
-              size="lg"
-            >
-              <BiDotsVerticalRounded />
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu
-              className="border-0"
-              style={{ backgroundColor: "#0d0d0d" }}
-            >
-              <Dropdown.Item
-                as={BtnLoader}
-                isLoading={updateImageMutation.isLoading}
-                className="text-white dropdown-modal-image-item"
-                onClick={toggleEditingMode}
-              >
-                {isEditingMode ? "Cancelar edición" : "Editar publicación"}
-              </Dropdown.Item>
-
-              <Dropdown.Item
-                as={BtnLoader}
+          {userPost._id === user._id && (
+            <Dropdown>
+              <Dropdown.Toggle
+                className="p-0 justify-content-end dropdown-image-modal-toggle"
+                drop="start"
                 variant="link"
-                isLoading={deleteImageMutation.isLoading}
-                className="text-white dropdown-modal-image-item"
-                onClick={_removeImage}
+                size="lg"
               >
-                Eliminar
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        )}
+                <BiDotsVerticalRounded />
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu
+                className="border-0"
+                style={{ backgroundColor: "#0d0d0d" }}
+              >
+                <Dropdown.Item
+                  as={BtnLoader}
+                  isLoading={updateImageMutation.isLoading}
+                  className="text-white dropdown-modal-image-item"
+                  onClick={toggleEditingMode}
+                >
+                  {isEditingMode ? "Cancelar edición" : "Editar publicación"}
+                </Dropdown.Item>
+
+                <Dropdown.Item
+                  as={BtnLoader}
+                  variant="link"
+                  isLoading={deleteImageMutation.isLoading}
+                  className="text-white dropdown-modal-image-item"
+                  onClick={_removeImage}
+                >
+                  Eliminar
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
+        </div>
       </div>
 
       <hr />

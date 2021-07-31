@@ -30,7 +30,7 @@ export default function NotFound() {
       </p>
 
       <Link to={user.id ? "/home" : "/"} >
-        <Button size="lg">Regregar al {user.id ? "inicio" : "login"}</Button>
+        <Button size="lg">Regresar al {user._id ? "inicio" : "login"}</Button>
       </Link>
     </div>
   );
