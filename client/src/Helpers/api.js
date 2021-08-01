@@ -8,6 +8,7 @@ import {
   userInfo,
   perfilPhoto,
   comments,
+  changePassword as _changePassword,
   updateImage as _updateImage,
   deleteComment as _deleteComment,
   editComment as _editComment,
@@ -98,6 +99,16 @@ export async function deleteImage(id) {
  */
 export async function setPerfilPhoto(payload) {
   const res = await instance.post(perfilPhoto, payload, config());
+  return res?.data?.data;
+}
+
+/**
+ * Set password user to the backend
+ * @param {Object} payload The password
+ * @returns {Object} the user profile information
+ */
+export async function changePassword(payload) {
+  const res = await instance.patch(_changePassword, payload, config());
   return res?.data?.data;
 }
 

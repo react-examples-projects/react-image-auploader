@@ -7,7 +7,7 @@ function Layout({ children }) {
       <Sidenavbar />
       <section className="content">
         <Navbar />
-        <div className="mt-3 mx-auto">{children}</div>
+        <div className="mt-4 mx-auto px-3">{children}</div>
       </section>
     </main>
   );

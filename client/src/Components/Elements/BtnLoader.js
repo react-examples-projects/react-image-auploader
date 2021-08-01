@@ -27,7 +27,7 @@ function BtnLoader({ children, text, isLoading, ...args }) {
 BtnLoader.propTypes = {
   isLoading: PropTypes.bool,
   text: PropTypes.string,
-  children: PropTypes.oneOf([
+  children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,
     PropTypes.elementType,

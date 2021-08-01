@@ -11,7 +11,7 @@ router.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
     const user = await UserController.existsUser({ email, password });
     if (user) {
-      const token = jwt.sign({ ...user }, SECRET_TOKEN);
+      const token = jwt.sign({ ...user }, SECRET_TOKEN, {expiresIn:"12h"});
       return success(res, { user, token });
     }
     unauthorized(res, "Usuario o clave incorrecta");

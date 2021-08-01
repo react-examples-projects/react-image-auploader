@@ -1,12 +1,17 @@
 import ModalImage from "../Modals/ModalImage";
 import Modal from "../Modals/Modal";
 import { BiComment } from "react-icons/bi";
+import { FcLike } from "react-icons/fc";
+
 import PropTypes from "prop-types";
 import css from "../../../Style/Modal.module.scss";
 import { memo } from "react";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
-function ImagePost({ url_image, name, comments, title, ...args }) {
+import useCurrentUser from "../../Hooks/useCurrentUser";
+function ImagePost({ _id, url_image, name, comments, title, ...args }) {
   const src = useLazyloadImage({ src: url_image });
+  const { favoritesImages = [] } = useCurrentUser().user;
+  const isFavorite = favoritesImages.includes(_id);
 
   const children = (toggleOpen) => (
     <article
@@ -14,6 +19,17 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
       onClick={toggleOpen}
       title="Has click para ver más..."
     >
+      {isFavorite && (
+        <div
+          className="img-favorite"
+          aria-label="Esta imágene está marcada como favorito"
+        >
+          <FcLike
+            size="1.4rem"
+            style={{ opacity: 0.8, marginLeft: "10px", marginTop: "10px" }}
+          />
+        </div>
+      )}
       <figure className="img-figure mb-0">
         <img src={src} alt={title} loading="lazy" className="lazyload" />
       </figure>
@@ -41,6 +57,7 @@ function ImagePost({ url_image, name, comments, title, ...args }) {
       src={url_image}
       commentsImage={comments}
       title={title}
+      _id={_id}
       {...args}
     />
   );

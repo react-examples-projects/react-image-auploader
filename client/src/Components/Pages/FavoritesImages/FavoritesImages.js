@@ -11,6 +11,7 @@ function FavoritesImages() {
   return (
     <>
       <Layout>
+        <h2 className="title mb-4">Imágenes favoritas</h2>
         <ImageList images={favoritesImages} />
       </Layout>
     </>

@@ -1,5 +1,5 @@
 import useCurrentUser from "../../Hooks/useCurrentUser";
-import { BiUser, BiCog, BiExit, BiHeart, BiHomeAlt } from "react-icons/bi";
+import { BiUser, BiExit, BiHeart, BiHomeAlt } from "react-icons/bi";
 import { NavLink, Link } from "react-router-dom";
 import {
   ProSidebar,
@@ -32,7 +32,7 @@ export default function Sidenavbar() {
             className="d-md-block d-lg-none mb-2 text-uppercase"
             icon={<BiUser />}
           >
-            <NavLink to="/perfil" activeClassName="text-white" exact>
+            <NavLink to="/perfil" exact>
               Mi perfil
             </NavLink>
           </MenuItem>
@@ -41,7 +41,7 @@ export default function Sidenavbar() {
             className="mb-2 text-uppercase"
             icon={<BiHomeAlt />}
           >
-            <NavLink to="/home" exact>
+            <NavLink to="/home" activeClassName="text-white" exact>
               Mi Inicio
             </NavLink>
           </MenuItem>
@@ -50,22 +50,17 @@ export default function Sidenavbar() {
             className="mb-2 text-uppercase"
             icon={<BiHeart />}
           >
-            <NavLink to="/favorites" exact>
+            <NavLink to="/favorites" activeClassName="text-white" exact>
               Favoritos
             </NavLink>
           </MenuItem>
 
-          <MenuItem className="mb-2 text-uppercase" icon={<BiCog />}>
-            <NavLink to="/settings" exact>
-              Configuración
-            </NavLink>
-          </MenuItem>
           <MenuItem
             className="mb-2 text-uppercase"
             icon={<BiExit />}
             onClick={logout}
           >
-            <Link>Salir</Link>
+            <Link to="#">Salir</Link>
           </MenuItem>
         </Menu>
       </SidebarContent>

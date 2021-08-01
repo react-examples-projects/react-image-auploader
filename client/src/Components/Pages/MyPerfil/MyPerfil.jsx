@@ -5,15 +5,25 @@ import css from "./MyPerfil.module.scss";
 import { setPerfilPhoto } from "../../../Helpers/api";
 import { useMutation } from "react-query";
 import { useRef } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form, Col } from "react-bootstrap";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import ImageList from "../../Elements/ImageList/ImageList";
+import useImages from "../../Hooks/useImages";
+import useToggle from "../../Hooks/useToggle";
+import useChangePassword from "../../Hooks/useChangePassword";
+import BtnLoader from "../../Elements/BtnLoader";
+import ErrorText from "../../Elements/ErrorText";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();
+  const { images } = useImages();
+  const myImages = images?.filter((img) => img?.user?._id === user._id);
   const src = useLazyloadImage({ src: user.perfil_photo });
+  const [isPasswordChange, togglePasswordChange] = useToggle();
+  const changePasswordMutation = useChangePassword();
   const { isLoading, mutateAsync } = useMutation((payload) =>
     setPerfilPhoto(payload)
   );
@@ -32,6 +42,12 @@ function MyPerfil() {
     buttonFile.current && buttonFile.current.click();
   };
 
+  const changePassword = (e) => {
+    e.preventDefault();
+    const payload = new FormData(e.target);
+    changePasswordMutation.mutateAsync(payload);
+  };
+
   return (
     <div className="container position-relative">
       <Button
@@ -40,14 +56,14 @@ function MyPerfil() {
         to="/home"
         className="position-absolute"
         size="sm"
-        style={{ top: "15%", left: "-60px" }}
+        style={{ top: "3%", left: "-60px" }}
         title="Regresar al inicio"
         aria-label="Regresar al inicio"
       >
         <BiArrowBack />
       </Button>
 
-      <div className="row justify-content-center align-items-center mt-5">
+      <div className="row justify-content-center align-items-center my-5">
         <div className="col-auto">
           <div className="w-auto position-relative overflow-hidden">
             <img
@@ -77,7 +93,7 @@ function MyPerfil() {
             className="form-control-file d-none"
           />
         </div>
-        <div className="col-auto">
+        <div className="col-auto text-center text-md-left mt-2 mt-md-0">
           <h4 className="mb-3 font-weight-bold">{user.name}</h4>
 
           <p>{user.email}</p>
@@ -87,13 +103,66 @@ function MyPerfil() {
             </h6>
           )}
           <div className="mt-4">
-            <Button variant="outline-success mr-2">Cambiar contraseña</Button>
+            {isPasswordChange && (
+              <Form autoComplete="off" onSubmit={changePassword}>
+                <Form.Row>
+                  <Col>
+                    <Form.Group controlId="password">
+                      <Form.Control
+                        name="password"
+                        placeholder="Cambia tu contraseña"
+                        type="password"
+                        aria-label="Cambia tu contraseña"
+                        size="sm"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group controlId="password-confirm">
+                      <Form.Control
+                        name="passwordConfirm"
+                        placeholder="Confirma la contraseña"
+                        type="password"
+                        aria-label="Confirma la contraseña"
+                        size="sm"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Form.Row>
+                <BtnLoader
+                  type="submit"
+                  text="Guardar clave"
+                  variant="success"
+                  size="sm"
+                  isLoading={changePasswordMutation.isLoading}
+                  className="mb-3"
+                  block
+                />
+
+                <ErrorText
+                  text="Error al cambiar la contraseña"
+                  className="mb-3"
+                  isVisible={changePasswordMutation.isError}
+                />
+              </Form>
+            )}
+            <Button
+              variant="outline-success mr-2"
+              onClick={togglePasswordChange}
+            >
+              {isPasswordChange ? "Cancelar" : "Cambiar contraseña"}
+            </Button>
             <Button variant="outline-success mr-2" onClick={onOpenFileChooser}>
               Cambiar Imágen
             </Button>
           </div>
         </div>
       </div>
+
+      <h2 className="title mb-4">Imágenes subidas</h2>
+      <ImageList images={myImages} />
     </div>
   );
 }

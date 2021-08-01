@@ -6,6 +6,7 @@ export const login = "/auth/login";
 export const upload = "/images/upload";
 export const token = "/auth/verify-token";
 export const userInfo = "/user/user";
+export const changePassword = "/user/password";
 export const perfilPhoto = "/user/perfil-photo";
 export const comments = "/comment";
 

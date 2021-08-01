@@ -6,10 +6,10 @@ import useImages from "./useImages";
  * @returns {Array.<Object>} The favorite images filter
  */
 export default function useFavoritesImages() {
-  const { favoritesImages } = useCurrentUser().user;
+  const { favoritesImages = [] } = useCurrentUser().user;
   const { images } = useImages();
   const toObjects = [];
-  
+
   for (const id of favoritesImages) {
     const favoriteImage = images.find((img) => img._id === id);
     if (favoriteImage) toObjects.push(favoriteImage);

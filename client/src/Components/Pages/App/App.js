@@ -8,6 +8,7 @@ function App() {
   return (
     <>
       <Layout>
+        <h2 className="title mb-4">Publicaciones</h2>
         <ImageList />
       </Layout>
     </>
