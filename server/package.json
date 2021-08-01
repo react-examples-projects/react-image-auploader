@@ -23,7 +23,8 @@
     "mongoose": "^5.12.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7",
-    "vercel": "^21.3.3"
+    "vercel": "^21.3.3",
+    "yup": "^0.32.9"
   },
   "repository": {
     "type": "git",

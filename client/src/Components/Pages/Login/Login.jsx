@@ -7,6 +7,7 @@ import css from "../Style.module.scss";
 import useTitle from "../../Hooks/useTitle";
 import useAuth from "../../Hooks/useAuth";
 import useCurrentUser from "../../Hooks/useCurrentUser";
+import { getErrorValidation } from "../../../Helpers/utils";
 
 import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
@@ -30,6 +31,7 @@ export default function Login() {
   const [auth, setAuth] = useState({ email: "", password: "" });
   const login = useAuth();
   const { push } = useHistory();
+  const loginError = getErrorValidation(login);
 
   function handleOnChange({ target }) {
     const { name, value } = target;
@@ -83,15 +85,14 @@ export default function Login() {
             placeholder="Password"
             title="Debes de colocar tu contraseña"
             arial-label="Debes de colocar tu contraseña"
+            minLength={6}
+            maxLength={20}
             onChange={handleOnChange}
             value={auth.password}
             required
           />
         </Form.Group>
-        <ErrorText
-          isVisible={login.isError}
-          text="Ocurrió un error, verifica tus datos."
-        />
+        <ErrorText isVisible={login.isError} text={loginError} />
         <BtnLoader text="Iniciar" isLoading={login.isLoading} block />
         <small className={cs(css.lead, "text-center")}>
           Si no tienes cuenta, puedes crearla <Link to="/signup">aca</Link>.

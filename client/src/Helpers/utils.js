@@ -42,3 +42,19 @@ export function normalizeString(str) {
   normalized = normalized.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   return normalized;
 }
+
+/**
+ * It get the error that backend sends to client
+ * @param {Response} mutationRequest The request response made by `useMutation`, `useQuery` or `axios.method`
+ * @returns The error text
+ */
+export function getErrorValidation(
+  mutationRequest,
+  defaultError = "Ocurrió un error, verifica tus datos."
+) {
+  return (
+    mutationRequest.data?.message ||
+    mutationRequest.error?.response?.data?.data?.[0] ||
+    defaultError
+  );
+}

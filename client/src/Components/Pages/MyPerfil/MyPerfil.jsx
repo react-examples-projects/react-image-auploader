@@ -15,6 +15,7 @@ import useToggle from "../../Hooks/useToggle";
 import useChangePassword from "../../Hooks/useChangePassword";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
+import { getErrorValidation } from "../../../Helpers/utils";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
@@ -24,6 +25,10 @@ function MyPerfil() {
   const src = useLazyloadImage({ src: user.perfil_photo });
   const [isPasswordChange, togglePasswordChange] = useToggle();
   const changePasswordMutation = useChangePassword();
+  const passwordChangeError = getErrorValidation(
+    changePasswordMutation,
+    "Error al cambiar la contraseña"
+  );
   const { isLoading, mutateAsync } = useMutation((payload) =>
     setPerfilPhoto(payload)
   );
@@ -33,7 +38,6 @@ function MyPerfil() {
   const onChangePerfilPhoto = async ({ target }) => {
     const formData = new FormData();
     formData.append("perfil_photo", target.files[0]);
-    formData.append("id", user._id);
     const data = await mutateAsync(formData);
     setUser({ perfil_photo: data.url });
   };
@@ -142,7 +146,7 @@ function MyPerfil() {
                 />
 
                 <ErrorText
-                  text="Error al cambiar la contraseña"
+                  text={passwordChangeError}
                   className="mb-3"
                   isVisible={changePasswordMutation.isError}
                 />

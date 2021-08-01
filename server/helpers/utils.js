@@ -23,4 +23,19 @@ function getTokenInfo(token) {
   }));
 }
 
-module.exports = { message, getTokenInfo };
+function isFileTooLarge(sizeImage) {
+  var size = parseFloat(sizeImage / (1024 * 1024)).toFixed(2);
+  return size > 2;
+}
+
+function isValidFileType(mimeType) {
+  const SUPPORTED_FORMATS = [
+    "image/jpg",
+    "image/jpeg",
+    "image/webp",
+    "image/png",
+  ];
+  return SUPPORTED_FORMATS.includes(mimeType);
+}
+
+module.exports = { message, getTokenInfo, isFileTooLarge, isValidFileType };
