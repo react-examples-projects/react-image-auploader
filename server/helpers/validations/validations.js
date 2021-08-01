@@ -21,8 +21,7 @@ const loginSchemaValidation = yup.object({
 const perfilPhotoSchemaValidation = yup.object({
   files: yup.object({
     perfil_photo: yup
-      .object()
-      .shape({
+      .object({
         data: yup.string().required(),
       })
       .required("La imágen debe ser obligatoria"),
@@ -44,8 +43,54 @@ const passwordChangeValidation = yup.object({
   }),
 });
 
+const uploadImageValidation = yup.object({
+  body: yup.object({
+    title: yup.string(),
+    "tags[]": yup.lazy((value) =>
+      typeof value === "string" ? yup.string() : yup.array()
+    ),
+  }),
+  files: yup.object({
+    images: yup
+      .object({
+        data: yup.string().required(),
+      })
+      .required("Las imagenes debe ser obligatoria"),
+  }),
+});
+
+const requireIdValidation = yup.object({
+  params: yup.object({
+    id: yup
+      .string()
+      .typeError("El indenficador debe ser un ObjectId")
+      .required("El identificador es requerido"),
+  }),
+});
+
+const updateImageValidation = yup.object({
+  body: yup.object({
+    title: yup.string(),
+    "tags[]": yup.lazy((value) =>
+      typeof value === "string" ? yup.string() : yup.array()
+    ),
+  }),
+});
+
+const favoriteImageValidation = yup.object({
+  body: yup.object({
+    imageId: yup
+      .string()
+      .required("El identificador de la imágen es obligatorio"),
+  }),
+});
+
 module.exports = {
   loginSchemaValidation,
   perfilPhotoSchemaValidation,
   passwordChangeValidation,
+  uploadImageValidation,
+  requireIdValidation,
+  updateImageValidation,
+  favoriteImageValidation,
 };

@@ -24,15 +24,18 @@ function MyPerfil() {
   const myImages = images?.filter((img) => img?.user?._id === user._id);
   const src = useLazyloadImage({ src: user.perfil_photo });
   const [isPasswordChange, togglePasswordChange] = useToggle();
+  const { isLoading, mutateAsync, ...changeImageMutation } = useMutation(
+    (payload) => setPerfilPhoto(payload)
+  );
   const changePasswordMutation = useChangePassword();
   const passwordChangeError = getErrorValidation(
     changePasswordMutation,
     "Error al cambiar la contraseña"
   );
-  const { isLoading, mutateAsync } = useMutation((payload) =>
-    setPerfilPhoto(payload)
+  const changeImageError = getErrorValidation(
+    changeImageMutation,
+    "Error al cambiar la imágen"
   );
-
   useTitle("Perfil de " + user.name);
 
   const onChangePerfilPhoto = async ({ target }) => {
@@ -152,6 +155,12 @@ function MyPerfil() {
                 />
               </Form>
             )}
+
+            <ErrorText
+              text={changeImageError}
+              className="mb-3"
+              isVisible={changeImageMutation.isError}
+            />
             <Button
               variant="outline-success mr-2"
               onClick={togglePasswordChange}
