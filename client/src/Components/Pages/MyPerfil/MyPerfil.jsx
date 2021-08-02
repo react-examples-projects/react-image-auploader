@@ -4,7 +4,7 @@ import Loader from "react-loader-spinner";
 import css from "./MyPerfil.module.scss";
 import { setPerfilPhoto } from "../../../Helpers/api";
 import { useMutation } from "react-query";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import { Link } from "react-router-dom";
@@ -15,11 +15,16 @@ import useToggle from "../../Hooks/useToggle";
 import useChangePassword from "../../Hooks/useChangePassword";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
-import { getErrorValidation } from "../../../Helpers/utils";
+import {
+  getErrorValidation,
+  isNotValidFileType,
+  isFileTooLarge,
+} from "../../../Helpers/utils";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();
+  const [errorImage, setErrorImage] = useState("");
   const { images } = useImages();
   const myImages = images?.filter((img) => img?.user?._id === user._id);
   const src = useLazyloadImage({ src: user.perfil_photo });
@@ -40,9 +45,17 @@ function MyPerfil() {
 
   const onChangePerfilPhoto = async ({ target }) => {
     const formData = new FormData();
-    formData.append("perfil_photo", target.files[0]);
-    const data = await mutateAsync(formData);
-    setUser({ perfil_photo: data.url });
+    const profileImage = target.files[0];
+
+    if (isFileTooLarge(profileImage.size)) {
+      alert("La imágen es muy pesada, debe ser menor a 3Mb");
+    } else if (isNotValidFileType(profileImage.type)) {
+      alert("El archivo no es una imágen");
+    } else {
+      formData.append("perfil_photo", profileImage);
+      const data = await mutateAsync(formData);
+      setUser({ perfil_photo: data.url });
+    }
   };
 
   const onOpenFileChooser = () => {
@@ -98,6 +111,7 @@ function MyPerfil() {
             onChange={onChangePerfilPhoto}
             ref={buttonFile}
             className="form-control-file d-none"
+            accept="image/png, image/gif, image/jpeg, image/webp"
           />
         </div>
         <div className="col-auto text-center text-md-left mt-2 mt-md-0">

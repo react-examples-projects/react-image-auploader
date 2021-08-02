@@ -13,7 +13,7 @@ const {
 router.post(
   "/perfil-photo",
   validate(perfilPhotoSchemaValidation),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const perfil_photo = req.files.perfil_photo.data;
       const data = await uploadImages(perfil_photo);
@@ -22,7 +22,7 @@ router.post(
         perfil_photo: data.url,
       });
       success(res, data);
-    } catch (error) {
+    } catch (err) {
       next(err);
     }
   }

@@ -5,6 +5,11 @@ const passwordScheme = yup
   .max(50, "Máximo 50 carácteres para la contraseña")
   .required("La contraseña es obligatoria");
 
+const idSchema = yup
+  .string()
+  .typeError("El indenficador debe ser un ObjectId")
+  .required("El identificador es requerido");
+
 const loginSchemaValidation = yup.object({
   body: yup.object({
     email: yup
@@ -61,10 +66,7 @@ const uploadImageValidation = yup.object({
 
 const requireIdValidation = yup.object({
   params: yup.object({
-    id: yup
-      .string()
-      .typeError("El indenficador debe ser un ObjectId")
-      .required("El identificador es requerido"),
+    id: idSchema,
   }),
 });
 
@@ -79,9 +81,13 @@ const updateImageValidation = yup.object({
 
 const favoriteImageValidation = yup.object({
   body: yup.object({
-    imageId: yup
-      .string()
-      .required("El identificador de la imágen es obligatorio"),
+    imageId: idSchema,
+  }),
+});
+
+const addCommentValidation = yup.object({
+  body: yup.object({
+    content: yup.string(),
   }),
 });
 
@@ -93,4 +99,5 @@ module.exports = {
   requireIdValidation,
   updateImageValidation,
   favoriteImageValidation,
+  addCommentValidation,
 };

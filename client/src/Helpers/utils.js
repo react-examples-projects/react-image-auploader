@@ -58,3 +58,29 @@ export function getErrorValidation(
     defaultError
   );
 }
+
+/**
+ * It verify if the `sizeImage` is larger than the allow value
+ * @param {Number} sizeImage The file size
+ * @returns If `sizeImage` is allowed
+ */
+export function isFileTooLarge(sizeImage) {
+  const SIZE_ALLOWED = 3; // Mb
+  const size = (sizeImage / (1024 * 1024)).toFixed(2);
+  return size > SIZE_ALLOWED;
+}
+
+/**
+ * It verify if the `mimeType` is a valid image MimeType
+ * @param {String} mimeType The MimeType
+ * @returns If `MimeType` is a valid image MimeType
+ */
+export function isNotValidFileType(mimeType) {
+  const SUPPORTED_FORMATS = [
+    "image/jpg",
+    "image/jpeg",
+    "image/webp",
+    "image/png",
+  ];
+  return !SUPPORTED_FORMATS.includes(mimeType);
+}
