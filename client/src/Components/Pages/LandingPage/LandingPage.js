@@ -18,7 +18,7 @@ export default function LandingPage() {
             <h1 className="title" style={{ fontSize: "4rem" }}>
               Manjuro
             </h1>
-            <h2 className="text-muted lead mt-4" style={{ fontSize: "2rem" }}>
+            <h2 className={cls("lead mt-4", css.subtitle)}>
               Un lugar donde puedes expresarte y dar a conocer tus ideas y
               proyectos
             </h2>
