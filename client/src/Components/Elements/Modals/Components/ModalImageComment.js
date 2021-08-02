@@ -2,7 +2,9 @@ import useCurrentUser from "../../../Hooks/useCurrentUser";
 import useToggle from "../../../Hooks/useToggle";
 import BtnLoader from "../../BtnLoader";
 import ErrorText from "../../ErrorText";
+import ErrorComment from "../../ErrorBoundaries/ErrorComment";
 
+import { withErrorBoundary } from "react-error-boundary";
 import { Button, FormControl, Image } from "react-bootstrap";
 import { useState } from "react";
 import { BiCaretRight, BiCaretLeft } from "react-icons/bi";
@@ -123,4 +125,6 @@ function ModalImageComment({ content, _id, removeComment, editComment, user }) {
   );
 }
 
-export default ModalImageComment;
+export default withErrorBoundary(ModalImageComment, {
+  FallbackComponent: ErrorComment,
+});

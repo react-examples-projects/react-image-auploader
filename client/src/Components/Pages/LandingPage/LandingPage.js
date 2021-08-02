@@ -29,7 +29,7 @@ export default function LandingPage() {
         </main>
       </Col>
 
-      <Col md={5} lg={6} className="p-0 m-0">
+      <Col md={5} lg={6} className="p-0 m-0 d-flex">
         <Image
           src={imgLanding}
           className="w-100 vh-100"

@@ -11,7 +11,7 @@ export default function useFavoritesImages() {
   const toObjects = [];
 
   for (const id of favoritesImages) {
-    const favoriteImage = images.find((img) => img._id === id);
+    const favoriteImage = images?.find((img) => img._id === id);
     if (favoriteImage) toObjects.push(favoriteImage);
   }
 

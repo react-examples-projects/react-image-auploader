@@ -5,7 +5,7 @@ export default function ErrorContent(props) {
 
   return (
     <div {...props}>
-      <p className="mb-3 mt-3 text-center">
+      <p className="mb-3 my-3 text-center">
         Esto sucede porque ha ocurrido un error internamente dentro de la
         plataforma. <br />
         Puedes hacer lo siguiente si el problema persiste:

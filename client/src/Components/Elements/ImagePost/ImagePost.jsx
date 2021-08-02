@@ -52,6 +52,7 @@ function ImagePost({ _id, url_image, name, comments, title, ...args }) {
       </div>
     </article>
   );
+
   const renderModal = (
     <ModalImage
       src={url_image}

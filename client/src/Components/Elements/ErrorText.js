@@ -9,7 +9,12 @@ function ErrorText({
   return isVisible ? (
     <div
       {...props}
-      style={{ display: "flex", alignItems: "center", marginBottom: "1rem" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "1rem",
+        ...props.style,
+      }}
     >
       <BiErrorCircle style={{ fill: "#ff005c" }} />
       <small className="d-flex align-items-center">
