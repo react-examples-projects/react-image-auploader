@@ -4,7 +4,7 @@ import Loader from "react-loader-spinner";
 import css from "./MyPerfil.module.scss";
 import { setPerfilPhoto } from "../../../Helpers/api";
 import { useMutation } from "react-query";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import { Link } from "react-router-dom";
@@ -24,7 +24,6 @@ import {
 function MyPerfil() {
   const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();
-  const [errorImage, setErrorImage] = useState("");
   const { images } = useImages();
   const myImages = images?.filter((img) => img?.user?._id === user._id);
   const src = useLazyloadImage({ src: user.perfil_photo });

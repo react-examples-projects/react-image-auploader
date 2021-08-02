@@ -7,6 +7,10 @@ const FavoritesImages = lazy(() =>
   import("../Components/Pages/FavoritesImages/FavoritesImages")
 );
 const MyPerfil = lazy(() => import("../Components/Pages/MyPerfil/MyPerfil"));
+const LandingPage = lazy(() =>
+  import("../Components/Pages/LandingPage/LandingPage")
+);
+
 const NotFound = lazy(() => import("../Components/Pages/404/404"));
 const commonProps = (path) => ({ path, exact: true, private: true });
 const routers = [
@@ -24,9 +28,14 @@ const routers = [
   },
   {
     component: Async(Login),
-    path: "/",
+    path: "/login",
     exact: true,
     redirect: true,
+  },
+  {
+    component: Async(LandingPage),
+    path: "/",
+    exact: true,
   },
   {
     component: Async(NotFound),
