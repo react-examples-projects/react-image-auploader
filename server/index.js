@@ -13,7 +13,7 @@ const startServer = require("./config/server");
 
 // Security middlewares
 app.use(cors({ origin: "*" }));
-app.use(helmet({}));
+app.use(helmet());
 app.use(hpp());
 app.use(
   rateLimit({
