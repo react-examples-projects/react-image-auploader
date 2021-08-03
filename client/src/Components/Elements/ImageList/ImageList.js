@@ -6,7 +6,7 @@ import Loader from "../../Loaders/loader";
 import ThereNotImages from "../../../Images/there_not_image.svg";
 import useImagesGlobal from "../../Hooks/HooksStore/useImages";
 import ImageListError from "../ErrorBoundaries/ImageListError";
-import useImageFound from "../../Hooks/useImageFound";
+import useImageFound from "../../Hooks/images/useImageFound";
 const ImagePostLazy = lazy(() => import("../ImagePost/ImagePost"));
 
 function ImageList({ images: imagesToShow }) {

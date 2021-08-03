@@ -1,13 +1,8 @@
-import { useState, useMemo, useEffect, useCallback } from "react";
-import { getUserInfo } from "../../../Helpers/api";
-import { removeToken, existsToken } from "../../../Helpers/token";
+import { useState, useMemo, useCallback } from "react";
+import { removeToken } from "../../../Helpers/token";
 import UserContext from "./UserContext";
-import { useQuery } from "react-query";
 
 export default function UserProvider(props) {
-  const { data } = useQuery("user", getUserInfo, {
-    enabled: existsToken(),
-  });
   const [user, setUserInfo] = useState({});
   const setUser = useCallback(
     (data) => setUserInfo((u) => ({ ...u, ...data })),
@@ -38,12 +33,6 @@ export default function UserProvider(props) {
     () => ({ user, setUser, toggleFavoriteImage, logout }),
     [user, setUser, toggleFavoriteImage, logout]
   );
-
-  useEffect(() => {
-    if (data) {
-      setUser(data);
-    }
-  }, [setUser, data]);
 
   return <UserContext.Provider value={value} {...props} />;
 }

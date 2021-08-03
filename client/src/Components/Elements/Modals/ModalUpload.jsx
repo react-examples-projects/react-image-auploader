@@ -1,6 +1,6 @@
 import css from "../../Pages/Style.module.scss";
 import ErrorText from "../ErrorText";
-import useUploadImage from "../../Hooks/useUploadImage";
+import useUploadImage from "../../Hooks/images/useUploadImage";
 import useImages from "../../Hooks/HooksStore/useImages";
 import BtnLoader from "../BtnLoader";
 import { imageToBase64, toFormData, isValidFile } from "../../../Helpers/utils";

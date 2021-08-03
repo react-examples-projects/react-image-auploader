@@ -1,4 +1,4 @@
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import useTitle from "../../Hooks/useTitle";
 import Loader from "react-loader-spinner";
 import css from "./MyPerfil.module.scss";
@@ -10,13 +10,13 @@ import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import ImageList from "../../Elements/ImageList/ImageList";
-import useImages from "../../Hooks/useImages";
+import useImages from "../../Hooks/images/useImages";
 import useToggle from "../../Hooks/useToggle";
 import useChangePassword from "../../Hooks/useChangePassword";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
 import { getErrorValidation, isValidFile } from "../../../Helpers/utils";
-
+ 
 function MyPerfil() {
   const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();

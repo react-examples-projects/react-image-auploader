@@ -1,4 +1,4 @@
-import useCurrentUser from "../../../Hooks/useCurrentUser";
+import useCurrentUser from "../../../Hooks/user/useCurrentUser";
 import useToggle from "../../../Hooks/useToggle";
 import BtnLoader from "../../BtnLoader";
 import ErrorText from "../../ErrorText";

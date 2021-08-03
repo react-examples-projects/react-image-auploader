@@ -1,7 +1,7 @@
-import { getImages } from "../../Helpers/api";
+import { getImages } from "../../../Helpers/api";
 import { useMutation } from "react-query";
 import { useEffect } from "react";
-import useCurrentUser from "./useCurrentUser";
+import useCurrentUser from "../user/useCurrentUser";
 /**
  * Get all images from backend
  * @returns {Object} The object that contains the images

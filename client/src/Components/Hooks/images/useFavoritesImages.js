@@ -1,5 +1,5 @@
-import useCurrentUser from "./useCurrentUser";
-import useImages from "./useImages";
+import useCurrentUser from "../user/useCurrentUser";
+import useImages from "../images/useImages";
 
 /**
  * Filter all images to just favorite images

@@ -2,7 +2,7 @@ import "../../../Style/App.scss";
 import useTitle from "../../Hooks/useTitle";
 import ImageList from "../../Elements/ImageList/ImageList";
 import Layout from "../../Elements/Layouts/Layout";
-import useFavoritesImages from "../../Hooks/useFavoritesImages";
+import useFavoritesImages from "../../Hooks/images/useFavoritesImages";
 
 function FavoritesImages() {
   useTitle("Favoritas");

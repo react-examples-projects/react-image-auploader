@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
-import { toggleFavoriteImage as _toggleFavoriteImage } from "../../Helpers/api";
-import useCurrentUser from "./useCurrentUser";
+import { toggleFavoriteImage as _toggleFavoriteImage } from "../../../Helpers/api";
+import useCurrentUser from "../user/useCurrentUser";
 
 export default function useToggleFavoritesImages(imageId) {
   const { toggleFavoriteImage } = useCurrentUser();

@@ -6,7 +6,7 @@ import BtnLoader from "../../Elements/BtnLoader";
 import css from "../Style.module.scss";
 import useTitle from "../../Hooks/useTitle";
 import useAuth from "../../Hooks/useAuth";
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import { getErrorValidation } from "../../../Helpers/utils";
 
 import { useState } from "react";

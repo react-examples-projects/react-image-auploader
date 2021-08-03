@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import ImagesContext from "./ImagesContext";
 import useImageReducer from "../../Hooks/HooksStore/useImageReducer";
-import useImages from "../../Hooks/useImages";
+import useImages from "../../Hooks/images/useImages";
 
 export default function ImagesProvider({ children }) {
   // it's necessary extract `setImages` to keep the state updated from backend

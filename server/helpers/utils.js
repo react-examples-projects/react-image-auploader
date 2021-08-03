@@ -7,12 +7,12 @@ const message = {
   },
 
   error(str, err = null) {
-    console.log(chalk.redBright(`[❌] ${str}`) + "\n");
-    err && console.log(chalk.redBright(`[❌] Error message: ${err}`) + "\n");
+    console.error(chalk.redBright(`[❌] ${str}`) + "\n");
+    err && console.error(chalk.redBright(`[❌] Error message: ${err}`) + "\n");
   },
 
   warn(str) {
-    console.log(chalk.yellowBright(`[⚠️] ${str}`) + "\n");
+    console.warn(chalk.yellowBright(`[⚠️] ${str}`) + "\n");
   },
 };
 
@@ -22,6 +22,5 @@ function getTokenInfo(token) {
     payload,
   }));
 }
-
 
 module.exports = { message, getTokenInfo };

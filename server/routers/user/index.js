@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { uploadImages } = require("../../helpers/requests");
-const { getTokenInfo } = require("../../helpers/utils");
 const UserController = require("../../controllers/userController");
 const { success, error } = require("../../helpers/httpResponses");
 const validate = require("../../helpers/validations/validate");
@@ -48,9 +47,7 @@ router.patch(
 
 router.get("/user", async (req, res, next) => {
   try {
-    const user = getTokenInfo(req.token).payload;
-    const userFromDb = await UserController.getUserById(user._id);
-    success(res, userFromDb);
+    success(res, req.user);
   } catch (err) {
     next(err);
   }

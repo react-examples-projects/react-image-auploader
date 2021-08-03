@@ -12,14 +12,14 @@ import { Form, Badge, Dropdown, Button, FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import useToggleFavoritesImages from "../../Hooks/useToggleFavoritesImages";
-import useImageDelete from "../../Hooks/useImageDelete";
-import useUpdateImage from "../../Hooks/useUpdateImage";
+import useToggleFavoritesImages from "../../Hooks/images/useToggleFavoritesImages";
+import useImageDelete from "../../Hooks/images/useImageDelete";
+import useUpdateImage from "../../Hooks/images/useUpdateImage";
 import useImages from "../../Hooks/HooksStore/useImages";
 import TagsInput from "react-tagsinput";
 import useToggle from "../../Hooks/useToggle";
-import useCurrentUser from "../../Hooks/useCurrentUser";
-
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
+ 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const { user } = useCurrentUser();
   const isFavoriteImage = user.favoritesImages.includes(_id);

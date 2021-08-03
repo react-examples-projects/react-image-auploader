@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import useBody from "../../Hooks/useBody";
 import notFoundBg from "../../../Images/404.jpg";
 import css from "./NotFound.module.scss";

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import UserContext from "../Context/User/UserContext";
+import UserContext from "../../Context/User/UserContext";
 
 /**
  * Get current user logged in the session
