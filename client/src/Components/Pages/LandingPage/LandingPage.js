@@ -19,8 +19,7 @@ export default function LandingPage() {
               Manjuro
             </h1>
             <h2 className={cls("lead mt-4", css.subtitle)}>
-              Un lugar donde puedes expresarte y dar a conocer tus ideas y
-              proyectos
+              El lugar donde se expresa tu creatividad
             </h2>
             <Button size="lg" className={css.btn} as={Link} to="/login">
               Iniciar
