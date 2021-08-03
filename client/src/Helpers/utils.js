@@ -85,6 +85,11 @@ export function isNotValidFileType(mimeType) {
   return !SUPPORTED_FORMATS.includes(mimeType);
 }
 
+/**
+ * It verify if the files are valid images
+ * @param {FileList} files The images
+ * @returns A promise if the files are valids
+ */
 export function isValidFile(files) {
   return new Promise((resolve, reject) => {
     let isValid = true,
