@@ -19,7 +19,7 @@ app.use(fileUpload());
 // Security middlewares
 app.use(helmet());
 app.use(hpp());
-app.use(cors());
+app.use(cors({ origin: ["http://localhost:3000", "https://majuro.vercel.app"] }));
 app.use(
   rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes
