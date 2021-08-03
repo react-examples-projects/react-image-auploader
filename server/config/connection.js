@@ -9,11 +9,11 @@ connection.on("open", () => {
   message.success("Connect to database in " + MONGODB_URL);
 });
 
-async function closeDb(app) {
+async function closeDb(server) {
   try {
     await Mongoose.disconnect();
     message.success("Mongodb disconnect successfully");
-    app.close();
+    server.close();
     message.success("The server has stopped successfully");
   } catch (err) {
     message.error("Error in disconnet to mongodb", err);

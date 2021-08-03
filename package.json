@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "deploy": "cd ./client && git push origin dev && npx vercel --prod && cd ../server && git push origin dev && npx vercel --prod"
+    "deploy": "cd ./client && npx vercel --prod && cd ../server && npx vercel --prod"
   },
   "repository": {
     "type": "git",

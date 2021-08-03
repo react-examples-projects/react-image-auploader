@@ -9,15 +9,15 @@ async function startServer(app) {
       res.status(404).json({ status: 404, body: "Not Found" });
       next();
     });
-    
+
     wrapServerErrors(app);
 
-    app.listen(SERVER.PORT, async () => {
+    const server = app.listen(SERVER.PORT, async () => {
       console.clear();
       await connectDb();
       message.success(`Server has started in http://localhost:${SERVER.PORT}/`);
-      process.on("SIGINT", closeDb);
-      process.on("SIGTERM", closeDb);
+      process.on("SIGINT", () => closeDb(server));
+      process.on("SIGTERM", () => closeDb(server));
     });
   } catch (err) {
     message.error("Error Ocurred while starting the server", err);

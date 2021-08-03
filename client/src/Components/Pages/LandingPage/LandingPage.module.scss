@@ -2,6 +2,15 @@
   background-image: url("../../../Images/landing-majuro.png");
   background-repeat: no-repeat;
   background-size: cover;
+
+  h1 {
+    background: #1c92d2;
+    background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);
+    background: linear-gradient(to right, #f2fcfe, #1c92d2);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 div,
