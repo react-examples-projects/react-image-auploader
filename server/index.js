@@ -8,6 +8,7 @@ const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const app = express();
 const routers = require("./routers");
+const { SERVER } = require("./config/variables");
 const startServer = require("./config/server");
 
 app.use(morgan("dev"));
@@ -19,13 +20,7 @@ app.use(fileUpload());
 // Security middlewares
 app.use(helmet());
 app.use(hpp());
-app.use(cors({ origin: ["http://localhost:3000", "https://majuro.vercel.app"] }));
-app.use(
-  rateLimit({
-    windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 50, // limit each IP to 100 requests per windowMs
-  })
-);
-
+app.use(cors({ origin: SERVER.API.ALLOWED_DOMAINS }));
+app.use(rateLimit(SERVER.API.RATE_LIMITS));
 app.use("/api", routers);
 startServer(app);

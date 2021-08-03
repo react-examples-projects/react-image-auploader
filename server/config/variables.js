@@ -16,6 +16,11 @@ const SERVER = {
     SECRET_TOKEN: process.env.SECRET_TOKEN,
     API_UPLOAD_IMAGES: process.env.API_UPLOAD_IMAGES,
     API_UPLOAD_IMAGES_KEY: process.env.API_UPLOAD_IMAGES_KEY,
+    ALLOWED_DOMAINS:  ["http://127.0.0.1:3000", "https://majuro.vercel.app"],
+    RATE_LIMITS: {
+      windowMs: 10 * 60 * 1000, // 10 minutes
+      max: 50, // limit each IP to 100 requests per windowMs
+    },
   },
 };
 
