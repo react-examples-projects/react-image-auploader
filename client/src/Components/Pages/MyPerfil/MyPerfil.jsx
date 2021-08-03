@@ -15,11 +15,7 @@ import useToggle from "../../Hooks/useToggle";
 import useChangePassword from "../../Hooks/useChangePassword";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
-import {
-  getErrorValidation,
-  isNotValidFileType,
-  isFileTooLarge,
-} from "../../../Helpers/utils";
+import { getErrorValidation, isValidFile } from "../../../Helpers/utils";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
@@ -43,17 +39,16 @@ function MyPerfil() {
   useTitle("Perfil de " + user.name);
 
   const onChangePerfilPhoto = async ({ target }) => {
-    const formData = new FormData();
-    const profileImage = target.files[0];
-
-    if (isFileTooLarge(profileImage.size)) {
-      alert("La imágen es muy pesada, debe ser menor a 3Mb");
-    } else if (isNotValidFileType(profileImage.type)) {
-      alert("El archivo no es una imágen");
-    } else {
-      formData.append("perfil_photo", profileImage);
-      const data = await mutateAsync(formData);
-      setUser({ perfil_photo: data.url });
+    if (target.files.length) {
+      const formData = new FormData();
+      try {
+        const profileImage = await isValidFile(target.files);
+        formData.append("perfil_photo", profileImage[0]);
+        const data = await mutateAsync(formData);
+        setUser({ perfil_photo: data.url });
+      } catch (err) {
+        target.value = null;
+      }
     }
   };
 

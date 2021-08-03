@@ -16,7 +16,6 @@ export default function UserProvider(props) {
   const logout = useCallback(() => {
     setUserInfo({});
     removeToken();
-    window.location.href = "/";
   }, []);
 
   const toggleFavoriteImage = useCallback((id) => {
