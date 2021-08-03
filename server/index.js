@@ -12,8 +12,8 @@ const routers = require("./routers");
 const startServer = require("./config/server");
 
 // Security middlewares
-app.use(cors());
-app.use(helmet());
+app.use(cors({ origin: "*" }));
+app.use(helmet({}));
 app.use(hpp());
 app.use(
   rateLimit({
