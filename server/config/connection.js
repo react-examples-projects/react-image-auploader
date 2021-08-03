@@ -6,7 +6,7 @@ const CONNECTION_TOTAL_TRIES = 4;
 let connectionTries = 1;
 
 connection.on("open", () => {
-  message.success("Connect to database in " + MONGODB_URL + MONGO_DB);
+  message.success("Connect to database in " + MONGODB_URL);
 });
 
 async function closeDb(app) {
@@ -22,7 +22,7 @@ async function closeDb(app) {
 
 async function connectDb() {
   try {
-    return await Mongoose.connect(MONGODB_URL + MONGO_DB, OPTIONS);
+    return await Mongoose.connect(MONGODB_URL, OPTIONS);
   } catch (err) {
     message.error("Error in connect to mongodb", err);
     const id = setTimeout(() => {

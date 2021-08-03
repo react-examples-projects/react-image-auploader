@@ -1,18 +1,16 @@
 import "../../../Style/App.scss";
-import Navbar from "../../Elements/Navbar";
 import useTitle from "../../Hooks/useTitle";
 import ImageList from "../../Elements/ImageList/ImageList";
-import ImagesProvider from "../../Context/Images/ImagesProvider";
+import Layout from "../../Elements/Layouts/Layout";
 
 function App() {
-  useTitle("Explorar nuevas imágenes");
-  
+  useTitle("Explorar");
   return (
     <>
-      <ImagesProvider>
-        <Navbar />
+      <Layout>
+        <h2 className="title mb-4">Publicaciones</h2>
         <ImageList />
-      </ImagesProvider>
+      </Layout>
     </>
   );
 }

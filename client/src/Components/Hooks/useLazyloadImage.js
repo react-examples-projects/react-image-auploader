@@ -1,8 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
-import placeholderImg from "../../Images/loading_image.png";
+import placeholderImg from "../../Images/image_loading.gif";
 
-export default function useLazyloadImage(src) {
-  const [imgSrc, setSrc] = useState(placeholderImg || src);
+/**
+ * Show an image loader placeholder and replace when it's been loaded
+ * @param {String} src The original source url
+ * @param {String} placeholder a loader for the image
+ * @returns {String} The image url
+ */
+export default function useLazyloadImage({
+  src,
+  placeholder = placeholderImg,
+}) {
+  const [imgSrc, setSrc] = useState(placeholder || src);
 
   const onLoad = useCallback(() => {
     setSrc(src);

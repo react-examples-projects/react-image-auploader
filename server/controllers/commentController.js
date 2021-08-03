@@ -24,10 +24,31 @@ class CommentController {
           name: 1,
           isAdmin: 1,
           _id: 1,
+          perfil_photo: 1,
         },
       })
       .execPopulate();
-    return saved;
+    return populated;
+  }
+
+  async deleteComment(id, idUser) {
+    const data = await this.CommentModel.deleteOne({ _id: id, user: idUser });
+    return data;
+  }
+
+  async editComment(_id, content, idUser) {
+    const data = await this.CommentModel.updateOne(
+      { _id, user: idUser },
+      {
+        content,
+      }
+    );
+    return data;
+  }
+
+  async deleteAllCommentsByPost(image_id) {
+    const data = await this.CommentModel.deleteMany({ image_id });
+    return data;
   }
 }
 

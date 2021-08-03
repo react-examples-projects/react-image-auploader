@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Loader from "./Loaders/loader";
+import PropTypes from "prop-types";
 
 export function LazyComponent({
   component: Component,
@@ -12,6 +13,22 @@ export function LazyComponent({
   );
 }
 
-export default function Async(component, loader = <Loader />) {
+function Async(component, loader = <Loader />) {
   return () => <LazyComponent component={component} loader={loader} />;
 }
+
+Async.propTypes = {
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.node,
+  ]).isRequired,
+  loader: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.node,
+    PropTypes.string,
+  ]),
+};
+
+export default Async;

@@ -1,6 +1,6 @@
 import React from "react";
 import sessionError from "../../../Images/session_error.svg";
-import Btn from "../../Elements/Btn";
+import { Button } from "react-bootstrap";
 import css from "./SessionError.module.scss";
 
 export default function SessionError() {
@@ -15,7 +15,7 @@ export default function SessionError() {
         <li>Verify your VPN or proxy configuration</li>
         <li>Report this here</li>
       </ul>
-      <Btn text="Reload browser" onClick={reload} />
+      <Button text="Reload browser" onClick={reload} />
     </div>
   );
 }

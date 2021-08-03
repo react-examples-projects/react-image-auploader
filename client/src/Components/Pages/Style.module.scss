@@ -5,10 +5,6 @@
   border-radius: 8px;
   padding: 3.8rem 2.8rem;
 
-  * {
-    color: #fff;
-  }
-
   .lead {
     font-size: 90%;
     color: rgb(189, 189, 189);
@@ -17,16 +13,10 @@
   }
 }
 
-.buttonContent {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  span {
-    margin-right: 10px;
-  }
-
-  svg {
-    margin-top: 5px;
-  }
+.containerCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
 }

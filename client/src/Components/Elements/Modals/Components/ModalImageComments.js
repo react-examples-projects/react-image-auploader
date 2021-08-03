@@ -1,19 +1,24 @@
 import PropTypes from "prop-types";
 import ModalImageComment from "./ModalImageComment";
-function ModalImageComments({ comments }) {
+function ModalImageComments({ comments, removeComment, editComment }) {
   if (!comments.length) {
     return (
-      <h3 style={{ marginTop: "2rem" }}>
+      <h5 className="mt-3 text-center">
         Nadie a comentado, sé el primero en hacerlo
-      </h3>
+      </h5>
     );
   }
 
   return (
     <div>
-      {comments.map((comment) => (
-        <ModalImageComment {...comment} key={comment._id} />
-      ))}
+      {comments.map((comment) => {
+        return (
+          <ModalImageComment
+            {...{ ...comment, removeComment, editComment }}
+            key={comment._id}
+          />
+        );
+      })}
     </div>
   );
 }

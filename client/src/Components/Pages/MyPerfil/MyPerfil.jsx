@@ -1,35 +1,96 @@
-import Btn from "../../Elements/Btn";
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import useTitle from "../../Hooks/useTitle";
 import Loader from "react-loader-spinner";
 import css from "./MyPerfil.module.scss";
-import { BiImageAdd, BiUserCheck } from "react-icons/bi";
-import { AiOutlineMail } from "react-icons/ai";
 import { setPerfilPhoto } from "../../../Helpers/api";
 import { useMutation } from "react-query";
+import { useRef } from "react";
+import { Button, Form, Col } from "react-bootstrap";
+import useLazyloadImage from "../../Hooks/useLazyloadImage";
+import { Link } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
+import ImageList from "../../Elements/ImageList/ImageList";
+import useImages from "../../Hooks/useImages";
+import useToggle from "../../Hooks/useToggle";
+import useChangePassword from "../../Hooks/useChangePassword";
+import BtnLoader from "../../Elements/BtnLoader";
+import ErrorText from "../../Elements/ErrorText";
+import {
+  getErrorValidation,
+  isNotValidFileType,
+  isFileTooLarge,
+} from "../../../Helpers/utils";
 
 function MyPerfil() {
+  const buttonFile = useRef(null);
   const { user, setUser } = useCurrentUser();
-  const { isLoading, mutateAsync } = useMutation((payload) =>
-    setPerfilPhoto(payload)
+  const { images } = useImages();
+  const myImages = images?.filter((img) => img?.user?._id === user._id);
+  const src = useLazyloadImage({ src: user.perfil_photo });
+  const [isPasswordChange, togglePasswordChange] = useToggle();
+  const { isLoading, mutateAsync, ...changeImageMutation } = useMutation(
+    (payload) => setPerfilPhoto(payload)
   );
-
+  const changePasswordMutation = useChangePassword();
+  const passwordChangeError = getErrorValidation(
+    changePasswordMutation,
+    "Error al cambiar la contraseña"
+  );
+  const changeImageError = getErrorValidation(
+    changeImageMutation,
+    "Error al cambiar la imágen"
+  );
   useTitle("Perfil de " + user.name);
 
   const onChangePerfilPhoto = async ({ target }) => {
     const formData = new FormData();
-    formData.append("perfil_photo", target.files[0]);
-    formData.append("id", user._id);
-    const data = await mutateAsync(formData);
-    setUser({ perfil_photo: data.url });
+    const profileImage = target.files[0];
+
+    if (isFileTooLarge(profileImage.size)) {
+      alert("La imágen es muy pesada, debe ser menor a 3Mb");
+    } else if (isNotValidFileType(profileImage.type)) {
+      alert("El archivo no es una imágen");
+    } else {
+      formData.append("perfil_photo", profileImage);
+      const data = await mutateAsync(formData);
+      setUser({ perfil_photo: data.url });
+    }
+  };
+
+  const onOpenFileChooser = () => {
+    buttonFile.current && buttonFile.current.click();
+  };
+
+  const changePassword = (e) => {
+    e.preventDefault();
+    const payload = new FormData(e.target);
+    changePasswordMutation.mutateAsync(payload);
   };
 
   return (
-    <div className={css.container}>
-      <div className={css.columns}>
-        <div className={css.column}>
-          <div className={css.perfilContainer}>
-            <img className={css.perfil} src={user.perfil_photo} alt="" />
+    <div className="container position-relative">
+      <Button
+        variant="outline-secondary"
+        as={Link}
+        to="/home"
+        className="position-absolute"
+        size="sm"
+        style={{ top: "3%", left: "-60px" }}
+        title="Regresar al inicio"
+        aria-label="Regresar al inicio"
+      >
+        <BiArrowBack />
+      </Button>
+
+      <div className="row justify-content-center align-items-center my-5">
+        <div className="col-auto">
+          <div className="w-auto position-relative overflow-hidden">
+            <img
+              className="img-fluid rounded-circle"
+              src={src}
+              alt="Your profile pic"
+              style={{ width: "200px", height: "200px", objectFit: "cover" }}
+            />
             {isLoading && (
               <>
                 <div className={css.perfilLoaderOverlay} />
@@ -44,33 +105,90 @@ function MyPerfil() {
             )}
           </div>
 
-          <div className="group">
-            <BiImageAdd className="groupIcon" />
-            <input
-              type="file"
-              className={css.file}
-              onChange={onChangePerfilPhoto}
-            />
-          </div>
+          <input
+            type="file"
+            onChange={onChangePerfilPhoto}
+            ref={buttonFile}
+            className="form-control-file d-none"
+            accept="image/png, image/gif, image/jpeg, image/webp"
+          />
         </div>
-        <div className={css.column}>
-          <h1 className={css.username}>{user.name}</h1>
+        <div className="col-auto text-center text-md-left mt-2 mt-md-0">
+          <h4 className="mb-3 font-weight-bold">{user.name}</h4>
 
-          <div className="group">
-            <AiOutlineMail className="groupIcon" />
-            <input type="text" defaultValue={user.email} disabled />
-          </div>
-
+          <p>{user.email}</p>
           {user.isAdmin && (
-            <div className="group">
-              <BiUserCheck className="groupIcon" />
-              <input type="text" defaultValue="Administrador" disabled />
-            </div>
+            <h6 className="text-warning font-weight-bold my-2">
+              Administrador
+            </h6>
           )}
+          <div className="mt-4">
+            {isPasswordChange && (
+              <Form autoComplete="off" onSubmit={changePassword}>
+                <Form.Row>
+                  <Col>
+                    <Form.Group controlId="password">
+                      <Form.Control
+                        name="password"
+                        placeholder="Cambia tu contraseña"
+                        type="password"
+                        aria-label="Cambia tu contraseña"
+                        size="sm"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group controlId="password-confirm">
+                      <Form.Control
+                        name="passwordConfirm"
+                        placeholder="Confirma la contraseña"
+                        type="password"
+                        aria-label="Confirma la contraseña"
+                        size="sm"
+                        required
+                      />
+                    </Form.Group>
+                  </Col>
+                </Form.Row>
+                <BtnLoader
+                  type="submit"
+                  text="Guardar clave"
+                  variant="success"
+                  size="sm"
+                  isLoading={changePasswordMutation.isLoading}
+                  className="mb-3"
+                  block
+                />
 
-          <Btn>Cambiar contraseña</Btn>
+                <ErrorText
+                  text={passwordChangeError}
+                  className="mb-3"
+                  isVisible={changePasswordMutation.isError}
+                />
+              </Form>
+            )}
+
+            <ErrorText
+              text={changeImageError}
+              className="mb-3"
+              isVisible={changeImageMutation.isError}
+            />
+            <Button
+              variant="outline-success mr-2"
+              onClick={togglePasswordChange}
+            >
+              {isPasswordChange ? "Cancelar" : "Cambiar contraseña"}
+            </Button>
+            <Button variant="outline-success mr-2" onClick={onOpenFileChooser}>
+              Cambiar Imágen
+            </Button>
+          </div>
         </div>
       </div>
+
+      <h2 className="title mb-4">Imágenes subidas</h2>
+      <ImageList images={myImages} />
     </div>
   );
 }

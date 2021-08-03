@@ -1,37 +1,66 @@
 import ModalImage from "../Modals/ModalImage";
 import Modal from "../Modals/Modal";
 import { BiComment } from "react-icons/bi";
+import { FcLike } from "react-icons/fc";
+
 import PropTypes from "prop-types";
 import css from "../../../Style/Modal.module.scss";
-import { useEffect, useRef, memo } from "react";
-import ScrollReveal from "scrollreveal";
+import { memo } from "react";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
-function ImagePost({ url_image, name, comments, ...args }) {
-  const src = useLazyloadImage(url_image);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    ScrollReveal().reveal(ref.current);
-  }, []);
+import useCurrentUser from "../../Hooks/useCurrentUser";
+function ImagePost({ _id, url_image, name, comments, title, ...args }) {
+  const src = useLazyloadImage({ src: url_image });
+  const { favoritesImages = [] } = useCurrentUser().user;
+  const isFavorite = favoritesImages.includes(_id);
 
   const children = (toggleOpen) => (
-    <div className="img" onClick={toggleOpen} ref={ref}>
-      <div className="img-figure">
-        <img src={src} alt={url_image} loading="lazy" />
-      </div>
+    <article
+      className="img"
+      onClick={toggleOpen}
+      title="Has click para ver más..."
+    >
+      {isFavorite && (
+        <div
+          className="img-favorite"
+          aria-label="Esta imágene está marcada como favorito"
+        >
+          <FcLike
+            size="1.4rem"
+            style={{ opacity: 0.8, marginLeft: "10px", marginTop: "10px" }}
+          />
+        </div>
+      )}
+      <figure className="img-figure mb-0">
+        <img src={src} alt={title} loading="lazy" className="lazyload" />
+      </figure>
       <div className="img-info">
-        <a href={url_image} target="_blank" rel="noreferrer">
-          {name}
-        </a>
+        <p className="m-0" style={{ maxWidth: "80%" }}>
+          <span className="d-block mb-0 mr-2 text-truncate mw-100" rel="author">
+            {title}
+          </span>
+          <a href={url_image} target="_blank" rel="noreferrer">
+            <small> {name}</small>
+          </a>
+        </p>
 
-        <span className="comments-count">
+        <span
+          className="comments-count"
+          title={`Cantidad de comentarios de la publicación: ${comments.length}`}
+        >
           <BiComment /> {comments.length}
         </span>
       </div>
-    </div>
+    </article>
   );
+
   const renderModal = (
-    <ModalImage src={url_image} commentsImage={comments} {...args} />
+    <ModalImage
+      src={url_image}
+      commentsImage={comments}
+      title={title}
+      _id={_id}
+      {...args}
+    />
   );
 
   return (

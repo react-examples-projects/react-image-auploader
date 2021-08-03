@@ -1,11 +1,26 @@
 const { Schema, model } = require("mongoose");
-
 const UserSchema = new Schema({
-  email: { type: String, required: true, unique: true, trim: true },
-  password: { type: String, required: true },
-  isAdmin: { type: Boolean, required: true, default: false },
+  email: {
+    type: String,
+    required: [true, "El e-mail es obligatorio"],
+    unique: true,
+    trim: true,
+  },
+  password: { type: String, required: [true, "La contraseña es obligatoria"] },
+  isAdmin: { type: Boolean, default: false },
   perfil_photo: { type: String, default: "" },
-  name: { type: String, required: true, trim: true },
+  name: {
+    type: String,
+    required: [true, "El nombre es obligatoria"],
+    trim: true,
+  },
+  favoritesImages: [
+    {
+      // it will be a reference to user collection
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 module.exports = model("User", UserSchema);

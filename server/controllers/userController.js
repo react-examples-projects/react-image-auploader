@@ -22,6 +22,13 @@ class UserController {
     });
     return userUpdated;
   }
+
+  async changePassword({ id, password }) {
+    const userUpdated = await this.UserModel.findByIdAndUpdate(id, {
+      password,
+    });
+    return userUpdated;
+  }
 }
 
 module.exports = new UserController();

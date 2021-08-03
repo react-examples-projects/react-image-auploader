@@ -5,6 +5,12 @@ import ImagesReducer from "../../Store/Reducers/Images/ImagesReducer";
 import {
   setImagesAction,
   addImageAction,
+  removeImageAction,
+  updateImageAction,
+  addCommentImagesAction,
+  removeCommentImagesAction,
+  searchImagesAction,
+  editCommentImagesAction,
 } from "../../Store/Actions/ImagesActions";
 
 export default function useImageReducer() {
@@ -18,5 +24,40 @@ export default function useImageReducer() {
     dispatch(addImageAction(_image));
   }, []);
 
-  return { state, dispatch, setImages, addImage };
+  const removeImage = useCallback((id) => {
+    dispatch(removeImageAction(id));
+  }, []);
+
+  const updateImage = useCallback(({ imageId, title, tags }) => {
+    dispatch(updateImageAction({ imageId, title, tags }));
+  }, []);
+
+  const searchImages = useCallback((search) => {
+    dispatch(searchImagesAction(search));
+  }, []);
+
+  const addComment = useCallback((comment) => {
+    dispatch(addCommentImagesAction(comment));
+  }, []);
+
+  const removeComment = useCallback(({ imageId, commentId }) => {
+    dispatch(removeCommentImagesAction({ imageId, commentId }));
+  }, []);
+
+  const editComment = useCallback(({ imageId, commentId, commentContent }) => {
+    dispatch(editCommentImagesAction({ imageId, commentId, commentContent }));
+  }, []);
+
+  return {
+    state,
+    dispatch,
+    setImages,
+    addImage,
+    removeImage,
+    updateImage,
+    searchImages,
+    addComment,
+    removeComment,
+    editComment,
+  };
 }

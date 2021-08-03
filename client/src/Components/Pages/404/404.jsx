@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Btn from "../../Elements/Btn";
+import { Button } from "react-bootstrap";
+
 import useCurrentUser from "../../Hooks/useCurrentUser";
 import useBody from "../../Hooks/useBody";
 import notFoundBg from "../../../Images/404.jpg";
@@ -19,15 +20,17 @@ export default function NotFound() {
 
   return (
     <div className={css.container}>
-      <h1>Not Found</h1>
+      <h1 className="title mb-3" style={{ fontSize: "4rem" }}>
+        Not Found
+      </h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore fuga in
         ex tempora commodi tenetur praesentium debitis pariatur recusandae
         dignissimos!
       </p>
 
-      <Link to={user.id ? "/home" : "/"}>
-        <Btn>Go to {user.id ? "home" : "login"}</Btn>
+      <Link to={user.id ? "/home" : "/"} >
+        <Button size="lg">Regresar al {user._id ? "inicio" : "login"}</Button>
       </Link>
     </div>
   );

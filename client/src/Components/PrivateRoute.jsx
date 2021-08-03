@@ -1,16 +1,11 @@
 import { Route, Redirect } from "react-router-dom";
-import { existsToken } from "../Helpers/token";
+import PropTypes from "prop-types";
 import Loader from "../Components/Loaders/loader";
 import useVerifyToken from "./Hooks/useVerifyToken";
-import useCurrentUser from "./Hooks/useCurrentUser";
-import SessionError from "../Components/Pages/SessionError/SessionError";
-
-export default function PrivateRoute({ component: Component, ...rest }) {
+import { existsToken } from "../Helpers/token";
+function PrivateRoute({ component: Component, ...rest }) {
   const { isValidToken, isLoading } = useVerifyToken();
-  const { user } = useCurrentUser();
-
   if (isLoading) return <Loader />;
-  if (user.userError) return <SessionError />;
 
   return (
     <Route {...rest}>
@@ -24,3 +19,13 @@ export default function PrivateRoute({ component: Component, ...rest }) {
     </Route>
   );
 }
+
+PrivateRoute.propTypes = {
+  component: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.node,
+  ]).isRequired,
+};
+
+export default PrivateRoute;

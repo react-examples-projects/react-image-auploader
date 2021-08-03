@@ -1,3 +1,8 @@
+$primary_color: #1687a7;
+$focus_primary: #1688a748;
+$body_bg: #161822;
+$img-radius: 4px;
+
 @mixin focus($border, $shadow) {
   &:focus {
     border-color: $border;
@@ -12,10 +17,6 @@
   }
 }
 
-$primary_color: #1687a7;
-$focus_primary: #1688a748;
-$body_bg: #161822;
-
 *,
 *::before {
   box-sizing: border-box;
@@ -29,8 +30,6 @@ $body_bg: #161822;
   text-decoration: none;
   color: #fff;
 }
-
-$img-radius: 4px;
 
 body {
   background: $body_bg;
@@ -47,15 +46,8 @@ button:disabled {
 
 input,
 textarea {
-  display: block;
-  width: 100%;
   background: transparent !important;
-  padding: 0.8rem;
-  border: 1px solid #525461;
-  border-radius: 5px;
-  outline: none;
-  @include focus($primary_color, $focus_primary);
-  @include disabled();
+  color: #fff !important;
 }
 
 svg + input {
@@ -75,30 +67,107 @@ svg + input {
   border-radius: 4px;
 }
 
+.form-control,
+.form-tags {
+  border-color: #ced4da2b !important;
+}
+
+#root {
+  height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.navbar-toggler {
+  border-color: #ffffff69 !important;
+
+  &:not(.collapsed) {
+    .navbar-toggler-icon {
+      background-image: url("../Images/menu_close.png") !important;
+      background-size: 40px 40px;
+    }
+  }
+}
+
+.navbar-toggler-icon {
+  background-image: url("../Images/menu.png") !important;
+  width: 30px;
+  height: 30px;
+}
+
+div.pro-sidebar {
+  min-width: 220px;
+}
+
+.pro-sidebar-inner {
+  background: #0e0f16 !important;
+  .pro-menu-item {
+    padding: 0.2rem 0.3rem;
+  }
+  .pro-inner-item {
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    &:hover {
+      background: #010102 !important;
+    }
+
+    .pro-icon-wrapper {
+      border-radius: 50% !important;
+    }
+  }
+  .pro-inner-list-item {
+    background: #0e0f16 !important;
+  }
+}
+
 .nav {
-  display: flex;
-  background: #000000;
-  padding: 1rem 2rem;
+  background: #0e0f16;
+  padding: 0.63rem 2rem;
   position: sticky;
   top: 0;
   z-index: 100;
   left: 0;
-  > .button {
-    margin-right: 1rem;
+
+  .dropdown-toggle {
+    margin: 0;
+    &::before {
+      display: none;
+    }
+  }
+
+  .dropdown-menu {
+    background: #222430;
+
+    a {
+      color: #fff;
+      &:hover {
+        background: #191b24;
+      }
+    }
+  }
+  @media screen and (max-width: 992px) {
+    .nav-item .btn,
+    .nav-item input {
+      text-align: center;
+      max-width: 100% !important;
+      width: 100% !important;
+      margin-bottom: 0.5rem;
+    }
   }
 }
 
-.group {
-  margin-bottom: 1.2rem;
-  position: relative;
+.row-wrapper {
+  max-width: 1400px;
+}
 
-  &Icon {
-    position: absolute;
-    z-index: 10;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 8px;
-  }
+.content {
+  overflow: hidden auto;
+  max-height: 100%;
+  width: 100%;
+}
+
+.title {
+  font-family: "Archivo Black", sans-serif;
 }
 
 .text-admin {
@@ -115,7 +184,7 @@ svg + input {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.89);
-  z-index: 500;
+  z-index: 99999;
 
   .modal-wrapper {
     display: flex;
@@ -162,18 +231,18 @@ svg + input {
     top: 6px;
     font-size: 1.5em;
     color: #fff;
-    background: rgba(0, 0, 0, 0.466);
+    background: #2f3136;
     outline: none;
     border: 0;
     border-radius: 50%;
     cursor: pointer;
-    padding: 0.3rem 0.7rem;
+    padding: 0.2rem 0.7rem;
   }
 }
 
 .comment {
   width: 100%;
-  background: rgb(20, 20, 20);
+  background: #0d0d0d;
   padding: 1rem;
   border-radius: 4px;
 
@@ -183,7 +252,7 @@ svg + input {
 
   .comment-options {
     display: inline-flex;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 
     button {
       font-size: 12px;
@@ -200,22 +269,44 @@ svg + input {
     font-size: 14px;
   }
 }
+.dropdown-image-modal-toggle::after {
+  display: none;
+}
+
+.dropdown-modal-image-item:hover {
+  background: #2c2c2c;
+  cursor: pointer;
+}
 
 .massory {
-  columns: 4;
-  column-gap: 0;
-  break-inside: avoid;
-  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 5rem;
+  margin: 0 auto;
+
   .img {
     cursor: pointer;
     position: relative;
     margin: 0 6px;
+    flex: 0 1 calc(25% - 6px * 2);
+    overflow: hidden;
+
     margin-bottom: 10px;
     border-radius: $img-radius;
 
+    .img-favorite {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      
+      z-index: 1;
+      background-color: rgba(255, 255, 255, 0.363);
+    }
+
     .img-figure {
       position: relative;
+      height: 200px;
 
       &::before {
         content: "";
@@ -236,7 +327,7 @@ svg + input {
       align-items: center;
       position: absolute;
       font-size: 12px;
-      padding: 0.8rem;
+      padding: 0.5rem;
       z-index: 2;
       width: 100%;
       bottom: 0;
@@ -261,11 +352,40 @@ svg + input {
 
     img {
       width: 100%;
+      height: 100%;
       display: block;
+      object-fit: cover;
       transition: all 0.2s ease;
       border-radius: $img-radius;
     }
   }
+}
+
+.trending {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.trending-title,
+.favorites-title {
+  padding: 0.5rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorites-title {
+  background: #000428;
+  background: -webkit-linear-gradient(to right, #004e92, #000428);
+  background: linear-gradient(to right, #004e92, #000428);
+}
+
+.trending-title {
+  background: #7f00ff;
+  background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
+  background: linear-gradient(to right, #e100ff, #7f00ff);
 }
 
 .image-loader {
@@ -279,6 +399,7 @@ svg + input {
 }
 
 .button {
+  font-size: 13px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -295,20 +416,53 @@ svg + input {
   @include disabled();
 }
 
-.button-link {
-  padding: 0;
-  background: transparent;
-  text-decoration: underline;
-  outline: none;
-  cursor: pointer;
-  color: $primary_color;
-  border: none;
+.form-tags > span {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 4px;
+
+  > .react-tagsinput-input {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  > .react-tagsinput-tag {
+    margin: 0;
+    background-color: #19204b;
+    border: none;
+    color: #fff;
+    flex: 1 1 auto;
+    text-align: center;
+    margin-top: 4px;
+    word-break: break-word;
+    max-width: 33.33%;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .react-tagsinput-remove {
+      display: inline-block;
+      margin-left: 5px;
+
+      &::before {
+        content: "×";
+      }
+    }
+  }
+
+  > .react-tagsinput-tag:not(:last-child) {
+    margin-right: 4px;
+  }
 }
 
 .loader-page {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
+  left: 0;
+  top: 0;
   z-index: 9999;
   background: $body_bg;
   display: flex;
@@ -319,15 +473,21 @@ svg + input {
 
 .there-dont-images {
   width: 100%;
-  max-width: 350px;
+  max-width: 400px;
   margin: auto;
   margin-top: 5rem;
+
   > img {
-    width: 100%;
+    width: 20em;
+    margin: auto;
+    display: block;
   }
   h2 {
-    margin-top: 1rem;
+    margin-top: 2rem;
     text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.5rem;
   }
 }
 
@@ -341,25 +501,25 @@ svg + input {
   }
 }
 
-@media screen and (max-width: 980px) {
-  .massory {
-    columns: 3;
+@media screen and (max-width: 992px) {
+  .massory .img {
+    flex: 0 1 calc(50% - 6px * 2);
   }
 }
 
 @media screen and (max-width: 750px) {
-  .massory {
-    columns: 2;
+  .massory .img {
+    flex: 0 1 calc(100% - 6px * 2);
+
+    .img-figure {
+      height: auto;
+    }
   }
 }
 
 @media screen and (max-width: 500px) {
   * {
     font-size: 12px;
-  }
-
-  .massory {
-    columns: 1;
   }
 
   .modal-close {

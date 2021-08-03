@@ -1,0 +1,26 @@
+.main {
+  background-image: url("../../../Images/landing-majuro.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.btn {
+  margin-top: 1.4rem;
+  border-radius: 3px;
+  width: 40%;
+  padding: 15px;
+  background-color: #ffffff;
+  color: #000 !important;
+  border: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #dddddd !important;
+  }
+}
+
+.subtitle {
+  color: #ecebe4;
+  font-size: 2rem;
+}

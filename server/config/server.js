@@ -5,6 +5,11 @@ const { connectDb, closeDb } = require("../config/connection");
 
 async function startServer(app) {
   try {
+    app.use((req, res, next) => {
+      res.status(404).json({ status: 404, body: "Not Found" });
+      next();
+    });
+    
     wrapServerErrors(app);
 
     app.listen(SERVER.PORT, async () => {
