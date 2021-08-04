@@ -9,10 +9,8 @@ export default function useUserInfo() {
     enabled: existsToken(),
   });
   const { user, setUser, logout } = useCurrentUser();
-
   useEffect(() => {
     if (!isError && data && !user) {
-      console.log("se reestablecio el user", data);
       setUser(data);
     } else if (isError) {
       logout();

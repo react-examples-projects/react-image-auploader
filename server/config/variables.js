@@ -23,7 +23,7 @@ const SERVER = {
     ],
     RATE_LIMITS: {
       windowMs: 10 * 60 * 1000, // 10 minutes
-      max: 50, // limit each IP to 100 requests per windowMs
+      max: 500, // limit each IP to 100 requests per windowMs
     },
   },
 };

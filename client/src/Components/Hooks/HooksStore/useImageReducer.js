@@ -5,6 +5,8 @@ import ImagesReducer from "../../Store/Reducers/Images/ImagesReducer";
 import {
   setImagesAction,
   addImageAction,
+  toggleFavoriteImageAction,
+  setFavoriteImagesAction,
   removeImageAction,
   updateImageAction,
   addCommentImagesAction,
@@ -20,8 +22,16 @@ export default function useImageReducer() {
     dispatch(setImagesAction(_images));
   }, []);
 
+  const setFavoriteImages = useCallback((_images) => {
+    dispatch(setFavoriteImagesAction(_images));
+  }, []);
+
   const addImage = useCallback((_image) => {
     dispatch(addImageAction(_image));
+  }, []);
+
+  const toggleFavoriteImage = useCallback((imageId) => {
+    dispatch(toggleFavoriteImageAction(imageId));
   }, []);
 
   const removeImage = useCallback((id) => {
@@ -52,7 +62,9 @@ export default function useImageReducer() {
     state,
     dispatch,
     setImages,
+    setFavoriteImages,
     addImage,
+    toggleFavoriteImage,
     removeImage,
     updateImage,
     searchImages,

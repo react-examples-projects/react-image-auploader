@@ -17,6 +17,20 @@ export function addImageAction(payload) {
   };
 }
 
+export function toggleFavoriteImageAction(payload) {
+  return {
+    payload,
+    type: Types.TOGGLE_FAVORITE_IMAGE,
+  };
+}
+
+export function setFavoriteImagesAction(payload) {
+  return {
+    payload,
+    type: Types.SET_FAVORITE_IMAGES,
+  };
+}
+
 /**
  * Return an action to delete an images post to the global context
  * @param {Number} payload The id image

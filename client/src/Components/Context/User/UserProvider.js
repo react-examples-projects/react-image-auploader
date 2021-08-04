@@ -13,7 +13,7 @@ export default function UserProvider(props) {
     removeToken();
   }, []);
 
-  const toggleFavoriteImage = useCallback((id) => {
+  const toggleFavoriteImageUser = useCallback((id) => {
     setUserInfo((user) => {
       const { favoritesImages } = user;
       const removeFromFavoritesImages = () =>
@@ -29,8 +29,8 @@ export default function UserProvider(props) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, setUser, toggleFavoriteImage, logout }),
-    [user, setUser, toggleFavoriteImage, logout]
+    () => ({ user, setUser, toggleFavoriteImageUser, logout }),
+    [user, setUser, toggleFavoriteImageUser, logout]
   );
 
   return <UserContext.Provider value={value} {...props} />;

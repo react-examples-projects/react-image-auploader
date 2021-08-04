@@ -3,6 +3,7 @@ import Types from "../../Actions/Types/Images";
 
 export default function ImagesReducer(state, { type, payload }) {
   const { images } = state;
+  const { favorites } = images;
   let imagesUpdated;
 
   switch (type) {
@@ -12,6 +13,22 @@ export default function ImagesReducer(state, { type, payload }) {
         images: {
           ...images,
           data: [payload, ...images.data],
+        },
+      };
+
+    case Types.TOGGLE_FAVORITE_IMAGE:
+      const isFavorite = favorites.some((img) => img._id === payload);
+      const favoriteImage = images.data.find((img) => img._id === payload);
+      const favoriteImagesUpdated = favorites.filter(
+        (img) => img._id !== payload
+      );
+      return {
+        ...state,
+        images: {
+          ...images,
+          favorites: isFavorite
+            ? favoriteImagesUpdated
+            : [favoriteImage, ...favorites],
         },
       };
 
@@ -64,7 +81,19 @@ export default function ImagesReducer(state, { type, payload }) {
     case Types.SET_IMAGES:
       return {
         ...state,
-        images: payload,
+        images: {
+          ...images,
+          ...payload,
+        },
+      };
+
+    case Types.SET_FAVORITE_IMAGES:
+      return {
+        ...state,
+        images: {
+          ...images,
+          favorites: payload,
+        },
       };
 
     case Types.ADD_COMMENT_IMAGES:
