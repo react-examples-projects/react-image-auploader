@@ -71,6 +71,15 @@ export async function updateImage(id, payload) {
 }
 
 /**
+ * Get all favorite images
+ * @returns {Object} The favorite images list
+ */
+export async function getFavoriteImages() {
+  const res = await instance.get(favoriteImage, config());
+  return res?.data?.data;
+}
+
+/**
  * Toggle a favorite image from the backend
  * @param {String} imageId The id image for toggle
  * @returns {Object} The new user information with the new favorite image

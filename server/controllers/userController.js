@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 class UserController {
   constructor() {
     this.UserModel = require("../models/User");
+    this.optionsUpdate = { new: true };
   }
 
   async existsUser({ email, password }) {
@@ -13,28 +14,32 @@ class UserController {
   }
 
   async getUserById(id) {
-    const user = await this.UserModel.findById(id).lean();
+    const user = await this.UserModel.findById(id, { password: 0 }).lean();
     return user;
   }
 
   async setPerfilPhoto({ id, perfil_photo }) {
-    const userUpdated = await this.UserModel.findByIdAndUpdate(id, {
-      perfil_photo,
-    });
+    const userUpdated = await this.UserModel.findByIdAndUpdate(
+      id,
+      { perfil_photo },
+      this.optionsUpdate
+    ).lean();
     return userUpdated;
   }
 
   async changePassword({ id, password }) {
-    const userUpdated = await this.UserModel.findByIdAndUpdate(id, {
-      password,
-    });
+    const userUpdated = await this.UserModel.findByIdAndUpdate(
+      id,
+      { password },
+      this.optionsUpdate
+    ).lean();
+    delete userUpdated.password;
     return userUpdated;
   }
 
   async deleteFavorite({ idImage, idUser }) {
-    const user = await this.UserModel.findById(idUser);
+    const user = await this.UserModel.findById(idUser).lean();
     if (user?.favoritesImages?.includes(idImage)) {
-      // const favoriteId = mongoose.Types.ObjectId(idImage);
       await this.UserModel.findByIdAndUpdate(idUser, {
         $pull: {
           favoritesImages: idImage,

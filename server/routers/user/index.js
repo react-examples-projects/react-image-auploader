@@ -48,7 +48,6 @@ router.patch(
 router.get("/user", async (req, res, next) => {
   try {
     const user = await UserController.getUserById(req.user._id);
-    delete user.password;
     success(res, user);
   } catch (err) {
     next(err);

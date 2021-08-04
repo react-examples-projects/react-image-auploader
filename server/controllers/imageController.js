@@ -1,6 +1,7 @@
 class ImageController {
   constructor() {
     this.ImageModel = require("../models/Image");
+    this.UserModel = require("../models/User");
     this.CommentController = require("../controllers/commentController");
     this.UserController = require("../controllers/userController");
     this.uploadImages = require("../helpers/requests").uploadImages;
@@ -45,7 +46,7 @@ class ImageController {
       user,
     });
     const img = await newImage.save();
-    const imgPopulated = img
+    const imgPopulated = await img
       .populate({
         path: "user",
         select: {
@@ -55,23 +56,14 @@ class ImageController {
         },
       })
       .execPopulate();
-    return imgPopulated;
+    return imgPopulated.toObject();
   }
 
   async deleteImage(id, idUser) {
-    const commentsDelete = await this.CommentController.deleteAllCommentsByPost(
-      id
-    );
-    const imageDeleted = await this.ImageModel.deleteOne({
-      _id: id,
-      user: idUser,
-    });
-
-    await this.UserController.deleteFavorite({
-      idUser,
-      idImage: id,
-    });
-    
+    const p1 = this.CommentController.deleteAllCommentsByPost(id);
+    const p2 = this.UserController.deleteFavorite({ idUser, idImage: id });
+    const p3 = this.ImageModel.deleteOne({ _id: id, user: idUser });
+    const [commentsDelete, , imageDeleted] = await Promise.all([p1, p2, p3]);
     return {
       ...imageDeleted,
       commentsDelete,
@@ -84,6 +76,14 @@ class ImageController {
       content
     ).lean();
     return imageUpdated;
+  }
+
+  async getFavoriteImages(idUser) {
+    const user = await this.UserModel.findOne({
+      _id: idUser,
+    }).populate("favoritesImages");
+
+    return user?.favoritesImages;
   }
 }
 

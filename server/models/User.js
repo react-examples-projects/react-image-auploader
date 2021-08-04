@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     {
       // it will be a reference to user collection
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Image",
     },
   ],
 });

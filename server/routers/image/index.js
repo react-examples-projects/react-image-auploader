@@ -20,6 +20,14 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.get("/favorite", async (req, res, next) => {
+  try {
+    const favoriteImages = await ImageController.getFavoriteImages(req.user._id);
+    success(res, favoriteImages);
+  } catch (err) {
+    next(err);
+  }
+});
 router.post(
   "/upload",
   validate(uploadImageValidation),

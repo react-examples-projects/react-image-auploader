@@ -5,19 +5,14 @@ class CommentController {
   }
 
   async getComments() {
-    const data = await this.CommentModel.find({});
+    const data = await this.CommentModel.find({}).lean();
     return data;
   }
 
   async insertComment(payload) {
     const data = this.CommentModel(payload);
-    await this.ImageModel.findByIdAndUpdate(payload.image_id, {
-      $push: {
-        comments: data._id,
-      },
-    });
     const saved = await data.save();
-    const populated = await saved
+    const p1 = saved
       .populate({
         path: "user",
         select: {
@@ -28,7 +23,12 @@ class CommentController {
         },
       })
       .execPopulate();
-    return populated;
+
+    const p2 = this.ImageModel.findByIdAndUpdate(payload.image_id, {
+      $push: { comments: data._id },
+    });
+    const [savePopulated] = await Promise.all([p1, p2]);
+    return savePopulated;
   }
 
   async deleteComment(id, idUser) {
@@ -39,9 +39,8 @@ class CommentController {
   async editComment(_id, content, idUser) {
     const data = await this.CommentModel.updateOne(
       { _id, user: idUser },
-      {
-        content,
-      }
+      { content },
+      { new: true }
     );
     return data;
   }
