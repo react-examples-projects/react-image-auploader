@@ -2,6 +2,7 @@ class ImageController {
   constructor() {
     this.ImageModel = require("../models/Image");
     this.CommentController = require("../controllers/commentController");
+    this.UserController = require("../controllers/userController");
     this.uploadImages = require("../helpers/requests").uploadImages;
   }
 
@@ -65,6 +66,12 @@ class ImageController {
       _id: id,
       user: idUser,
     });
+
+    await this.UserController.deleteFavorite({
+      idUser,
+      idImage: id,
+    });
+    
     return {
       ...imageDeleted,
       commentsDelete,
@@ -78,8 +85,6 @@ class ImageController {
     ).lean();
     return imageUpdated;
   }
-
-  
 }
 
 module.exports = new ImageController();

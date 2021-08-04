@@ -1,5 +1,5 @@
 import useCurrentUser from "../user/useCurrentUser";
-import useImages from "../images/useImages";
+import useImages from "../HooksStore/useImages";
 
 /**
  * Filter all images to just favorite images
@@ -7,7 +7,7 @@ import useImages from "../images/useImages";
  */
 export default function useFavoritesImages() {
   const { favoritesImages = [] } = useCurrentUser().user;
-  const { images } = useImages();
+  const { data: images } = useImages().images;
   const toObjects = [];
 
   for (const id of favoritesImages) {

@@ -3,13 +3,13 @@ import { removeToken } from "../../../Helpers/token";
 import UserContext from "./UserContext";
 
 export default function UserProvider(props) {
-  const [user, setUserInfo] = useState({});
+  const [user, setUserInfo] = useState(null);
   const setUser = useCallback(
     (data) => setUserInfo((u) => ({ ...u, ...data })),
     []
   );
   const logout = useCallback(() => {
-    setUserInfo({});
+    setUserInfo(null);
     removeToken();
   }, []);
 
@@ -19,13 +19,12 @@ export default function UserProvider(props) {
       const removeFromFavoritesImages = () =>
         favoritesImages.filter((favoriteImageId) => favoriteImageId !== id);
 
-      const userState = {
+      return {
         ...user,
         favoritesImages: favoritesImages.includes(id)
           ? removeFromFavoritesImages()
           : [...favoritesImages, id],
       };
-      return userState;
     });
   }, []);
 

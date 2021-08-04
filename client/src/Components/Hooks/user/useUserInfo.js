@@ -8,15 +8,16 @@ export default function useUserInfo() {
   const { data, isError, ...args } = useQuery("user", getUserInfo, {
     enabled: existsToken(),
   });
-  const { setUser, logout } = useCurrentUser();
+  const { user, setUser, logout } = useCurrentUser();
 
   useEffect(() => {
-    if (!isError && data) {
+    if (!isError && data && !user) {
+      console.log("se reestablecio el user", data);
       setUser(data);
     } else if (isError) {
       logout();
     }
-  }, [data, isError, setUser, logout]);
-   
+  }, [data, isError, setUser, logout, user]);
+
   return { data, isError, ...args };
 }

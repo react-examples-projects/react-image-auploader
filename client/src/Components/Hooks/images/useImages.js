@@ -1,24 +1,19 @@
 import { getImages } from "../../../Helpers/api";
-import { useMutation } from "react-query";
-import { useEffect } from "react";
-import useCurrentUser from "../user/useCurrentUser";
+import { useQuery } from "react-query";
+import { existsToken } from "../../../Helpers/token";
+
 /**
  * Get all images from backend
  * @returns {Object} The object that contains the images
  */
 export default function useImages() {
-  const { user } = useCurrentUser();
   const {
     data = [],
     isLoading,
     isError,
-    mutateAsync,
-  } = useMutation(getImages, {});
-
-  useEffect(() => {
-    if (user?._id) mutateAsync();
-  }, [mutateAsync, user?._id]);
-
+  } = useQuery("images", getImages, {
+    enabled: existsToken(),
+  });
   return {
     images: data,
     isLoading,

@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 class UserController {
   constructor() {
     this.UserModel = require("../models/User");
@@ -28,6 +29,19 @@ class UserController {
       password,
     });
     return userUpdated;
+  }
+
+  async deleteFavorite({ idImage, idUser }) {
+    const user = await this.UserModel.findById(idUser);
+    if (user?.favoritesImages?.includes(idImage)) {
+      // const favoriteId = mongoose.Types.ObjectId(idImage);
+      await this.UserModel.findByIdAndUpdate(idUser, {
+        $pull: {
+          favoritesImages: idImage,
+        },
+      });
+    }
+    return user;
   }
 }
 
