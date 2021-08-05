@@ -2,6 +2,8 @@ import { useReducer, useCallback } from "react";
 import InitialState from "../../Store/Store";
 // reducers
 import ImagesReducer from "../../Store/Reducers/Images/ImagesReducer";
+import FavoriteImagesReducer from "../../Store/Reducers/favoriteImages/FavoriteImagesReducer";
+import reducers from "../../Store/Reducers/reducers";
 import {
   setImagesAction,
   addImageAction,
@@ -17,7 +19,8 @@ import {
 } from "../../Store/Actions/ImagesActions";
 
 export default function useImageReducer() {
-  const [state, dispatch] = useReducer(ImagesReducer, InitialState);
+  const rootReducers = reducers(ImagesReducer, FavoriteImagesReducer);
+  const [state, dispatch] = useReducer(rootReducers, InitialState);
 
   const setImages = useCallback((_images) => {
     dispatch(setImagesAction(_images));

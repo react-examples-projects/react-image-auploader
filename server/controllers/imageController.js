@@ -83,10 +83,19 @@ class ImageController {
       _id: idUser,
     }).populate({
       path: "favoritesImages",
-      populate: {
-        path: "user",
-        select: { _id: 1, name: 1 },
-      },
+      populate: [
+        {
+          path: "user",
+          select: { _id: 1, name: 1 },
+        },
+        {
+          path: "comments",
+          populate: {
+            path: "user",
+            select: { _id: 1, name: 1, perfil_photo: 1 },
+          },
+        },
+      ],
     });
 
     return user?.favoritesImages;
