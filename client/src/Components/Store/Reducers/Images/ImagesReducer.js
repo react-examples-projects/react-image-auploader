@@ -1,12 +1,21 @@
 import { normalizeString } from "../../../../Helpers/utils";
-import Types from "../../Actions/Types/Images";
+import {
+  ADD_IMAGE,
+  REMOVE_IMAGE,
+  UPDATE_IMAGE,
+  SEARCH_IMAGES,
+  SET_IMAGES,
+  ADD_COMMENT_IMAGES,
+  REMOVE_COMMENT_IMAGES,
+  EDIT_COMMENT_IMAGES,
+} from "../../Actions/Types/Images";
 
 export default function ImagesReducer(state, { type, payload }) {
   const { images } = state;
   let imagesUpdated;
 
   switch (type) {
-    case Types.ADD_IMAGE:
+    case ADD_IMAGE:
       return {
         ...state,
         images: {
@@ -15,7 +24,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.REMOVE_IMAGE:
+    case REMOVE_IMAGE:
       imagesUpdated = images.data.filter((image) => image._id !== payload);
       return {
         ...state,
@@ -25,7 +34,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.UPDATE_IMAGE:
+    case UPDATE_IMAGE:
       imagesUpdated = images.data.map((image) => {
         if (image._id === payload.imageId) {
           console.log(payload);
@@ -39,14 +48,13 @@ export default function ImagesReducer(state, { type, payload }) {
       });
       return {
         ...state,
-
         images: {
           ...images,
           data: imagesUpdated,
         },
       };
 
-    case Types.SEARCH_IMAGES:
+    case SEARCH_IMAGES:
       const searchText = normalizeString(payload.toLowerCase());
       const foundImages = images.data.filter((imgs) =>
         normalizeString(imgs.title.toLowerCase()).includes(searchText)
@@ -60,7 +68,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.SET_IMAGES:
+    case SET_IMAGES:
       return {
         ...state,
         images: {
@@ -69,7 +77,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.ADD_COMMENT_IMAGES:
+    case ADD_COMMENT_IMAGES:
       imagesUpdated = images.data.map((image) => {
         // search the post image to add the comment
         if (payload.imageId === image._id) {
@@ -87,7 +95,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.REMOVE_COMMENT_IMAGES:
+    case REMOVE_COMMENT_IMAGES:
       const { imageId, commentId } = payload;
       imagesUpdated = images.data.map((image) => {
         // search the post image to edit the comments
@@ -107,7 +115,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.EDIT_COMMENT_IMAGES:
+    case EDIT_COMMENT_IMAGES:
       imagesUpdated = images.data.map((image) => {
         // search the post image to remove the comment
         if (payload.imageId === image._id) {

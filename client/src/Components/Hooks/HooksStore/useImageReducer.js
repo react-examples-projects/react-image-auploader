@@ -18,6 +18,10 @@ import {
   editCommentImagesAction,
 } from "../../Store/Actions/ImagesActions";
 
+/**
+ * Manage the global state for the images
+ * @returns {Object} The object state for the images
+ */
 export default function useImageReducer() {
   const rootReducers = reducers(ImagesReducer, FavoriteImagesReducer);
   const [state, dispatch] = useReducer(rootReducers, InitialState);

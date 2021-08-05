@@ -1,4 +1,8 @@
-import Types from "../../Actions/Types/Images";
+import {
+  TOGGLE_FAVORITE_IMAGE,
+  SET_FAVORITE_IMAGES,
+  REMOVE_FAVORITE_IMAGE,
+} from "../../Actions/Types/FavoriteImages";
 
 export default function FavoriteImagesReducer(state, { type, payload }) {
   const { images } = state;
@@ -6,7 +10,7 @@ export default function FavoriteImagesReducer(state, { type, payload }) {
   let favoriteImagesUpdated;
 
   switch (type) {
-    case Types.SET_FAVORITE_IMAGES:
+    case SET_FAVORITE_IMAGES:
       return {
         ...state,
         images: {
@@ -15,7 +19,7 @@ export default function FavoriteImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.TOGGLE_FAVORITE_IMAGE:
+    case TOGGLE_FAVORITE_IMAGE:
       const isFavorite = favorites.some((img) => img._id === payload);
       const favoriteImage = images.data.find((img) => img._id === payload);
       favoriteImagesUpdated = favorites.filter((img) => img._id !== payload);
@@ -29,7 +33,7 @@ export default function FavoriteImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.REMOVE_FAVORITE_IMAGE:
+    case REMOVE_FAVORITE_IMAGE:
       favoriteImagesUpdated = favorites.filter((img) => img._id !== payload);
       return {
         ...state,
