@@ -81,7 +81,13 @@ class ImageController {
   async getFavoriteImages(idUser) {
     const user = await this.UserModel.findOne({
       _id: idUser,
-    }).populate("favoritesImages");
+    }).populate({
+      path: "favoritesImages",
+      populate: {
+        path: "user",
+        select: { _id: 1, name: 1 },
+      },
+    });
 
     return user?.favoritesImages;
   }

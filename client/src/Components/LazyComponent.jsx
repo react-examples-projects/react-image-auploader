@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Loader from "./Loaders/loader";
+import Loader from "./Elements/Loaders/loader";
 import PropTypes from "prop-types";
 
 export function LazyComponent({
