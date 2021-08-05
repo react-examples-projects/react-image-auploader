@@ -12,11 +12,6 @@ import {
 import {
   TOGGLE_FAVORITE_IMAGE,
   SET_FAVORITE_IMAGES,
-  REMOVE_FAVORITE_IMAGE,
-  UPDATE_FAVORITE_IMAGE,
-  ADD_COMMENT_FAVORITE_IMAGES,
-  EDIT_COMMENT_FAVORITE_IMAGES,
-  REMOVE_COMMENT_FAVORITE_IMAGES,
 } from "./Types/FavoriteImages";
 
 // FAVORITE IMAGES
@@ -32,41 +27,6 @@ export function setFavoriteImagesAction(payload) {
   return {
     payload,
     type: SET_FAVORITE_IMAGES,
-  };
-}
-
-export function removeFavoriteImagesAction(payload) {
-  return {
-    payload,
-    type: REMOVE_FAVORITE_IMAGE,
-  };
-}
-
-export function updateFavoriteImagesAction(payload) {
-  return {
-    payload,
-    type: UPDATE_FAVORITE_IMAGE,
-  };
-}
-
-export function addCommentFavoriteImagesAction(payload) {
-  return {
-    payload,
-    type: ADD_COMMENT_FAVORITE_IMAGES,
-  };
-}
-
-export function removeCommentFavoriteImagesAction(payload) {
-  return {
-    payload,
-    type: REMOVE_COMMENT_FAVORITE_IMAGES,
-  };
-}
-
-export function editCommentFavoriteImagesAction(payload) {
-  return {
-    payload,
-    type: EDIT_COMMENT_FAVORITE_IMAGES,
   };
 }
 

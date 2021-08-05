@@ -1,22 +1,17 @@
 import { useReducer, useCallback } from "react";
 import InitialState from "../../Store/Store";
-import ImagesReducer from "../../Store/Reducers/Images/ImagesReducer";
+import ImagesReducer from "../../Store/Reducers/ImagesReducer";
 import {
   setImagesAction,
   addImageAction,
   toggleFavoriteImageAction,
   setFavoriteImagesAction,
   removeImageAction,
-  removeFavoriteImagesAction,
   updateImageAction,
-  updateFavoriteImagesAction,
   addCommentImagesAction,
-  addCommentFavoriteImagesAction,
   removeCommentImagesAction,
-  removeCommentFavoriteImagesAction,
   searchImagesAction,
   editCommentImagesAction,
-  editCommentFavoriteImagesAction,
 } from "../../Store/Actions/ImagesActions";
 
 /**
@@ -36,7 +31,6 @@ export default function useImageReducer() {
 
   const updateImage = useCallback(({ imageId, title, tags }) => {
     dispatch(updateImageAction({ imageId, title, tags }));
-    dispatch(updateFavoriteImagesAction({ imageId, title, tags }));
   }, []);
 
   const addImage = useCallback((_image) => {
@@ -48,7 +42,6 @@ export default function useImageReducer() {
   }, []);
 
   const removeImage = useCallback((id) => {
-    dispatch(removeFavoriteImagesAction(id));
     dispatch(removeImageAction(id));
   }, []);
 
@@ -56,22 +49,19 @@ export default function useImageReducer() {
     dispatch(searchImagesAction(search));
   }, []);
 
-  const addComment = useCallback(({ content, image_id, user }) => {
-    const comment = { content, imageId: image_id, user };
-    dispatch(addCommentFavoriteImagesAction(comment));
+  const addComment = useCallback(({ _id, content, image_id, user }) => {
+    const comment = { _id, content, imageId: image_id, user };
     dispatch(addCommentImagesAction(comment));
   }, []);
 
   const removeComment = useCallback(({ imageId, commentId }) => {
     const image = { imageId, commentId };
     dispatch(removeCommentImagesAction(image));
-    dispatch(removeCommentFavoriteImagesAction(image));
   }, []);
 
   const editComment = useCallback(({ imageId, commentId, commentContent }) => {
     const comment = { imageId, commentId, commentContent };
     dispatch(editCommentImagesAction(comment));
-    dispatch(editCommentFavoriteImagesAction(comment));
   }, []);
 
   return {

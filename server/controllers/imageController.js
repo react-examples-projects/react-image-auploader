@@ -90,6 +90,7 @@ class ImageController {
         },
         {
           path: "comments",
+          select: { _id: 1, content: 1, user: 1 },
           populate: {
             path: "user",
             select: { _id: 1, name: 1, perfil_photo: 1 },
