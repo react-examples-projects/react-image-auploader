@@ -38,7 +38,7 @@ class UserController {
   }
 
   async deleteFavorite({ idImage, idUser }) {
-    const user = await this.UserModel.findById(idUser).lean();
+    const user = await this.UserModel.findById(idUser);
     if (user?.favoritesImages?.includes(idImage)) {
       await this.UserModel.findByIdAndUpdate(idUser, {
         $pull: {

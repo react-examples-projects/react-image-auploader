@@ -28,9 +28,27 @@ export default function UserProvider(props) {
     });
   }, []);
 
+  const removeFavoriteImageUser = useCallback((id) => {
+    setUserInfo((user) => {
+      const { favoritesImages } = user;
+      return {
+        ...user,
+        favoritesImages: favoritesImages.filter(
+          (favoriteImageId) => favoriteImageId !== id
+        ),
+      };
+    });
+  }, []);
+
   const value = useMemo(
-    () => ({ user, setUser, toggleFavoriteImageUser, logout }),
-    [user, setUser, toggleFavoriteImageUser, logout]
+    () => ({
+      user,
+      setUser,
+      toggleFavoriteImageUser,
+      removeFavoriteImageUser,
+      logout,
+    }),
+    [user, setUser, toggleFavoriteImageUser, removeFavoriteImageUser, logout]
   );
 
   return <UserContext.Provider value={value} {...props} />;

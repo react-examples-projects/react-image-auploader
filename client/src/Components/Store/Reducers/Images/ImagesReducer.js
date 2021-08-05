@@ -4,7 +4,7 @@ import Types from "../../Actions/Types/Images";
 export default function ImagesReducer(state, { type, payload }) {
   const { images } = state;
   const { favorites } = images;
-  let imagesUpdated;
+  let imagesUpdated, favoriteImagesUpdated;
 
   switch (type) {
     case Types.ADD_IMAGE:
@@ -19,9 +19,7 @@ export default function ImagesReducer(state, { type, payload }) {
     case Types.TOGGLE_FAVORITE_IMAGE:
       const isFavorite = favorites.some((img) => img._id === payload);
       const favoriteImage = images.data.find((img) => img._id === payload);
-      const favoriteImagesUpdated = favorites.filter(
-        (img) => img._id !== payload
-      );
+      favoriteImagesUpdated = favorites.filter((img) => img._id !== payload);
       return {
         ...state,
         images: {
@@ -29,6 +27,16 @@ export default function ImagesReducer(state, { type, payload }) {
           favorites: isFavorite
             ? favoriteImagesUpdated
             : [favoriteImage, ...favorites],
+        },
+      };
+
+    case Types.REMOVE_FAVORITE_IMAGE:
+      favoriteImagesUpdated = favorites.filter((img) => img._id !== payload);
+      return {
+        ...state,
+        images: {
+          ...images,
+          favorites: favoriteImagesUpdated,
         },
       };
 
@@ -63,7 +71,7 @@ export default function ImagesReducer(state, { type, payload }) {
         },
       };
 
-    case Types.SEARCH_IMAGES: {
+    case Types.SEARCH_IMAGES:
       const searchText = normalizeString(payload.toLowerCase());
       const foundImages = images.data.filter((imgs) =>
         normalizeString(imgs.title.toLowerCase()).includes(searchText)
@@ -76,7 +84,6 @@ export default function ImagesReducer(state, { type, payload }) {
           searchText,
         },
       };
-    }
 
     case Types.SET_IMAGES:
       return {

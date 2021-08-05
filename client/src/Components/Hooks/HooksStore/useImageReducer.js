@@ -8,6 +8,7 @@ import {
   toggleFavoriteImageAction,
   setFavoriteImagesAction,
   removeImageAction,
+  removeFavoriteImagesAction,
   updateImageAction,
   addCommentImagesAction,
   removeCommentImagesAction,
@@ -24,6 +25,10 @@ export default function useImageReducer() {
 
   const setFavoriteImages = useCallback((_images) => {
     dispatch(setFavoriteImagesAction(_images));
+  }, []);
+
+  const removeFavoriteImage = useCallback((id) => {
+    dispatch(removeFavoriteImagesAction(id));
   }, []);
 
   const addImage = useCallback((_image) => {
@@ -66,6 +71,7 @@ export default function useImageReducer() {
     addImage,
     toggleFavoriteImage,
     removeImage,
+    removeFavoriteImage,
     updateImage,
     searchImages,
     addComment,

@@ -19,7 +19,8 @@ import useImages from "../../Hooks/HooksStore/useImages";
 import TagsInput from "react-tagsinput";
 import useToggle from "../../Hooks/useToggle";
 import useCurrentUser from "../../Hooks/user/useCurrentUser";
- 
+import useFavoriteImage from "../../Hooks/HooksStore/useFavoriteImage";
+
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const { user } = useCurrentUser();
   const isFavoriteImage = user.favoritesImages.includes(_id);
@@ -27,6 +28,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [updateTags, setUpdateTags] = useState(tags);
   const [updateTitle, setUpdateTitle] = useState(title);
   const [isEditingMode, toggleEditingMode] = useToggle();
+  const { removeFavoriteImage } = useFavoriteImage();
 
   const { comments, addComment, createCommentImage, ...imagesProps } =
     useComments(commentsImage);
@@ -65,6 +67,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const _removeImage = async () => {
     await deleteImageMutation.mutateAsync(_id);
     removeImage(_id);
+    removeFavoriteImage(_id);
   };
 
   const _updateImage = async () => {
@@ -178,7 +181,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             {userPost.name}
           </Link>
         </small>
-       
+
         <div className="d-flex align-items-center">
           <BtnLoader
             variant="link"
