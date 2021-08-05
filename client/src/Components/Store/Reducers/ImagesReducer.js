@@ -45,6 +45,7 @@ export default function ImagesReducer(state, { type, payload }) {
       };
 
     case UPDATE_IMAGE:
+      console.log(payload)
       imagesUpdated = images.data.map((image) => {
         if (image._id === payload.imageId) {
           return {
@@ -109,7 +110,6 @@ export default function ImagesReducer(state, { type, payload }) {
         }
         return image;
       });
-      console.log(favoriteImagesUpdated);
       return {
         ...state,
         images: {
