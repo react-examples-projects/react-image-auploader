@@ -11,7 +11,7 @@ export default function ImagesProvider({ children }) {
   const { favoriteImages } = useFavoriteImages();
 
   const value = useMemo(
-    () => ({ setFavoriteImages, setImages, ...state, ...state.state }),
+    () => ({ setFavoriteImages, setImages, ...state }),
     [setFavoriteImages, setImages, state]
   );
 

@@ -1,9 +1,6 @@
 import { useReducer, useCallback } from "react";
 import InitialState from "../../Store/Store";
-// reducers
 import ImagesReducer from "../../Store/Reducers/Images/ImagesReducer";
-import FavoriteImagesReducer from "../../Store/Reducers/favoriteImages/FavoriteImagesReducer";
-import reducers from "../../Store/Reducers/reducers";
 import {
   setImagesAction,
   addImageAction,
@@ -27,8 +24,7 @@ import {
  * @returns {Object} The object state for the images
  */
 export default function useImageReducer() {
-  const rootReducers = reducers(ImagesReducer, FavoriteImagesReducer);
-  const [state, dispatch] = useReducer(rootReducers, InitialState);
+  const [state, dispatch] = useReducer(ImagesReducer, InitialState);
 
   const setImages = useCallback((_images) => {
     dispatch(setImagesAction(_images));
@@ -60,25 +56,26 @@ export default function useImageReducer() {
     dispatch(searchImagesAction(search));
   }, []);
 
-  const addComment = useCallback((comment) => {
+  const addComment = useCallback(({ content, image_id, user }) => {
+    const comment = { content, imageId: image_id, user };
     dispatch(addCommentFavoriteImagesAction(comment));
     dispatch(addCommentImagesAction(comment));
   }, []);
 
   const removeComment = useCallback(({ imageId, commentId }) => {
-    dispatch(removeCommentImagesAction({ imageId, commentId }));
-    dispatch(removeCommentFavoriteImagesAction({ imageId, commentId }));
+    const image = { imageId, commentId };
+    dispatch(removeCommentImagesAction(image));
+    dispatch(removeCommentFavoriteImagesAction(image));
   }, []);
 
   const editComment = useCallback(({ imageId, commentId, commentContent }) => {
-    dispatch(editCommentImagesAction({ imageId, commentId, commentContent }));
-    dispatch(
-      editCommentFavoriteImagesAction({ imageId, commentId, commentContent })
-    );
+    const comment = { imageId, commentId, commentContent };
+    dispatch(editCommentImagesAction(comment));
+    dispatch(editCommentFavoriteImagesAction(comment));
   }, []);
 
   return {
-    state,
+    ...state,
     setImages,
     setFavoriteImages,
     addImage,
