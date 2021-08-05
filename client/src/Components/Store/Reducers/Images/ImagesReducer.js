@@ -133,6 +133,10 @@ export default function ImagesReducer(state, { type, payload }) {
       });
       return {
         ...state,
+        images: {
+          ...images,
+          data: imagesUpdated,
+        },
       };
 
     default:

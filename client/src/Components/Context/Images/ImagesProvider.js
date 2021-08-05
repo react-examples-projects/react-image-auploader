@@ -6,53 +6,13 @@ import useFavoriteImages from "../../Hooks/images/useFavoriteImages";
 
 export default function ImagesProvider({ children }) {
   // it's necessary extract `setImages` to keep the state updated from backend
-  const {
-    state,
-    setImages,
-    setFavoriteImages,
-    addImage,
-    toggleFavoriteImage,
-    removeImage,
-    searchImages,
-    addComment,
-    removeComment,
-    removeFavoriteImage,
-    updateImage,
-    editComment,
-  } = useImageReducer();
-
+  const { setFavoriteImages, setImages, ...state } = useImageReducer();
   const { images, isLoading, isError } = useImages();
   const { favoriteImages } = useFavoriteImages();
 
   const value = useMemo(
-    () => ({
-      ...state,
-      setImages,
-      setFavoriteImages,
-      addImage,
-      toggleFavoriteImage,
-      searchImages,
-      removeImage,
-      updateImage,
-      addComment,
-      removeComment,
-      removeFavoriteImage,
-      editComment,
-    }),
-    [
-      state,
-      setImages,
-      setFavoriteImages,
-      addImage,
-      toggleFavoriteImage,
-      removeImage,
-      updateImage,
-      searchImages,
-      addComment,
-      removeComment,
-      removeFavoriteImage,
-      editComment,
-    ]
+    () => ({ setFavoriteImages, setImages, ...state, ...state.state }),
+    [setFavoriteImages, setImages, state]
   );
 
   useEffect(() => {

@@ -13,24 +13,13 @@ import {
   TOGGLE_FAVORITE_IMAGE,
   SET_FAVORITE_IMAGES,
   REMOVE_FAVORITE_IMAGE,
+  UPDATE_FAVORITE_IMAGE,
+  ADD_COMMENT_FAVORITE_IMAGES,
+  EDIT_COMMENT_FAVORITE_IMAGES,
+  REMOVE_COMMENT_FAVORITE_IMAGES,
 } from "./Types/FavoriteImages";
 
-/**
- * Return an action to add a new image post to the global context
- * @param {Object} payload The image information
- * @param {Number} payload._id The image id
- * @param {Array.<String>} payload.tags The image tags
- * @param {Array.<Object>} payload.comments The comments image
- * @param {String} payload.url_image The image url
- * @param {String} payload.name The author name
- * @param {String} payload.title The image title
- */
-export function addImageAction(payload) {
-  return {
-    payload,
-    type: ADD_IMAGE,
-  };
-}
+// FAVORITE IMAGES
 
 export function toggleFavoriteImageAction(payload) {
   return {
@@ -50,6 +39,53 @@ export function removeFavoriteImagesAction(payload) {
   return {
     payload,
     type: REMOVE_FAVORITE_IMAGE,
+  };
+}
+
+export function updateFavoriteImagesAction(payload) {
+  return {
+    payload,
+    type: UPDATE_FAVORITE_IMAGE,
+  };
+}
+
+export function addCommentFavoriteImagesAction(payload) {
+  return {
+    payload,
+    type: ADD_COMMENT_FAVORITE_IMAGES,
+  };
+}
+
+export function removeCommentFavoriteImagesAction(payload) {
+  return {
+    payload,
+    type: REMOVE_COMMENT_FAVORITE_IMAGES,
+  };
+}
+
+export function editCommentFavoriteImagesAction(payload) {
+  return {
+    payload,
+    type: EDIT_COMMENT_FAVORITE_IMAGES,
+  };
+}
+
+// IMAGES
+
+/**
+ * Return an action to add a new image post to the global context
+ * @param {Object} payload The image information
+ * @param {Number} payload._id The image id
+ * @param {Array.<String>} payload.tags The image tags
+ * @param {Array.<Object>} payload.comments The comments image
+ * @param {String} payload.url_image The image url
+ * @param {String} payload.name The author name
+ * @param {String} payload.title The image title
+ */
+export function addImageAction(payload) {
+  return {
+    payload,
+    type: ADD_IMAGE,
   };
 }
 

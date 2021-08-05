@@ -12,10 +12,14 @@ import {
   removeImageAction,
   removeFavoriteImagesAction,
   updateImageAction,
+  updateFavoriteImagesAction,
   addCommentImagesAction,
+  addCommentFavoriteImagesAction,
   removeCommentImagesAction,
+  removeCommentFavoriteImagesAction,
   searchImagesAction,
   editCommentImagesAction,
+  editCommentFavoriteImagesAction,
 } from "../../Store/Actions/ImagesActions";
 
 /**
@@ -34,8 +38,9 @@ export default function useImageReducer() {
     dispatch(setFavoriteImagesAction(_images));
   }, []);
 
-  const removeFavoriteImage = useCallback((id) => {
-    dispatch(removeFavoriteImagesAction(id));
+  const updateImage = useCallback(({ imageId, title, tags }) => {
+    dispatch(updateImageAction({ imageId, title, tags }));
+    dispatch(updateFavoriteImagesAction({ imageId, title, tags }));
   }, []);
 
   const addImage = useCallback((_image) => {
@@ -47,11 +52,8 @@ export default function useImageReducer() {
   }, []);
 
   const removeImage = useCallback((id) => {
+    dispatch(removeFavoriteImagesAction(id));
     dispatch(removeImageAction(id));
-  }, []);
-
-  const updateImage = useCallback(({ imageId, title, tags }) => {
-    dispatch(updateImageAction({ imageId, title, tags }));
   }, []);
 
   const searchImages = useCallback((search) => {
@@ -59,15 +61,20 @@ export default function useImageReducer() {
   }, []);
 
   const addComment = useCallback((comment) => {
+    dispatch(addCommentFavoriteImagesAction(comment));
     dispatch(addCommentImagesAction(comment));
   }, []);
 
   const removeComment = useCallback(({ imageId, commentId }) => {
     dispatch(removeCommentImagesAction({ imageId, commentId }));
+    dispatch(removeCommentFavoriteImagesAction({ imageId, commentId }));
   }, []);
 
   const editComment = useCallback(({ imageId, commentId, commentContent }) => {
     dispatch(editCommentImagesAction({ imageId, commentId, commentContent }));
+    dispatch(
+      editCommentFavoriteImagesAction({ imageId, commentId, commentContent })
+    );
   }, []);
 
   return {
@@ -77,7 +84,6 @@ export default function useImageReducer() {
     addImage,
     toggleFavoriteImage,
     removeImage,
-    removeFavoriteImage,
     updateImage,
     searchImages,
     addComment,
