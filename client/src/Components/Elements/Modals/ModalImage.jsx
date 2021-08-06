@@ -85,7 +85,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           onChange={(e) => setUpdateTitle(e.target.value)}
           size="lg"
           className="my-2"
-          style={{ maxWidth: "90%" }}
+          style={{ maxWidth: "98.5%" }}
           title={title}
           placeholder="Escribe el nuevo título..."
           aria-label="Escribe el nuevo título"
@@ -204,7 +204,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
               <Dropdown.Menu
                 className="border-0"
-                style={{ backgroundColor: "#0d0d0d" }}
+                style={{ backgroundColor: "#0e1018" }}
               >
                 <Dropdown.Item
                   as={BtnLoader}

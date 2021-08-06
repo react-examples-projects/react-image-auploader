@@ -1,4 +1,4 @@
-import css from "../../Pages/Style.module.scss";
+import css from "../../../Style/Modal.module.scss";
 import ErrorText from "../ErrorText";
 import useUploadImage from "../../Hooks/images/useUploadImage";
 import useImages from "../../Hooks/HooksStore/useImages";

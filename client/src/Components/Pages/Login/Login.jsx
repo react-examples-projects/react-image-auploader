@@ -3,7 +3,7 @@ import bg_login from "../../../Images/bg_login2.jpg";
 import { setToken } from "../../../Helpers/token";
 import ErrorText from "../../Elements/ErrorText";
 import BtnLoader from "../../Elements/BtnLoader";
-import css from "../Style.module.scss";
+import css from "../../../Style/Modal.module.scss";
 import useTitle from "../../Hooks/useTitle";
 import useAuth from "../../Hooks/useAuth";
 import useCurrentUser from "../../Hooks/user/useCurrentUser";

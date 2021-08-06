@@ -64,7 +64,7 @@ function ImagePost({ _id, url_image, name, comments, title, ...args }) {
   );
 
   return (
-    <Modal {...{ children, renderModal }} className={css.modalWrapperUpload} />
+    <Modal {...{ children, renderModal }} className={css.modalImagePost} />
   );
 }
 
