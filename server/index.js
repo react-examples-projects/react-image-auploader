@@ -20,7 +20,6 @@ app.use(fileUpload());
 // Security middlewares
 app.use(helmet());
 app.use(hpp());
-app.use(cors({ origin: SERVER.API.ALLOWED_DOMAINS }));
+app.use(cors());
 app.use(rateLimit(SERVER.API.RATE_LIMITS));
-app.use("/api", routers);
-startServer(app);
+startServer(app, routers);
