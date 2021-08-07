@@ -29,7 +29,7 @@ export default function NotFound() {
         dignissimos!
       </p>
 
-      <Link to={user.id ? "/home" : "/"} >
+      <Link to={user._id ? "/home" : "/"} >
         <Button size="lg">Regresar al {user._id ? "inicio" : "login"}</Button>
       </Link>
     </div>

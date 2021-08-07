@@ -171,7 +171,9 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
         <small className="d-block text-muted">
           Publicado por
           <Link
-            to={`/perfil/${userPost._id}`}
+            to={
+              userPost._id === user._id ? "/perfil" : `/perfil/${userPost._id}`
+            }
             className="ml-1 text-reset font-weight-bold"
             title="Autor de la publicación"
           >

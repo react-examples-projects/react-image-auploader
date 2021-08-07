@@ -4,6 +4,8 @@ const store = {
     foundSearches: [],
     favorites: [],
     searchText: "",
+    isError: false,
+    isLoading: true,
   },
 };
 

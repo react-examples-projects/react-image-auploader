@@ -184,7 +184,15 @@ div.pro-sidebar {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.795);
-  z-index: 99999;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 4s ease;
+  
+
+  &.modal-container-open {
+    transition-delay: 100s;
+    opacity: 1;
+  }
 
   .modal-wrapper {
     display: flex;
@@ -196,6 +204,7 @@ div.pro-sidebar {
     margin: 5rem 1rem;
     max-height: 90%;
     position: relative;
+
     > img {
       max-width: 100%;
       max-height: 85vh;
@@ -269,6 +278,7 @@ div.pro-sidebar {
     font-size: 14px;
   }
 }
+
 .dropdown-image-modal-toggle::after {
   display: none;
 }
@@ -278,11 +288,18 @@ div.pro-sidebar {
   cursor: pointer;
 }
 
+.react-loading-skeleton {
+  width: calc(25% - 6px * 2) !important;
+  margin: 6px;
+  display: block;
+}
+
 .massory {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 5rem;
   margin: 0 auto;
+  animation: fade 0.5s ease;
 
   .img {
     cursor: pointer;
@@ -299,7 +316,7 @@ div.pro-sidebar {
       width: 100%;
       height: 100%;
       display: flex;
-      
+
       z-index: 1;
       background-color: rgba(255, 255, 255, 0.363);
     }
@@ -359,33 +376,6 @@ div.pro-sidebar {
       border-radius: $img-radius;
     }
   }
-}
-
-.trending {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.trending-title,
-.favorites-title {
-  padding: 0.5rem;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.favorites-title {
-  background: #000428;
-  background: -webkit-linear-gradient(to right, #004e92, #000428);
-  background: linear-gradient(to right, #004e92, #000428);
-}
-
-.trending-title {
-  background: #7f00ff;
-  background: -webkit-linear-gradient(to right, #e100ff, #7f00ff);
-  background: linear-gradient(to right, #e100ff, #7f00ff);
 }
 
 .image-loader {
@@ -501,9 +491,23 @@ div.pro-sidebar {
   }
 }
 
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 @media screen and (max-width: 992px) {
   .massory .img {
     flex: 0 1 calc(50% - 6px * 2);
+  }
+
+  .react-loading-skeleton {
+    width: calc(50% - 6px * 2) !important;
   }
 }
 
@@ -514,6 +518,10 @@ div.pro-sidebar {
     .img-figure {
       height: auto;
     }
+  }
+
+  .react-loading-skeleton {
+    width: calc(100% - 6px * 2) !important;
   }
 }
 
