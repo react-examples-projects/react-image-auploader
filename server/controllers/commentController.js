@@ -1,53 +1,50 @@
+const CommentService = require("../services/commentService");
+const { success } = require("../helpers/httpResponses");
+
 class CommentController {
-  constructor() {
-    this.CommentModel = require("../models/Comment");
-    this.ImageModel = require("../models/Image");
+  async getComments(req, res, next) {
+    try {
+      const data = await CommentService.getComments();
+      success(res, data);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async getComments() {
-    const data = await this.CommentModel.find({}).lean();
-    return data;
+  async insetComment(req, res, next) {
+    try {
+      const { image_id, content } = req.body;
+      const data = await CommentService.insertComment({
+        image_id,
+        content,
+        name: req.user.name,
+        user: req.user._id,
+      });
+      success(res, data, 201);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async insertComment(payload) {
-    const data = this.CommentModel(payload);
-    const saved = await data.save();
-    const p1 = saved
-      .populate({
-        path: "user",
-        select: {
-          name: 1,
-          isAdmin: 1,
-          _id: 1,
-          perfil_photo: 1,
-        },
-      })
-      .execPopulate();
-
-    const p2 = this.ImageModel.findByIdAndUpdate(payload.image_id, {
-      $push: { comments: data._id },
-    });
-    const [savePopulated] = await Promise.all([p1, p2]);
-    return savePopulated;
+  async deleteComment(req, res, next) {
+    try {
+      const id = req.params.id;
+      const data = await CommentService.deleteComment(id, req.user._id);
+      success(res, data);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async deleteComment(id, idUser) {
-    const data = await this.CommentModel.deleteOne({ _id: id, user: idUser });
-    return data;
-  }
-
-  async editComment(_id, content, idUser) {
-    const data = await this.CommentModel.updateOne(
-      { _id, user: idUser },
-      { content },
-      { new: true }
-    );
-    return data;
-  }
-
-  async deleteAllCommentsByPost(image_id) {
-    const data = await this.CommentModel.deleteMany({ image_id });
-    return data;
+  async updateComment(req, res, next) {
+    try {
+      const id = req.params.id;
+      const content = req.body.content;
+      const data = await CommentService.editComment(id, content, req.user._id);
+      success(res, data);
+    } catch (err) {
+      next(err);
+    }
   }
 }
 

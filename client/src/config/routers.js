@@ -36,6 +36,7 @@ const routers = [
     component: Async(LandingPage),
     path: "/",
     exact: true,
+    redirect: true,
   },
   {
     component: Async(NotFound),

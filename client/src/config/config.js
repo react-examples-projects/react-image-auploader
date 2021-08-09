@@ -1,4 +1,5 @@
-export const host = "https://majuro-api.vercel.app/";
+//export const host = "https://majuro-api.vercel.app/";
+export const host = "http://localhost:5000/";
 export const api = host + "api/";
 export const image = "/images";
 export const favoriteImage = `${image}/favorite`;
