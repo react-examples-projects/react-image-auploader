@@ -14,3 +14,5 @@ export const comments = "/comment";
 export const updateImage = (id) => `${image}/${id}`;
 export const deleteComment = (id) => `${comments}/${id}`;
 export const editComment = (id) => `${comments}/${id}`;
+
+export const recaptchKey = "6Le_BFAUAAAAAIuL8CTLqHOsLC8bto8XS-l3MuTf";

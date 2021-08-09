@@ -23,6 +23,24 @@ const loginSchemaValidation = yup.object({
   }),
 });
 
+const signupSchemaValidation = yup.object({
+  body: yup.object({
+    name: yup
+      .string()
+      .min(4, "Mínimo 6 carácteres para el nombre")
+      .max(20, "Máximo 20 carácteres para el nombre")
+      .required("El nombre es obligatorio"),
+    email: yup
+      .string()
+      .email("El correo debe ser válido, ejemplo: example@domain.es")
+      .required("El correo es obligatorio"),
+    password: yup
+      .string()
+      .min(6, "Mínimo 6 carácteres para la contraseña")
+      .required("La contraseña es obligatoria"),
+  }),
+});
+
 const perfilPhotoSchemaValidation = yup.object({
   files: yup.object({
     perfil_photo: yup
@@ -93,6 +111,7 @@ const addCommentValidation = yup.object({
 
 module.exports = {
   loginSchemaValidation,
+  signupSchemaValidation,
   perfilPhotoSchemaValidation,
   passwordChangeValidation,
   uploadImageValidation,

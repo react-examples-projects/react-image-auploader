@@ -1,5 +1,6 @@
 const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const { SECRET_TOKEN } = require("../config/variables").SERVER.API;
 const message = {
   success(str) {
@@ -23,4 +24,26 @@ function getTokenInfo(token) {
   }));
 }
 
-module.exports = { message, getTokenInfo };
+function hashPassword(password) {
+  const salt = bcrypt.genSaltSync(SALT_BCRYPT);
+  const hash = bcrypt.hashSync(password, salt);
+  return hash;
+}
+
+function isInvalidPassword(hashedPassword, password) {
+  const result = bcrypt.compareSync(hashedPassword, password);
+  return !result;
+}
+
+function getTokenFromPayload(payload) {
+  const token = jwt.sign({ ...payload }, SECRET_TOKEN, { expiresIn: "1d" });
+  return token;
+}
+
+module.exports = {
+  message,
+  getTokenInfo,
+  hashPassword,
+  isInvalidPassword,
+  getTokenFromPayload,
+};

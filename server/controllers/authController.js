@@ -1,18 +1,43 @@
-const jwt = require("jsonwebtoken");
-const { SECRET_TOKEN } = require("../config/variables").SERVER.API;
 const UserService = require("../services/userService");
-const { unauthorized, success } = require("../helpers/httpResponses");
-
+const { unauthorized, success, error } = require("../helpers/httpResponses");
+const {
+  hashPassword,
+  getTokenFromPayload,
+  isInvalidPassword,
+} = require("../helpers/utils");
 class AuthController {
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
-      const user = await UserService.existsUser({ email, password });
+      const user = await UserService.existsUser(email);
       if (user) {
-        const token = jwt.sign({ ...user }, SECRET_TOKEN, { expiresIn: "12h" });
+        if (isInvalidPassword(password, user.password))
+          return unauthorized(res, "Clave incorrecta");
+
+        delete user.password;
+        const token = getTokenFromPayload(user);
         return success(res, { user, token });
       }
       unauthorized(res, "Usuario o clave incorrecta");
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async signup(req, res, next) {
+    try {
+      const { email, password, name } = req.body;
+      const user = await UserService.isEmailInUse(email);
+      if (user) return error(res, "El correo ya está en uso");
+
+      const passwordHashed = hashPassword(password);
+      const userCreated = await UserService.createUser({
+        name,
+        email,
+        password: passwordHashed,
+      });
+
+      success(res, userCreated, 201);
     } catch (err) {
       next(err);
     }
