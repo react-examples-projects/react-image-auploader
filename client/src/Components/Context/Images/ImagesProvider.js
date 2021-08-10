@@ -16,11 +16,15 @@ export default function ImagesProvider({ children }) {
   );
 
   useEffect(() => {
-    setImages({ data: images, isLoading, isError });
+    if (images?.length) {
+      setImages({ data: images, isLoading, isError });
+    }
   }, [images, isLoading, isError, setImages]);
 
   useEffect(() => {
-    if (favoriteImages.length) setFavoriteImages(favoriteImages);
+    if (favoriteImages?.length) {
+      setFavoriteImages(favoriteImages);
+    }
   }, [favoriteImages, setFavoriteImages]);
 
   return <ImagesContext.Provider {...{ value, children }} />;

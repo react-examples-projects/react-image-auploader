@@ -1,16 +1,17 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { removeToken } from "../../../Helpers/token";
 import UserContext from "./UserContext";
 
-export default function UserProvider(props) {
+export default function UserProvider({ children }) {
   const [user, setUserInfo] = useState(null);
   const setUser = useCallback(
     (data) => setUserInfo((u) => ({ ...u, ...data })),
     []
   );
+
   const logout = useCallback(() => {
-    setUserInfo(null);
     removeToken();
+    setUserInfo(null);
   }, []);
 
   const toggleFavoriteImageUser = useCallback((id) => {
@@ -40,16 +41,13 @@ export default function UserProvider(props) {
     });
   }, []);
 
-  const value = useMemo(
-    () => ({
-      user,
-      setUser,
-      toggleFavoriteImageUser,
-      removeFavoriteImageUser,
-      logout,
-    }),
-    [user, setUser, toggleFavoriteImageUser, removeFavoriteImageUser, logout]
-  );
+  const value = {
+    user,
+    setUser,
+    toggleFavoriteImageUser,
+    removeFavoriteImageUser,
+    logout,
+  };
 
-  return <UserContext.Provider value={value} {...props} />;
+  return <UserContext.Provider value={value} children={children} />;
 }

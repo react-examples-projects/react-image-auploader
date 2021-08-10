@@ -10,7 +10,9 @@ export default function useUserInfo() {
   });
   const { user, setUser, logout } = useCurrentUser();
   useEffect(() => {
-    if (!isError && data && !user) {
+    // It check if there isn't errors, if the token exists, if the user data isn't
+    // an empty object and not to override the current user object data
+    if (!isError && existsToken() && data && !user) {
       setUser(data);
     } else if (isError) {
       logout();

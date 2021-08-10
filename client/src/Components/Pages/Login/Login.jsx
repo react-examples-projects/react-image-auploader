@@ -46,7 +46,7 @@ export default function Login() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     if (!isValidCaptcha) return;
-    
+
     const form = e.target;
     if (!form.checkValidity()) return setValidated(true);
     setValidated(false);
@@ -55,7 +55,7 @@ export default function Login() {
     if (res.ok) {
       setToken(res.data.token);
       setUser(res.data.user);
-      setTimeout(() => push("/home"), 250);
+      push("/home");
     }
   }
 
