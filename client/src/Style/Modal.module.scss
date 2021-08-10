@@ -22,6 +22,7 @@
   max-width: 400px;
   border-radius: 8px;
   padding: 3.8rem 2.8rem;
+  animation: fade 0.3s ease-in;
 
   .lead {
     font-size: 90%;
@@ -37,4 +38,14 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

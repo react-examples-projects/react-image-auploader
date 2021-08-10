@@ -16,7 +16,7 @@ export default function ImagesProvider({ children }) {
   );
 
   useEffect(() => {
-    if (images.length) setImages({ data: images, isLoading, isError });
+    setImages({ data: images, isLoading, isError });
   }, [images, isLoading, isError, setImages]);
 
   useEffect(() => {

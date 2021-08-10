@@ -13,6 +13,7 @@ const SERVER = {
   PORT: process.env.API_PORT || 6000,
   DEV: process.env.DEV || false,
   API: {
+    SALT_BCRYPT: 6,
     SECRET_TOKEN: process.env.SECRET_TOKEN,
     API_UPLOAD_IMAGES: process.env.API_UPLOAD_IMAGES,
     API_UPLOAD_IMAGES_KEY: process.env.API_UPLOAD_IMAGES_KEY,

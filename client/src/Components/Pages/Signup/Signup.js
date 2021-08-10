@@ -4,15 +4,16 @@ import ErrorText from "../../Elements/ErrorText";
 import BtnLoader from "../../Elements/BtnLoader";
 import css from "../../../Style/Modal.module.scss";
 import useTitle from "../../Hooks/useTitle";
-import useAuth from "../../Hooks/useAuth";
+import useSignup from "../../Hooks/auth/useSignup";
+import useCaptcha from "../../Hooks/useCaptcha";
 import { getErrorValidation } from "../../../Helpers/utils";
+import Catpcha from "../../Elements/Catpcha";
+import { signupUser } from "../../../Helpers/api";
 
 import { useState, useRef } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import cs from "classnames";
-import Catpcha from "../../Elements/Catpcha";
-import useCaptcha from "../../Hooks/useCaptcha";
 
 const cssBody = {
   background: `linear-gradient(140deg, #00000003, #0000009e), url('${bg_signup}')`,
@@ -24,7 +25,7 @@ const cssBody = {
 };
 
 export default function Signup() {
-  useTitle("Iniciar sesión");
+  useTitle("Registrate");
   useBody(cssBody);
   const captchaRef = useRef(null);
   const [validated, setValidated] = useState(false);
@@ -36,9 +37,9 @@ export default function Signup() {
     passwordConfirm: "",
     name: "",
   });
-  const login = useAuth();
+  const signup = useSignup();
   const { push } = useHistory();
-  const loginError = getErrorValidation(login);
+  const loginError = getErrorValidation(signup);
 
   function handleOnChange({ target }) {
     const { name, value } = target;
@@ -52,7 +53,7 @@ export default function Signup() {
     if (!form.checkValidity() || !isValidCaptcha) return setValidated(true);
     setValidated(false);
 
-    const res = await login.mutateAsync(auth);
+    const res = await signupUser(auth);
     if (res.ok) {
       push("/login");
     }
@@ -122,7 +123,7 @@ export default function Signup() {
             minLength={6}
             maxLength={20}
             onChange={handleOnChange}
-            value={auth.password}
+            value={auth.passwordConfirm}
             required
           />
         </Form.Group>
@@ -135,11 +136,11 @@ export default function Signup() {
           />
         </div>
 
-        <ErrorText isVisible={login.isError} text={loginError} />
+        <ErrorText isVisible={signup.isError} text={loginError} />
 
         <BtnLoader
           text="Registrarme"
-          isLoading={login.isLoading}
+          isLoading={signup.isLoading}
           disabled={!isValidCaptcha}
           block
         />

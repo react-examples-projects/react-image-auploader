@@ -12,7 +12,7 @@ class AuthController {
       const user = await UserService.existsUser(email);
       if (user) {
         if (isInvalidPassword(password, user.password))
-          return unauthorized(res, "Clave incorrecta");
+          return unauthorized(res, "Usuario o clave incorrecta");
 
         delete user.password;
         const token = getTokenFromPayload(user);
@@ -27,7 +27,7 @@ class AuthController {
   async signup(req, res, next) {
     try {
       const { email, password, name } = req.body;
-      const user = await UserService.isEmailInUse(email);
+      const user = await UserService.existsUser(email);
       if (user) return error(res, "El correo ya está en uso");
 
       const passwordHashed = hashPassword(password);

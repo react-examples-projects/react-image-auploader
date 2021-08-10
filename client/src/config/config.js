@@ -4,6 +4,7 @@ export const api = host + "api/";
 export const image = "/images";
 export const favoriteImage = `${image}/favorite`;
 export const login = "/auth/login";
+export const signup = "/auth/signup";
 export const upload = "/images/upload";
 export const token = "/auth/verify-token";
 export const userInfo = "/user/user";

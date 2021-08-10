@@ -14,11 +14,8 @@ class UserController {
     });
   }
 
-  async existsUser({ email, password }) {
-    const user = await this.UserModel.findOne(
-      { email, password },
-      { password: 0 }
-    ).lean();
+  async existsUser(email) {
+    const user = await this.UserModel.findOne({ email }).lean();
     return user;
   }
 

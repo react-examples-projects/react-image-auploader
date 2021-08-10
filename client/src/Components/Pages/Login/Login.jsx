@@ -5,11 +5,13 @@ import ErrorText from "../../Elements/ErrorText";
 import BtnLoader from "../../Elements/BtnLoader";
 import css from "../../../Style/Modal.module.scss";
 import useTitle from "../../Hooks/useTitle";
-import useAuth from "../../Hooks/useAuth";
+import useLogin from "../../Hooks/auth/useLogin";
 import useCurrentUser from "../../Hooks/user/useCurrentUser";
+import useCaptcha from "../../Hooks/useCaptcha";
+import Catpcha from "../../Elements/Catpcha";
 import { getErrorValidation } from "../../../Helpers/utils";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import cs from "classnames";
@@ -26,10 +28,13 @@ const cssBody = {
 export default function Login() {
   useTitle("Iniciar sesión");
   useBody(cssBody);
+  const captchaRef = useRef(null);
   const [validated, setValidated] = useState(false);
   const { setUser } = useCurrentUser();
   const [auth, setAuth] = useState({ email: "", password: "" });
-  const login = useAuth();
+  const { isValidCaptcha, handleChangeCaptcha, handleExpireCaptcha } =
+    useCaptcha(captchaRef);
+  const login = useLogin();
   const { push } = useHistory();
   const loginError = getErrorValidation(login);
 
@@ -40,6 +45,8 @@ export default function Login() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
+    if (!isValidCaptcha) return;
+    
     const form = e.target;
     if (!form.checkValidity()) return setValidated(true);
     setValidated(false);
@@ -48,7 +55,7 @@ export default function Login() {
     if (res.ok) {
       setToken(res.data.token);
       setUser(res.data.user);
-      setTimeout(() => push("/home"), 150);
+      setTimeout(() => push("/home"), 250);
     }
   }
 
@@ -92,8 +99,22 @@ export default function Login() {
             required
           />
         </Form.Group>
+
+        <div className="d-flex mt-1 mb-2">
+          <Catpcha
+            ref={captchaRef}
+            onChange={handleChangeCaptcha}
+            onExpired={handleExpireCaptcha}
+          />
+        </div>
+
         <ErrorText isVisible={login.isError} text={loginError} />
-        <BtnLoader text="Iniciar" isLoading={login.isLoading} block />
+        <BtnLoader
+          text="Iniciar"
+          isLoading={login.isLoading}
+          disabled={!isValidCaptcha}
+          block
+        />
         <small className={cs(css.lead, "text-center")}>
           Si no tienes cuenta, puedes crearla <Link to="/signup">aca</Link>.
         </small>
