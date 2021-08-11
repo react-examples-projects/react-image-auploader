@@ -9,6 +9,7 @@ import { BiDotsVerticalRounded, BiHeart } from "react-icons/bi";
 import { FcLike } from "react-icons/fc";
 
 import { Form, Badge, Dropdown, Button, FormControl } from "react-bootstrap";
+import EmojiPicker from "emoji-picker-react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -27,6 +28,8 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const [updateTags, setUpdateTags] = useState(tags);
   const [updateTitle, setUpdateTitle] = useState(title);
   const [isEditingMode, toggleEditingMode] = useToggle();
+  const [isEmojiMode, toggleEmojiMode] = useToggle();
+  const [commentText, setCommentText] = useState("");
 
   const { comments, addComment, createCommentImage, ...imagesProps } =
     useComments(commentsImage);
@@ -51,7 +54,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     });
     const comment = await createCommentImage.mutateAsync(fd);
     addComment(comment, _id);
-    e.target.reset();
+    setCommentText("");
   };
 
   const removeComment = (commentId) => {
@@ -75,6 +78,14 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     });
     updateImage({ imageId: _id, title: updateTitle, tags: updateTags });
     toggleEditingMode();
+  };
+
+  const onChangeComment = ({ target }) => {
+    setCommentText(target.value);
+  };
+
+  const addEmojiToDescription = (event, emojiObject) => {
+    setCommentText((comment) => comment + emojiObject.emoji);
   };
 
   return (
@@ -247,12 +258,36 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           <Form.Control
             as="textarea"
             name="content"
+            onChange={onChangeComment}
+            value={commentText}
             rows="4"
             size="sm"
             placeholder="¡Di lo que opinas!"
             disabled={createCommentImage.isLoading}
             required
           />
+
+          {isEmojiMode && (
+            <EmojiPicker
+              onEmojiClick={addEmojiToDescription}
+              pickerStyle={{
+                width: "100%",
+                marginTop: "1rem",
+                backgroundColor: "#0e1018",
+                boxShadow: "none",
+                border: "none",
+              }}
+            />
+          )}
+
+          <Button
+            variant="link"
+            size="sm"
+            className="mt-1"
+            onClick={toggleEmojiMode}
+          >
+            {isEmojiMode ? "Ocultar emojis" : "Agregar emojis"}
+          </Button>
         </Form.Group>
 
         <ErrorText
