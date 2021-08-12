@@ -1,3 +1,4 @@
+const { hashPassword } = require("../helpers/utils");
 class UserController {
   constructor() {
     this.UserModel = require("../models/User");
@@ -42,7 +43,7 @@ class UserController {
   async changePassword({ id, password }) {
     const userUpdated = await this.UserModel.findByIdAndUpdate(
       id,
-      { password },
+      { password: hashPassword(password) },
       this.optionsUpdate
     ).lean();
     delete userUpdated.password;
