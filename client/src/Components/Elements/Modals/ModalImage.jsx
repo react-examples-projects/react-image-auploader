@@ -55,7 +55,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
     validateComment(e.target).then(
       async () => {
-        setValidated(false);
+        setValidated(true);
         const fd = toFormData(e.target, { image_id: _id });
         const comment = await createCommentImage.mutateAsync(fd);
         addComment(comment, _id);

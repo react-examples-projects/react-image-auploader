@@ -41,7 +41,7 @@ export default function Signup() {
   const signup = useSignup();
   const { push } = useHistory();
   const signupError = getErrorValidation(signup);
-
+  
   function handleOnChange({ target }) {
     const { name, value } = target;
     setAuth((a) => ({ ...a, [name]: value }));

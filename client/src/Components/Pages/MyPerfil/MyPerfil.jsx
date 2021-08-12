@@ -62,16 +62,15 @@ function MyPerfil() {
   const changePassword = async (e) => {
     e.preventDefault();
     setErrorForm(null);
-    const form = e.target;
-    try {
-      await validateChangePassword(form);
-      setValidated(true);
-      const payload = new FormData(e.target);
-      await changePasswordMutation.mutateAsync(payload);
-      togglePasswordChange();
-    } catch (err) {
-      setErrorForm(err.message);
-    }
+    validateChangePassword(e.target).then(
+      async () => {
+        setValidated(true);
+        const payload = new FormData(e.target);
+        await changePasswordMutation.mutateAsync(payload);
+        togglePasswordChange();
+      },
+      (err) => setErrorForm(err.message)
+    );
   };
 
   return (

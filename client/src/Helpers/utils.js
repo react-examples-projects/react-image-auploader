@@ -52,12 +52,15 @@ export function getErrorValidation(
   mutationRequest,
   defaultError = "Ocurrió un error, verifica tus datos."
 ) {
-  const error =
-    mutationRequest?.error?.response?.data?.data?.[0] ||
-    mutationRequest?.error?.response?.data?.message ||
+  const objError = mutationRequest?.error?.response?.data;
+  if (typeof objError?.data === "string") return objError?.data;
+
+  return (
+    objError?.data?.[0] ||
+    objError?.message ||
     mutationRequest?.data?.message ||
-    defaultError;
-  return error;
+    defaultError
+  );
 }
 
 /**
