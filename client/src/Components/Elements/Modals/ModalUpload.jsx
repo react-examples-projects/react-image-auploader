@@ -92,7 +92,7 @@ function Upload({ toggleOpen }) {
         <Form.Group controlId="images">
           <Form.File
             ref={inputFiles}
-            accept="image/*"
+            accept="image/png, image/jpg, image/jpeg, image/webp"
             name="images"
             onChange={handleOnChangeFile}
             disabled={isLoading}

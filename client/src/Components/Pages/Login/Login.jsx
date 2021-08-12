@@ -30,7 +30,7 @@ export default function Login() {
   useTitle("Iniciar sesión");
   useBody(cssBody);
   const captchaRef = useRef(null);
-  const [validated, setValidated] = useState(true);
+  const [validated, setValidated] = useState(false);
   const [errorForm, setErrorForm] = useState(null);
   const { setUser } = useCurrentUser();
   const [auth, setAuth] = useState({ email: "", password: "" });
@@ -55,10 +55,10 @@ export default function Login() {
       e.preventDefault();
       e.stopPropagation();
       validateLogin(form).catch((err) => setErrorForm(err.message));
-      return setValidated(false);
+      return;
     }
-    setValidated(true);
 
+    setValidated(true);
     const res = await login.mutateAsync(auth);
     if (res.ok) {
       setToken(res.data.token);

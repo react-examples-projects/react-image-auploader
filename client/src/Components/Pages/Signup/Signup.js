@@ -30,7 +30,7 @@ export default function Signup() {
   useBody(cssBody);
   const captchaRef = useRef(null);
   const [errorForm, setErrorForm] = useState(null);
-  const [validated, setValidated] = useState(true);
+  const [validated, setValidated] = useState(false);
   const { isValidCaptcha, handleChangeCaptcha, handleExpireCaptcha } =
     useCaptcha(captchaRef);
   const [auth, setAuth] = useState({
@@ -51,22 +51,18 @@ export default function Signup() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     setErrorForm(null);
+    if (!isValidCaptcha) return;
 
     const form = e.target;
-    if (!form.checkValidity() || !isValidCaptcha) {
-      e.preventDefault();
-      e.stopPropagation();
-      validateSignup(form).catch((err) => {
-        console.error(err);
-        setErrorForm(err.message);
-      });
-      return setValidated(true);
-    }
-    setValidated(false);
-
-    const res = await signupUser(auth);
-    if (res.ok) {
-      push("/login");
+    try {
+      await validateSignup(form);
+      setValidated(true);
+      const res = await signupUser(auth);
+      if (res.ok) {
+        push("/login");
+      }
+    } catch (err) {
+      setErrorForm(err.message);
     }
   }
 

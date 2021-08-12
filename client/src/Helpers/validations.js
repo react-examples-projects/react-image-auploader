@@ -1,5 +1,11 @@
 import * as yup from "yup";
 
+function validatePassword(form) {
+  if (form.password.value !== form.passwordConfirm.value) {
+    throw new Error("Las contraseñas no coinciden");
+  }
+}
+
 export async function validateLogin(form) {
   let loginSchema = yup.object({
     email: yup
@@ -10,6 +16,7 @@ export async function validateLogin(form) {
     password: yup
       .string()
       .min(6, "Mínimo 6 carácteres para la contraseña")
+      .max(20, "Máximo 20 carácteres para la contraseña")
       .required("El campo contraseña es obligatorio"),
   });
 
@@ -20,9 +27,8 @@ export async function validateLogin(form) {
 }
 
 export async function validateSignup(form) {
-  if (form.password.value !== form.passwordConfirm.value) {
-    throw new Error("Las contraseñas no coinciden");
-  }
+  validatePassword(form);
+
   let signupSchema = yup.object({
     name: yup
       .string()
@@ -36,12 +42,29 @@ export async function validateSignup(form) {
     password: yup
       .string()
       .min(6, "Mínimo 6 carácteres para la contraseña")
+      .max(20, "Máximo 20 carácteres para la contraseña")
       .required("El campo contraseña es obligatorio"),
   });
 
   return await signupSchema.validate({
     name: form.name.value,
     email: form.email.value,
+    password: form.password.value,
+  });
+}
+
+export async function validateChangePassword(form) {
+  validatePassword(form);
+
+  let passwordChangeSchema = yup.object({
+    password: yup
+      .string()
+      .min(6, "Mínimo 6 carácteres para la contraseña")
+      .max(20, "Máximo 20 carácteres para la contraseña")
+      .required("El campo contraseña es obligatorio"),
+  });
+
+  return await passwordChangeSchema.validate({
     password: form.password.value,
   });
 }
