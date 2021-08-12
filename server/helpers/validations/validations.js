@@ -38,6 +38,13 @@ const signupSchemaValidation = yup.object({
       .string()
       .min(6, "Mínimo 6 carácteres para la contraseña")
       .required("La contraseña es obligatoria"),
+    passwordConfirm: passwordScheme.test(
+      "passwordChangeValidation",
+      "Las contraseñas no coinciden",
+      function (value) {
+        return this.parent.password === value;
+      }
+    ),
   }),
 });
 
@@ -78,7 +85,7 @@ const uploadImageValidation = yup.object({
       .object({
         data: yup.string().required(),
       })
-      .required("Las imagenes debe ser obligatoria"),
+      .required("Las imagenes deben ser obligatoria"),
   }),
 });
 
@@ -105,7 +112,10 @@ const favoriteImageValidation = yup.object({
 
 const addCommentValidation = yup.object({
   body: yup.object({
-    content: yup.string(),
+    content: yup
+      .string()
+      .max(500, "Máximo 500 carácteres para los comentarios")
+      .required("El campo comentario es obligatorio"),
   }),
 });
 

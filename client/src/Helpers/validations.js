@@ -7,7 +7,7 @@ function validatePassword(form) {
 }
 
 export async function validateLogin(form) {
-  let loginSchema = yup.object({
+  const loginSchema = yup.object({
     email: yup
       .string()
       .email("El campo debe ser un correo válido")
@@ -29,10 +29,11 @@ export async function validateLogin(form) {
 export async function validateSignup(form) {
   validatePassword(form);
 
-  let signupSchema = yup.object({
+  const signupSchema = yup.object({
     name: yup
       .string()
       .min(4, "Mínimo 4 carácteres para el nombre")
+      .max(20, "Máximo 20 carácteres para el nombre")
       .required("El campo contraseña es obligatorio"),
     email: yup
       .string()
@@ -56,7 +57,7 @@ export async function validateSignup(form) {
 export async function validateChangePassword(form) {
   validatePassword(form);
 
-  let passwordChangeSchema = yup.object({
+  const passwordChangeSchema = yup.object({
     password: yup
       .string()
       .min(6, "Mínimo 6 carácteres para la contraseña")
@@ -66,5 +67,18 @@ export async function validateChangePassword(form) {
 
   return await passwordChangeSchema.validate({
     password: form.password.value,
+  });
+}
+
+export async function validateComment(form) {
+  const commentSchema = yup.object({
+    content: yup
+      .string()
+      .max(500, "Máximo 500 carácteres para el comentario")
+      .required("El campo comentario es obligatorio"),
+  });
+
+  return await commentSchema.validate({
+    content: form.content.value,
   });
 }

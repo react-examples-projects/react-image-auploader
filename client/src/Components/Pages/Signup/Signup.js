@@ -8,7 +8,6 @@ import useSignup from "../../Hooks/auth/useSignup";
 import useCaptcha from "../../Hooks/useCaptcha";
 import { getErrorValidation } from "../../../Helpers/utils";
 import Catpcha from "../../Elements/Catpcha";
-import { signupUser } from "../../../Helpers/api";
 import { validateSignup } from "../../../Helpers/validations";
 
 import { useState, useRef } from "react";
@@ -41,7 +40,7 @@ export default function Signup() {
   });
   const signup = useSignup();
   const { push } = useHistory();
-  const loginError = getErrorValidation(signup);
+  const signupError = getErrorValidation(signup);
 
   function handleOnChange({ target }) {
     const { name, value } = target;
@@ -53,17 +52,14 @@ export default function Signup() {
     setErrorForm(null);
     if (!isValidCaptcha) return;
 
-    const form = e.target;
-    try {
-      await validateSignup(form);
-      setValidated(true);
-      const res = await signupUser(auth);
-      if (res.ok) {
-        push("/login");
-      }
-    } catch (err) {
-      setErrorForm(err.message);
-    }
+    validateSignup(e.target).then(
+      async () => {
+        setValidated(true);
+        const res = await signup.mutateAsync(auth);
+        if (res.ok) push("/login");
+      },
+      (err) => setErrorForm(err.message)
+    );
   }
 
   return (
@@ -83,6 +79,8 @@ export default function Signup() {
           <Form.Control
             type="text"
             name="name"
+            maxLength={20}
+            minLength={4} 
             placeholder="Nombre de usuario"
             title="Debes de colocar tu nombre de usuario"
             arial-label="Debes de colocar tu nombre de usuario"
@@ -143,8 +141,10 @@ export default function Signup() {
           />
         </div>
 
-        <ErrorText isVisible={!!errorForm} text={errorForm} />
-        <ErrorText isVisible={signup.isError} text={loginError} />
+        <ErrorText
+          isVisible={!!errorForm || signup.isError}
+          text={errorForm || signupError}
+        />
 
         <BtnLoader
           text="Registrarme"

@@ -8,7 +8,11 @@ const {
 const commentController = require("../../controllers/commentController");
 
 router.get("/", commentController.getComments);
-router.post("/", commentController.insetComment);
+router.post(
+  "/",
+  validate(addCommentValidation),
+  commentController.insetComment
+);
 
 router.delete(
   "/:id",

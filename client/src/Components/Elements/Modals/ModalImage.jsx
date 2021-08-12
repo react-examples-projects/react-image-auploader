@@ -13,6 +13,8 @@ import EmojiPicker from "emoji-picker-react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { validateComment } from "../../../Helpers/validations";
+import { getErrorValidation } from "../../../Helpers/utils";
 import useToggleFavoritesImages from "../../Hooks/images/useToggleFavoritesImages";
 import useImageDelete from "../../Hooks/images/useImageDelete";
 import useUpdateImage from "../../Hooks/images/useUpdateImage";
@@ -24,6 +26,7 @@ import useCurrentUser from "../../Hooks/user/useCurrentUser";
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const { user } = useCurrentUser();
   const isFavoriteImage = user.favoritesImages.includes(_id);
+  const [errorForm, setErrorForm] = useState(null);
   const [validated, setValidated] = useState(false);
   const [updateTags, setUpdateTags] = useState(tags);
   const [updateTitle, setUpdateTitle] = useState(title);
@@ -35,6 +38,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     useComments(commentsImage);
   const deleteImageMutation = useImageDelete();
   const updateImageMutation = useUpdateImage();
+  const commentError = getErrorValidation(createCommentImage);
   const toggleFavoritesImagesMutation = useToggleFavoritesImages(_id);
   const { removeImage, updateImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
@@ -47,14 +51,18 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!e.target.checkValidity()) return setValidated(true);
-    setValidated(false);
-    const fd = toFormData(e.target, {
-      image_id: _id,
-    });
-    const comment = await createCommentImage.mutateAsync(fd);
-    addComment(comment, _id);
-    setCommentText("");
+    setErrorForm(null);
+
+    validateComment(e.target).then(
+      async () => {
+        setValidated(false);
+        const fd = toFormData(e.target, { image_id: _id });
+        const comment = await createCommentImage.mutateAsync(fd);
+        addComment(comment, _id);
+        setCommentText("");
+      },
+      (err) => setErrorForm(err.message)
+    );
   };
 
   const removeComment = (commentId) => {
@@ -264,8 +272,13 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
             size="sm"
             placeholder="¡Di lo que opinas!"
             disabled={createCommentImage.isLoading}
+            maxLength={500}
             required
           />
+
+          <small className="d-block text-muted mt-1 text-right">
+            Máximo {500 - commentText.length} carácteres
+          </small>
 
           {isEmojiMode && (
             <EmojiPicker
@@ -291,8 +304,8 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
         </Form.Group>
 
         <ErrorText
-          text="Ocurrió un error al comentar"
-          isVisible={createCommentImage.isError}
+          isVisible={!!errorForm || createCommentImage.isError}
+          text={errorForm || commentError}
         />
         <BtnLoader
           text="Comentar"

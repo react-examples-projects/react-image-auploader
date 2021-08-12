@@ -23,7 +23,7 @@ export default function ImagesProvider({ children }) {
 
   useEffect(() => {
     setImages({ isLoading, isError });
-  }, [isLoading, isError]);
+  }, [isLoading, isError, setImages]);
 
   useEffect(() => {
     if (favoriteImages?.length) {

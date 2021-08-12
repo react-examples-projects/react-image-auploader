@@ -49,22 +49,19 @@ export default function Login() {
     e.preventDefault();
     setErrorForm(null);
     if (!isValidCaptcha) return;
-
-    const form = e.target;
-    if (!form.checkValidity()) {
-      e.preventDefault();
-      e.stopPropagation();
-      validateLogin(form).catch((err) => setErrorForm(err.message));
-      return;
-    }
-
-    setValidated(true);
-    const res = await login.mutateAsync(auth);
-    if (res.ok) {
-      setToken(res.data.token);
-      setUser(res.data.user);
-      push("/home");
-    }
+    
+    validateLogin(e.target).then(
+      async () => {
+        setValidated(true);
+        const res = await login.mutateAsync(auth);
+        if (res.ok) {
+          setToken(res.data.token);
+          setUser(res.data.user);
+          push("/home");
+        }
+      },
+      (err) => setErrorForm(err.message)
+    );
   }
 
   return (
@@ -116,8 +113,10 @@ export default function Login() {
           />
         </div>
 
-        <ErrorText isVisible={!!errorForm} text={errorForm} />
-        <ErrorText isVisible={login.isError} text={loginError} />
+        <ErrorText
+          isVisible={!!errorForm || login.isError}
+          text={errorForm || loginError}
+        />
         <BtnLoader
           text="Iniciar"
           isLoading={login.isLoading}
