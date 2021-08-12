@@ -1,13 +1,22 @@
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import Loader from "./Elements/Loaders/loader";
 import { existsToken } from "../Helpers/token";
+import useUserInfo from "./Hooks/user/useUserInfo";
 
 function RedirectRoute({ component: Component, ...rest }) {
+  const { data, isLoading } = useUserInfo();
+  if (isLoading) return <Loader />;
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        existsToken() ? <Redirect to="/home" /> : <Component {...props} />
+        existsToken() && data ? (
+          <Redirect to="/home" />
+        ) : (
+          <Component {...props} />
+        )
       }
     />
   );

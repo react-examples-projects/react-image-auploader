@@ -47,6 +47,7 @@ const routers = [
   },
   {
     component: Async(NotFound),
+    public: true,
   },
 ];
 

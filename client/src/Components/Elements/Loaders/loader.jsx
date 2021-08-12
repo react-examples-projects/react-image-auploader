@@ -1,9 +1,9 @@
-import BeatLoader from "react-spinners/BeatLoader";
+import MoonLoader from "react-spinners/MoonLoader";
 
 function Loader() {
   return (
     <div className="loader-page">
-      <BeatLoader color="#fff" loading={true} size={20} />
+      <MoonLoader color="#fff" loading={true} size={40} />
     </div>
   );
 }

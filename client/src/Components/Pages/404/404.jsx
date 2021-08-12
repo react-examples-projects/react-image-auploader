@@ -21,16 +21,16 @@ export default function NotFound() {
   return (
     <div className={css.container}>
       <h1 className="title mb-3" style={{ fontSize: "4rem" }}>
-        Not Found
+        No encontrado
       </h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore fuga in
-        ex tempora commodi tenetur praesentium debitis pariatur recusandae
-        dignissimos!
+        La página que estás intentando acceder no se encuentra o sea ha borrado.
+        Puede ser un problema de nosotros, si es así, intenta comunicarte con
+        nosotros a través de nuestro soporte.
       </p>
 
-      <Link to={user._id ? "/home" : "/"} >
-        <Button size="lg">Regresar al {user._id ? "inicio" : "login"}</Button>
+      <Link to={user?._id ? "/home" : "/"}>
+        <Button>Regresar al {user?._id ? "inicio" : "login"}</Button>
       </Link>
     </div>
   );
