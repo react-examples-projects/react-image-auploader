@@ -1,7 +1,10 @@
-.modalWrapperUpload {
+.modalImagePost {
   width: 100%;
   min-width: 650px;
   max-width: 650px;
+  background: #161822;
+  border-radius: 8px;
+  padding: 2rem 2.8rem 3.8rem 2.8rem !important;
 
   @media screen and (max-width: 780px) {
     min-width: auto;
@@ -10,5 +13,39 @@
   > img {
     width: auto;
     display: block;
+  }
+}
+
+.container {
+  background: #161822;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  padding: 3.8rem 2.8rem;
+  animation: fade 0.3s ease-in;
+
+  .lead {
+    font-size: 90%;
+    color: rgb(189, 189, 189);
+    display: block;
+    margin: 1rem 0;
+  }
+}
+
+.containerCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }

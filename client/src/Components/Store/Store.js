@@ -2,12 +2,11 @@ const store = {
   images: {
     data: [],
     foundSearches: [],
+    favorites: [],
     searchText: "",
-    isLoading: false,
     isError: false,
+    isLoading: true,
   },
-  imagesWithMoreLikes: [],
-  trendingImages: [],
 };
 
 export default store;

@@ -4,6 +4,7 @@ import {
   favoriteImage,
   upload,
   login,
+  signup,
   token,
   userInfo,
   perfilPhoto,
@@ -37,12 +38,22 @@ export async function getImages() {
 
 /**
  * Login a user from backend
- * @param {Object} auth The authentication credentials to loggin
+ * @param {Object} auth The authentication credentials for loggin
  * @returns {Object} The logged user information
  */
 export async function setLogin(auth) {
   const res = await instance.post(login, auth);
   return res?.data;
+}
+
+/**
+ * Register an user
+ * @param {Object} payload The user credentials for register
+ * @returns {Object} The user information
+ */
+export async function signupUser(payload) {
+  const data = await instance.post(signup, payload);
+  return data?.data;
 }
 
 /**
@@ -67,6 +78,15 @@ export async function uploadImage(payload) {
  */
 export async function updateImage(id, payload) {
   const res = await instance.put(_updateImage(id), payload, config());
+  return res?.data?.data;
+}
+
+/**
+ * Get all favorite images
+ * @returns {Object} The favorite images list
+ */
+export async function getFavoriteImages() {
+  const res = await instance.get(favoriteImage, config());
   return res?.data?.data;
 }
 

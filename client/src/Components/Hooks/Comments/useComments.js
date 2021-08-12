@@ -26,7 +26,6 @@ export default function useComments(commentsImage) {
   const removeComment = async (imageId, commentId) => {
     //delete from api
     await deleteCommentApi(commentId);
-
     setComments((c) => c.filter((comment) => comment._id !== commentId));
     // Remove in the comment in the global context
     images.removeComment({ imageId, commentId });
@@ -35,7 +34,6 @@ export default function useComments(commentsImage) {
   const editComment = async ({ imageId, commentId, commentContent }) => {
     // edit from api
     await editCommentApi(commentId, commentContent);
-
     setComments((c) =>
       c.map((comment) => {
         if (comment._id === commentId) {

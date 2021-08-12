@@ -1,25 +1,22 @@
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import useTitle from "../../Hooks/useTitle";
 import Loader from "react-loader-spinner";
 import css from "./MyPerfil.module.scss";
 import { setPerfilPhoto } from "../../../Helpers/api";
 import { useMutation } from "react-query";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { Button, Form, Col } from "react-bootstrap";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import ImageList from "../../Elements/ImageList/ImageList";
-import useImages from "../../Hooks/useImages";
+import useImages from "../../Hooks/images/useImages";
 import useToggle from "../../Hooks/useToggle";
 import useChangePassword from "../../Hooks/useChangePassword";
 import BtnLoader from "../../Elements/BtnLoader";
 import ErrorText from "../../Elements/ErrorText";
-import {
-  getErrorValidation,
-  isNotValidFileType,
-  isFileTooLarge,
-} from "../../../Helpers/utils";
+import { validateChangePassword } from "../../../Helpers/validations";
+import { getErrorValidation, isValidFile } from "../../../Helpers/utils";
 
 function MyPerfil() {
   const buttonFile = useRef(null);
@@ -28,6 +25,8 @@ function MyPerfil() {
   const myImages = images?.filter((img) => img?.user?._id === user._id);
   const src = useLazyloadImage({ src: user.perfil_photo });
   const [isPasswordChange, togglePasswordChange] = useToggle();
+  const [errorForm, setErrorForm] = useState(null);
+  const [validated, setValidated] = useState(false);
   const { isLoading, mutateAsync, ...changeImageMutation } = useMutation(
     (payload) => setPerfilPhoto(payload)
   );
@@ -43,17 +42,16 @@ function MyPerfil() {
   useTitle("Perfil de " + user.name);
 
   const onChangePerfilPhoto = async ({ target }) => {
-    const formData = new FormData();
-    const profileImage = target.files[0];
-
-    if (isFileTooLarge(profileImage.size)) {
-      alert("La imágen es muy pesada, debe ser menor a 3Mb");
-    } else if (isNotValidFileType(profileImage.type)) {
-      alert("El archivo no es una imágen");
-    } else {
-      formData.append("perfil_photo", profileImage);
-      const data = await mutateAsync(formData);
-      setUser({ perfil_photo: data.url });
+    if (target.files.length) {
+      const formData = new FormData();
+      try {
+        const profileImage = await isValidFile(target.files);
+        formData.append("perfil_photo", profileImage[0]);
+        const data = await mutateAsync(formData);
+        setUser({ perfil_photo: data.url });
+      } catch (err) {
+        target.value = null;
+      }
     }
   };
 
@@ -61,10 +59,18 @@ function MyPerfil() {
     buttonFile.current && buttonFile.current.click();
   };
 
-  const changePassword = (e) => {
+  const changePassword = async (e) => {
     e.preventDefault();
-    const payload = new FormData(e.target);
-    changePasswordMutation.mutateAsync(payload);
+    setErrorForm(null);
+    validateChangePassword(e.target).then(
+      async () => {
+        setValidated(true);
+        const payload = new FormData(e.target);
+        await changePasswordMutation.mutateAsync(payload);
+        togglePasswordChange();
+      },
+      (err) => setErrorForm(err.message)
+    );
   };
 
   return (
@@ -124,7 +130,12 @@ function MyPerfil() {
           )}
           <div className="mt-4">
             {isPasswordChange && (
-              <Form autoComplete="off" onSubmit={changePassword}>
+              <Form
+                autoComplete="off"
+                validated={validated}
+                onSubmit={changePassword}
+                noValidate
+              >
                 <Form.Row>
                   <Col>
                     <Form.Group controlId="password">
@@ -134,6 +145,8 @@ function MyPerfil() {
                         type="password"
                         aria-label="Cambia tu contraseña"
                         size="sm"
+                        minLength={6}
+                        maxLength={20}
                         required
                       />
                     </Form.Group>
@@ -146,6 +159,8 @@ function MyPerfil() {
                         type="password"
                         aria-label="Confirma la contraseña"
                         size="sm"
+                        minLength={6}
+                        maxLength={20}
                         required
                       />
                     </Form.Group>
@@ -161,6 +176,7 @@ function MyPerfil() {
                   block
                 />
 
+                <ErrorText isVisible={!!errorForm} text={errorForm} />
                 <ErrorText
                   text={passwordChangeError}
                   className="mb-3"

@@ -1,85 +1,96 @@
+const ImageService = require("../services/imageService");
+const UserModel = require("../models/User");
+const { success } = require("../helpers/httpResponses");
 class ImageController {
-  constructor() {
-    this.ImageModel = require("../models/Image");
-    this.CommentController = require("../controllers/commentController");
-    this.uploadImages = require("../helpers/requests").uploadImages;
+  async getImages(req, res, next) {
+    try {
+      const data = await ImageService.getImages();
+      success(res, data);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  async getImages() {
-    const images = await this.ImageModel.find({})
-      .populate([
-        {
-          path: "comments",
-          // a inside populate for Comment.user
-          populate: {
-            path: "user",
-            select: {
-              name: 1,
-              isAdmin: 1,
-              _id: 1,
-              perfil_photo: 1,
+  async getFavoriteImages(req, res, next) {
+    try {
+      const favoriteImages = await ImageService.getFavoriteImages(req.user._id);
+      success(res, favoriteImages);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async uploadImage(req, res, next) {
+    try {
+      const { title } = req.body;
+      const data = await ImageService.insertImage({
+        url_base64: req.files.images.data,
+        name: req.user.name,
+        title,
+        tags: req.body["tags[]"],
+        user: req.user._id,
+      });
+      success(res, data, 201);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteImage(req, res, next) {
+    try {
+      const id = req.params.id;
+      const data = await ImageService.deleteImage(id, req.user._id);
+      success(res, {
+        ...data,
+        id,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateImage(req, res, next) {
+    try {
+      const id = req.params.id;
+      let { title, tags } = req.body;
+      if (title.trim().length < 1) title = "Sin título";
+      const data = await ImageService.updateImage({ id, title, tags });
+      success(res, {
+        ...data,
+        title,
+        tags,
+        id,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async toggleFavoriteImage(req, res, next) {
+    try {
+      const imageId = req.body.imageId;
+      const userId = req.user._id;
+      const user = await UserModel.findById(userId).lean();
+      const isFavoriteImage = user.favoritesImages
+        .map((id) => id.toString())
+        .includes(imageId);
+      const dynamicQuery = isFavoriteImage
+        ? {
+            $pull: {
+              favoritesImages: imageId,
             },
-          },
-        },
-        {
-          path: "user",
-          select: {
-            _id: 1,
-            name: 1,
-            perfil_photo: 1,
-          },
-        },
-      ])
-      .lean();
-    return images;
+          }
+        : {
+            $push: {
+              favoritesImages: imageId,
+            },
+          };
+      const data = await UserModel.findByIdAndUpdate(userId, dynamicQuery);
+      res.json(data);
+    } catch (err) {
+      next(err);
+    }
   }
-
-  async insertImage({ url_base64, name, title, tags, user }) {
-    const data = await this.uploadImages(url_base64);
-    const newImage = this.ImageModel({
-      url_image: data.url,
-      name,
-      title,
-      tags,
-      user,
-    });
-    const img = await newImage.save();
-    const imgPopulated = img
-      .populate({
-        path: "user",
-        select: {
-          _id: 1,
-          name: 1,
-          perfil_photo: 1,
-        },
-      })
-      .execPopulate();
-    return imgPopulated;
-  }
-
-  async deleteImage(id, idUser) {
-    const commentsDelete = await this.CommentController.deleteAllCommentsByPost(
-      id
-    );
-    const imageDeleted = await this.ImageModel.deleteOne({
-      _id: id,
-      user: idUser,
-    });
-    return {
-      ...imageDeleted,
-      commentsDelete,
-    };
-  }
-
-  async updateImage({ id, ...content }) {
-    const imageUpdated = await this.ImageModel.findByIdAndUpdate(
-      id,
-      content
-    ).lean();
-    return imageUpdated;
-  }
-
-  
 }
 
 module.exports = new ImageController();

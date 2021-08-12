@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import css from "../../../Style/Modal.module.scss";
 import { memo } from "react";
 import useLazyloadImage from "../../Hooks/useLazyloadImage";
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 function ImagePost({ _id, url_image, name, comments, title, ...args }) {
   const src = useLazyloadImage({ src: url_image });
   const { favoritesImages = [] } = useCurrentUser().user;
@@ -64,7 +64,7 @@ function ImagePost({ _id, url_image, name, comments, title, ...args }) {
   );
 
   return (
-    <Modal {...{ children, renderModal }} className={css.modalWrapperUpload} />
+    <Modal {...{ children, renderModal }} className={css.modalImagePost} />
   );
 }
 

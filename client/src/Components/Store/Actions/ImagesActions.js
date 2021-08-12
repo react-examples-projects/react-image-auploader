@@ -1,4 +1,36 @@
-import Types from "./Types/Images";
+import {
+  ADD_IMAGE,
+  REMOVE_IMAGE,
+  UPDATE_IMAGE,
+  SEARCH_IMAGES,
+  SET_IMAGES,
+  ADD_COMMENT_IMAGES,
+  REMOVE_COMMENT_IMAGES,
+  EDIT_COMMENT_IMAGES,
+} from "./Types/Images";
+
+import {
+  TOGGLE_FAVORITE_IMAGE,
+  SET_FAVORITE_IMAGES,
+} from "./Types/FavoriteImages";
+
+// FAVORITE IMAGES
+
+export function toggleFavoriteImageAction(payload) {
+  return {
+    payload,
+    type: TOGGLE_FAVORITE_IMAGE,
+  };
+}
+
+export function setFavoriteImagesAction(payload) {
+  return {
+    payload,
+    type: SET_FAVORITE_IMAGES,
+  };
+}
+
+// IMAGES
 
 /**
  * Return an action to add a new image post to the global context
@@ -13,7 +45,7 @@ import Types from "./Types/Images";
 export function addImageAction(payload) {
   return {
     payload,
-    type: Types.ADD_IMAGE,
+    type: ADD_IMAGE,
   };
 }
 
@@ -24,7 +56,7 @@ export function addImageAction(payload) {
 export function removeImageAction(payload) {
   return {
     payload,
-    type: Types.REMOVE_IMAGE,
+    type: REMOVE_IMAGE,
   };
 }
 
@@ -38,7 +70,7 @@ export function removeImageAction(payload) {
 export function updateImageAction(payload) {
   return {
     payload,
-    type: Types.UPDATE_IMAGE,
+    type: UPDATE_IMAGE,
   };
 }
 
@@ -49,7 +81,7 @@ export function updateImageAction(payload) {
 export function searchImagesAction(payload) {
   return {
     payload,
-    type: Types.SEARCH_IMAGES,
+    type: SEARCH_IMAGES,
   };
 }
 
@@ -60,7 +92,7 @@ export function searchImagesAction(payload) {
 export function setImagesAction(payload) {
   return {
     payload,
-    type: Types.SET_IMAGES,
+    type: SET_IMAGES,
   };
 }
 
@@ -75,7 +107,7 @@ export function setImagesAction(payload) {
 export function addCommentImagesAction(payload) {
   return {
     payload,
-    type: Types.ADD_COMMENT_IMAGES,
+    type: ADD_COMMENT_IMAGES,
   };
 }
 
@@ -88,7 +120,7 @@ export function addCommentImagesAction(payload) {
 export function removeCommentImagesAction(payload) {
   return {
     payload,
-    type: Types.REMOVE_COMMENT_IMAGES,
+    type: REMOVE_COMMENT_IMAGES,
   };
 }
 
@@ -102,6 +134,6 @@ export function removeCommentImagesAction(payload) {
 export function editCommentImagesAction(payload) {
   return {
     payload,
-    type: Types.EDIT_COMMENT_IMAGES,
+    type: EDIT_COMMENT_IMAGES,
   };
 }

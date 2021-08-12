@@ -2,6 +2,7 @@ import { lazy } from "react";
 import Async from "../Components/LazyComponent";
 
 const Login = lazy(() => import("../Components/Pages/Login/Login"));
+const Signup = lazy(() => import("../Components/Pages/Signup/Signup"));
 const App = lazy(() => import("../Components/Pages/App/App"));
 const FavoritesImages = lazy(() =>
   import("../Components/Pages/FavoritesImages/FavoritesImages")
@@ -33,12 +34,20 @@ const routers = [
     redirect: true,
   },
   {
+    component: Async(Signup),
+    path: "/signup",
+    exact: true,
+    redirect: true,
+  },
+  {
     component: Async(LandingPage),
     path: "/",
     exact: true,
+    redirect: true,
   },
   {
     component: Async(NotFound),
+    public: true,
   },
 ];
 

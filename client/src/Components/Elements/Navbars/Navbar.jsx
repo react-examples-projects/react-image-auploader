@@ -1,5 +1,5 @@
 import ModalUpload from "../Modals/ModalUpload";
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import useImagesGlobal from "../../Hooks/HooksStore/useImages";
 import Modal from "../Modals/Modal";
 

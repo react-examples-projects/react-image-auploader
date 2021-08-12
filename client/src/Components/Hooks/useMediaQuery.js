@@ -7,6 +7,7 @@ export default function useMediaQuery(query) {
       const match = window.matchMedia(`(${query})`);
       setMobile(match.matches);
     }
+    
     checkMedia();
     window.addEventListener("resize", checkMedia);
     

@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { uploadImage } from "../../Helpers/api";
+import { uploadImage } from "../../../Helpers/api";
 
 /**
  * Upload an image of the backend

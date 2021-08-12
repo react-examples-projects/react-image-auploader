@@ -1,52 +1,35 @@
 import { useEffect, useMemo } from "react";
 import ImagesContext from "./ImagesContext";
 import useImageReducer from "../../Hooks/HooksStore/useImageReducer";
-import useImages from "../../Hooks/useImages";
+import useImages from "../../Hooks/images/useImages";
+import useFavoriteImages from "../../Hooks/images/useFavoriteImages";
 
 export default function ImagesProvider({ children }) {
   // it's necessary extract `setImages` to keep the state updated from backend
-  const {
-    state,
-    setImages,
-    addImage,
-    removeImage,
-    searchImages,
-    addComment,
-    removeComment,
-    updateImage,
-    editComment,
-  } = useImageReducer();
-
+  const { setFavoriteImages, setImages, ...state } = useImageReducer();
   const { images, isLoading, isError } = useImages();
+  const { favoriteImages } = useFavoriteImages();
 
   const value = useMemo(
-    () => ({
-      ...state,
-      setImages,
-      addImage,
-      searchImages,
-      removeImage,
-      updateImage,
-      addComment,
-      removeComment,
-      editComment,
-    }),
-    [
-      state,
-      setImages,
-      addImage,
-      removeImage,
-      updateImage,
-      searchImages,
-      addComment,
-      removeComment,
-      editComment,
-    ]
+    () => ({ setFavoriteImages, setImages, ...state }),
+    [setFavoriteImages, setImages, state]
   );
 
   useEffect(() => {
-    if (images.length) setImages({ data: images, isLoading, isError });
-  }, [images, isLoading, isError, setImages]);
+    if (images?.length) {
+      setImages({ data: images });
+    }
+  }, [images, setImages]);
+
+  useEffect(() => {
+    setImages({ isLoading, isError });
+  }, [isLoading, isError, setImages]);
+
+  useEffect(() => {
+    if (favoriteImages?.length) {
+      setFavoriteImages(favoriteImages);
+    }
+  }, [favoriteImages, setFavoriteImages]);
 
   return <ImagesContext.Provider {...{ value, children }} />;
 }

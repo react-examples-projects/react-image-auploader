@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { uploadImages } = require("../../helpers/requests");
-const { getTokenInfo } = require("../../helpers/utils");
-const UserController = require("../../controllers/userController");
-const { success, error } = require("../../helpers/httpResponses");
+const userController = require("../../controllers/userController");
 const validate = require("../../helpers/validations/validate");
 const {
   perfilPhotoSchemaValidation,
@@ -13,47 +10,15 @@ const {
 router.post(
   "/perfil-photo",
   validate(perfilPhotoSchemaValidation),
-  async (req, res, next) => {
-    try {
-      const perfil_photo = req.files.perfil_photo.data;
-      const data = await uploadImages(perfil_photo);
-      await UserController.setPerfilPhoto({
-        id: req.user._id,
-        perfil_photo: data.url,
-      });
-      success(res, data);
-    } catch (err) {
-      next(err);
-    }
-  }
+  userController.perfilPhoto
 );
 
 router.patch(
   "/password",
   validate(passwordChangeValidation),
-  async (req, res, next) => {
-    try {
-      const { password, passwordConfirm } = req.body;
-      const id = req.user._id;
-      if (password !== passwordConfirm) {
-        return error(res, "Las contraseñas no coinciden", 400);
-      }
-      const userUpdated = await UserController.changePassword({ id, password });
-      success(res, userUpdated);
-    } catch (err) {
-      next(err);
-    }
-  }
+  userController.password
 );
 
-router.get("/user", async (req, res, next) => {
-  try {
-    const user = getTokenInfo(req.token).payload;
-    const userFromDb = await UserController.getUserById(user._id);
-    success(res, userFromDb);
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/user", userController.getInfo);
 
 module.exports = router;

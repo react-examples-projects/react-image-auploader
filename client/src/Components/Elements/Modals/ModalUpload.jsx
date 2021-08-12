@@ -1,9 +1,9 @@
-import css from "../../Pages/Style.module.scss";
+import css from "../../../Style/Modal.module.scss";
 import ErrorText from "../ErrorText";
-import useUploadImage from "../../Hooks/useUploadImage";
+import useUploadImage from "../../Hooks/images/useUploadImage";
 import useImages from "../../Hooks/HooksStore/useImages";
 import BtnLoader from "../BtnLoader";
-import { imageToBase64, toFormData } from "../../../Helpers/utils";
+import { imageToBase64, toFormData, isValidFile } from "../../../Helpers/utils";
 
 import PropTypes from "prop-types";
 import Form from "react-bootstrap/Form";
@@ -33,8 +33,14 @@ function Upload({ toggleOpen }) {
 
   async function handleOnChangeFile(e) {
     if (e.target.files.length) {
-      const imageUrl = await imageToBase64(e.target.files[0]);
-      return setImagePreview(imageUrl);
+      try {
+        const images = await isValidFile(e.target.files);
+        const imageUrl = await imageToBase64(images[0]);
+        return setImagePreview(imageUrl);
+      } catch (err) {
+        e.target.value = null;
+        setImagePreview(null);
+      }
     }
     setImagePreview(null);
   }
@@ -86,7 +92,7 @@ function Upload({ toggleOpen }) {
         <Form.Group controlId="images">
           <Form.File
             ref={inputFiles}
-            accept="image/*"
+            accept="image/png, image/jpg, image/jpeg, image/webp"
             name="images"
             onChange={handleOnChangeFile}
             disabled={isLoading}

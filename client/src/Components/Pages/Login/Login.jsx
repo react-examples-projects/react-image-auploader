@@ -3,13 +3,16 @@ import bg_login from "../../../Images/bg_login2.jpg";
 import { setToken } from "../../../Helpers/token";
 import ErrorText from "../../Elements/ErrorText";
 import BtnLoader from "../../Elements/BtnLoader";
-import css from "../Style.module.scss";
+import css from "../../../Style/Modal.module.scss";
 import useTitle from "../../Hooks/useTitle";
-import useAuth from "../../Hooks/useAuth";
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useLogin from "../../Hooks/auth/useLogin";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
+import useCaptcha from "../../Hooks/useCaptcha";
+import Catpcha from "../../Elements/Catpcha";
 import { getErrorValidation } from "../../../Helpers/utils";
+import { validateLogin } from "../../../Helpers/validations";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import cs from "classnames";
@@ -26,10 +29,14 @@ const cssBody = {
 export default function Login() {
   useTitle("Iniciar sesión");
   useBody(cssBody);
+  const captchaRef = useRef(null);
   const [validated, setValidated] = useState(false);
+  const [errorForm, setErrorForm] = useState(null);
   const { setUser } = useCurrentUser();
   const [auth, setAuth] = useState({ email: "", password: "" });
-  const login = useAuth();
+  const { isValidCaptcha, handleChangeCaptcha, handleExpireCaptcha } =
+    useCaptcha(captchaRef);
+  const login = useLogin();
   const { push } = useHistory();
   const loginError = getErrorValidation(login);
 
@@ -40,16 +47,21 @@ export default function Login() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) return setValidated(true);
-    setValidated(false);
-
-    const res = await login.mutateAsync(auth);
-    if (res.ok) {
-      setToken(res.data.token);
-      setUser(res.data.user);
-      setTimeout(() => push("/home"), 150);
-    }
+    setErrorForm(null);
+    if (!isValidCaptcha) return;
+    
+    validateLogin(e.target).then(
+      async () => {
+        setValidated(true);
+        const res = await login.mutateAsync(auth);
+        if (res.ok) {
+          setToken(res.data.token);
+          setUser(res.data.user);
+          push("/home");
+        }
+      },
+      (err) => setErrorForm(err.message)
+    );
   }
 
   return (
@@ -67,7 +79,7 @@ export default function Login() {
       >
         <Form.Group controlId="email">
           <Form.Control
-            type="text"
+            type="email"
             name="email"
             placeholder="Email"
             title="Debes de colocar tu correo elétronico"
@@ -92,8 +104,25 @@ export default function Login() {
             required
           />
         </Form.Group>
-        <ErrorText isVisible={login.isError} text={loginError} />
-        <BtnLoader text="Iniciar" isLoading={login.isLoading} block />
+
+        <div className="d-flex mt-1 mb-2">
+          <Catpcha
+            ref={captchaRef}
+            onChange={handleChangeCaptcha}
+            onExpired={handleExpireCaptcha}
+          />
+        </div>
+
+        <ErrorText
+          isVisible={!!errorForm || login.isError}
+          text={errorForm || loginError}
+        />
+        <BtnLoader
+          text="Iniciar"
+          isLoading={login.isLoading}
+          disabled={!isValidCaptcha}
+          block
+        />
         <small className={cs(css.lead, "text-center")}>
           Si no tienes cuenta, puedes crearla <Link to="/signup">aca</Link>.
         </small>

@@ -1,4 +1,4 @@
-import { deleteImage } from "../../Helpers/api";
+import { deleteImage } from "../../../Helpers/api";
 import { useMutation } from "react-query";
 
 /**

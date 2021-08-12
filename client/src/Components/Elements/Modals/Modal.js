@@ -8,7 +8,12 @@ const container = document.getElementById("modals");
 function Modal({ children, renderModal, className, ...args }) {
   const [isOpen, toggleOpen] = useToggle();
   const render = isOpen ? (
-    <div className="modal-container" {...args}>
+    <div
+      className={cls("modal-container", {
+        "modal-container-open": isOpen,
+      })}
+      {...args}
+    >
       <div className={cls("modal-wrapper", className)}>
         <button className="modal-close" onClick={toggleOpen}>
           ✖

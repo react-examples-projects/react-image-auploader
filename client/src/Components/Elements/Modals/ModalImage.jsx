@@ -9,29 +9,36 @@ import { BiDotsVerticalRounded, BiHeart } from "react-icons/bi";
 import { FcLike } from "react-icons/fc";
 
 import { Form, Badge, Dropdown, Button, FormControl } from "react-bootstrap";
+import EmojiPicker from "emoji-picker-react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import useToggleFavoritesImages from "../../Hooks/useToggleFavoritesImages";
-import useImageDelete from "../../Hooks/useImageDelete";
-import useUpdateImage from "../../Hooks/useUpdateImage";
+import { validateComment } from "../../../Helpers/validations";
+import { getErrorValidation } from "../../../Helpers/utils";
+import useToggleFavoritesImages from "../../Hooks/images/useToggleFavoritesImages";
+import useImageDelete from "../../Hooks/images/useImageDelete";
+import useUpdateImage from "../../Hooks/images/useUpdateImage";
 import useImages from "../../Hooks/HooksStore/useImages";
 import TagsInput from "react-tagsinput";
 import useToggle from "../../Hooks/useToggle";
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 
 function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
   const { user } = useCurrentUser();
   const isFavoriteImage = user.favoritesImages.includes(_id);
+  const [errorForm, setErrorForm] = useState(null);
   const [validated, setValidated] = useState(false);
   const [updateTags, setUpdateTags] = useState(tags);
   const [updateTitle, setUpdateTitle] = useState(title);
   const [isEditingMode, toggleEditingMode] = useToggle();
+  const [isEmojiMode, toggleEmojiMode] = useToggle();
+  const [commentText, setCommentText] = useState("");
 
   const { comments, addComment, createCommentImage, ...imagesProps } =
     useComments(commentsImage);
   const deleteImageMutation = useImageDelete();
   const updateImageMutation = useUpdateImage();
+  const commentError = getErrorValidation(createCommentImage);
   const toggleFavoritesImagesMutation = useToggleFavoritesImages(_id);
   const { removeImage, updateImage } = useImages();
   const srcLazy = useLazyloadImage({ src, placeholder });
@@ -44,14 +51,18 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!e.target.checkValidity()) return setValidated(true);
-    setValidated(false);
-    const fd = toFormData(e.target, {
-      image_id: _id,
-    });
-    const comment = await createCommentImage.mutateAsync(fd);
-    addComment(comment, _id);
-    e.target.reset();
+    setErrorForm(null);
+
+    validateComment(e.target).then(
+      async () => {
+        setValidated(true);
+        const fd = toFormData(e.target, { image_id: _id });
+        const comment = await createCommentImage.mutateAsync(fd);
+        addComment(comment, _id);
+        setCommentText("");
+      },
+      (err) => setErrorForm(err.message)
+    );
   };
 
   const removeComment = (commentId) => {
@@ -77,6 +88,14 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
     toggleEditingMode();
   };
 
+  const onChangeComment = ({ target }) => {
+    setCommentText(target.value);
+  };
+
+  const addEmojiToDescription = (event, emojiObject) => {
+    setCommentText((comment) => comment + emojiObject.emoji);
+  };
+
   return (
     <>
       {isEditingMode ? (
@@ -85,7 +104,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           onChange={(e) => setUpdateTitle(e.target.value)}
           size="lg"
           className="my-2"
-          style={{ maxWidth: "90%" }}
+          style={{ maxWidth: "98.5%" }}
           title={title}
           placeholder="Escribe el nuevo título..."
           aria-label="Escribe el nuevo título"
@@ -171,14 +190,16 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
         <small className="d-block text-muted">
           Publicado por
           <Link
-            to={`/perfil/${userPost._id}`}
+            to={
+              userPost._id === user._id ? "/perfil" : `/perfil/${userPost._id}`
+            }
             className="ml-1 text-reset font-weight-bold"
             title="Autor de la publicación"
           >
             {userPost.name}
           </Link>
         </small>
-       
+
         <div className="d-flex align-items-center">
           <BtnLoader
             variant="link"
@@ -204,7 +225,7 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
 
               <Dropdown.Menu
                 className="border-0"
-                style={{ backgroundColor: "#0d0d0d" }}
+                style={{ backgroundColor: "#0e1018" }}
               >
                 <Dropdown.Item
                   as={BtnLoader}
@@ -245,17 +266,46 @@ function ModalImage({ _id, src, tags, title, commentsImage, user: userPost }) {
           <Form.Control
             as="textarea"
             name="content"
+            onChange={onChangeComment}
+            value={commentText}
             rows="4"
             size="sm"
             placeholder="¡Di lo que opinas!"
             disabled={createCommentImage.isLoading}
+            maxLength={500}
             required
           />
+
+          <small className="d-block text-muted mt-1 text-right">
+            Máximo {500 - commentText.length} carácteres
+          </small>
+
+          {isEmojiMode && (
+            <EmojiPicker
+              onEmojiClick={addEmojiToDescription}
+              pickerStyle={{
+                width: "100%",
+                marginTop: "1rem",
+                backgroundColor: "#0e1018",
+                boxShadow: "none",
+                border: "none",
+              }}
+            />
+          )}
+
+          <Button
+            variant="link"
+            size="sm"
+            className="mt-1"
+            onClick={toggleEmojiMode}
+          >
+            {isEmojiMode ? "Ocultar emojis" : "Agregar emojis"}
+          </Button>
         </Form.Group>
 
         <ErrorText
-          text="Ocurrió un error al comentar"
-          isVisible={createCommentImage.isError}
+          isVisible={!!errorForm || createCommentImage.isError}
+          text={errorForm || commentError}
         />
         <BtnLoader
           text="Comentar"

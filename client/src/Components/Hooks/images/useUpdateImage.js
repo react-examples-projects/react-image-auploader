@@ -1,4 +1,4 @@
-import { updateImage } from "../../Helpers/api";
+import { updateImage } from "../../../Helpers/api";
 import { useMutation } from "react-query";
 
 /**

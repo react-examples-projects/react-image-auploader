@@ -9,12 +9,12 @@ export default function LandingPage() {
   return (
     <Row className="w-100 h-100 p-0 m-0">
       <Col
-        md={7}
+        md={6}
         lg={6}
         className={cls("p-0 m-0 d-flex align-items-center", css.main)}
       >
         <main style={{ padding: "0 4rem" }}>
-          <p>
+          <div>
             <h1 className="title" style={{ fontSize: "4rem" }}>
               Manjuro
             </h1>
@@ -24,11 +24,11 @@ export default function LandingPage() {
             <Button size="lg" className={css.btn} as={Link} to="/login">
               Iniciar
             </Button>
-          </p>
+          </div>
         </main>
       </Col>
 
-      <Col md={5} lg={6} className="p-0 m-0 d-flex">
+      <Col md={6} lg={6} className="d-none d-md-flex p-0 m-0">
         <Image
           src={imgLanding}
           className="w-100 vh-100"

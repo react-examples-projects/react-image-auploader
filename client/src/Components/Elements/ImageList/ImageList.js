@@ -1,20 +1,18 @@
-import { lazy, Suspense, memo } from "react";
+import { memo } from "react";
 import { withErrorBoundary } from "react-error-boundary";
-
-import ImageLoader from "../../Loaders/ImageLoader";
-import Loader from "../../Loaders/loader";
 import ThereNotImages from "../../../Images/there_not_image.svg";
 import useImagesGlobal from "../../Hooks/HooksStore/useImages";
 import ImageListError from "../ErrorBoundaries/ImageListError";
-import useImageFound from "../../Hooks/useImageFound";
-const ImagePostLazy = lazy(() => import("../ImagePost/ImagePost"));
+import useImageFound from "../../Hooks/images/useImageFound";
+import ImagePost from "../ImagePost/ImagePost";
+import ImageListLoader from "../Loaders/ImageListLoader";
 
 function ImageList({ images: imagesToShow }) {
   const { data, foundSearches, isLoading, isError } = useImagesGlobal().images;
   const images = useImageFound(foundSearches, data, imagesToShow);
 
   if (isError) return <ImageListError />;
-  if (isLoading) return <Loader />;
+  if (isLoading) return <ImageListLoader />; 
   if (!data.length) {
     return (
       <div className="there-dont-images">
@@ -27,9 +25,7 @@ function ImageList({ images: imagesToShow }) {
   return (
     <section className="massory">
       {images.map((img) => (
-        <Suspense fallback={<ImageLoader />} key={img._id}>
-          <ImagePostLazy {...img} />
-        </Suspense>
+        <ImagePost key={img._id} {...img} />
       ))}
     </section>
   );

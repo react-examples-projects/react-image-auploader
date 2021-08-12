@@ -1,4 +1,4 @@
-import useCurrentUser from "../../Hooks/useCurrentUser";
+import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import { BiUser, BiExit, BiHeart, BiHomeAlt } from "react-icons/bi";
 import { NavLink, Link } from "react-router-dom";
 import {

@@ -23,6 +23,31 @@ const loginSchemaValidation = yup.object({
   }),
 });
 
+const signupSchemaValidation = yup.object({
+  body: yup.object({
+    name: yup
+      .string()
+      .min(4, "Mínimo 6 carácteres para el nombre")
+      .max(20, "Máximo 20 carácteres para el nombre")
+      .required("El nombre es obligatorio"),
+    email: yup
+      .string()
+      .email("El correo debe ser válido, ejemplo: example@domain.es")
+      .required("El correo es obligatorio"),
+    password: yup
+      .string()
+      .min(6, "Mínimo 6 carácteres para la contraseña")
+      .required("La contraseña es obligatoria"),
+    passwordConfirm: passwordScheme.test(
+      "passwordChangeValidation",
+      "Las contraseñas no coinciden",
+      function (value) {
+        return this.parent.password === value;
+      }
+    ),
+  }),
+});
+
 const perfilPhotoSchemaValidation = yup.object({
   files: yup.object({
     perfil_photo: yup
@@ -60,7 +85,7 @@ const uploadImageValidation = yup.object({
       .object({
         data: yup.string().required(),
       })
-      .required("Las imagenes debe ser obligatoria"),
+      .required("Las imagenes deben ser obligatoria"),
   }),
 });
 
@@ -87,12 +112,16 @@ const favoriteImageValidation = yup.object({
 
 const addCommentValidation = yup.object({
   body: yup.object({
-    content: yup.string(),
+    content: yup
+      .string()
+      .max(500, "Máximo 500 carácteres para los comentarios")
+      .required("El campo comentario es obligatorio"),
   }),
 });
 
 module.exports = {
   loginSchemaValidation,
+  signupSchemaValidation,
   perfilPhotoSchemaValidation,
   passwordChangeValidation,
   uploadImageValidation,
