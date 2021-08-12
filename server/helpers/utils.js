@@ -37,7 +37,7 @@ function isInvalidPassword(hashedPassword, password) {
 
 function getTokenFromPayload(payload) {
   const token = jwt.sign({ ...payload }, SERVER.API.SECRET_TOKEN, {
-    expiresIn: "1d",
+    expiresIn: "2d",
   });
   return token;
 }

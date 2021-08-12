@@ -9,6 +9,7 @@ import useCaptcha from "../../Hooks/useCaptcha";
 import { getErrorValidation } from "../../../Helpers/utils";
 import Catpcha from "../../Elements/Catpcha";
 import { signupUser } from "../../../Helpers/api";
+import { validateSignup } from "../../../Helpers/validations";
 
 import { useState, useRef } from "react";
 import { useHistory, Link } from "react-router-dom";
@@ -28,7 +29,8 @@ export default function Signup() {
   useTitle("Registrate");
   useBody(cssBody);
   const captchaRef = useRef(null);
-  const [validated, setValidated] = useState(false);
+  const [errorForm, setErrorForm] = useState(null);
+  const [validated, setValidated] = useState(true);
   const { isValidCaptcha, handleChangeCaptcha, handleExpireCaptcha } =
     useCaptcha(captchaRef);
   const [auth, setAuth] = useState({
@@ -48,9 +50,18 @@ export default function Signup() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
+    setErrorForm(null);
 
     const form = e.target;
-    if (!form.checkValidity() || !isValidCaptcha) return setValidated(true);
+    if (!form.checkValidity() || !isValidCaptcha) {
+      e.preventDefault();
+      e.stopPropagation();
+      validateSignup(form).catch((err) => {
+        console.error(err);
+        setErrorForm(err.message);
+      });
+      return setValidated(true);
+    }
     setValidated(false);
 
     const res = await signupUser(auth);
@@ -87,7 +98,7 @@ export default function Signup() {
 
         <Form.Group controlId="email">
           <Form.Control
-            type="text"
+            type="email"
             name="email"
             placeholder="Email"
             title="Debes de colocar tu correo elétronico"
@@ -136,6 +147,7 @@ export default function Signup() {
           />
         </div>
 
+        <ErrorText isVisible={!!errorForm} text={errorForm} />
         <ErrorText isVisible={signup.isError} text={loginError} />
 
         <BtnLoader

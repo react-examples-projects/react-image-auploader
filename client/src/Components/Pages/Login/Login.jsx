@@ -10,6 +10,7 @@ import useCurrentUser from "../../Hooks/user/useCurrentUser";
 import useCaptcha from "../../Hooks/useCaptcha";
 import Catpcha from "../../Elements/Catpcha";
 import { getErrorValidation } from "../../../Helpers/utils";
+import { validateLogin } from "../../../Helpers/validations";
 
 import { useState, useRef } from "react";
 import { useHistory, Link } from "react-router-dom";
@@ -29,7 +30,8 @@ export default function Login() {
   useTitle("Iniciar sesión");
   useBody(cssBody);
   const captchaRef = useRef(null);
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(true);
+  const [errorForm, setErrorForm] = useState(null);
   const { setUser } = useCurrentUser();
   const [auth, setAuth] = useState({ email: "", password: "" });
   const { isValidCaptcha, handleChangeCaptcha, handleExpireCaptcha } =
@@ -45,11 +47,17 @@ export default function Login() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
+    setErrorForm(null);
     if (!isValidCaptcha) return;
 
     const form = e.target;
-    if (!form.checkValidity()) return setValidated(true);
-    setValidated(false);
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      e.stopPropagation();
+      validateLogin(form).catch((err) => setErrorForm(err.message));
+      return setValidated(false);
+    }
+    setValidated(true);
 
     const res = await login.mutateAsync(auth);
     if (res.ok) {
@@ -74,7 +82,7 @@ export default function Login() {
       >
         <Form.Group controlId="email">
           <Form.Control
-            type="text"
+            type="email"
             name="email"
             placeholder="Email"
             title="Debes de colocar tu correo elétronico"
@@ -108,6 +116,7 @@ export default function Login() {
           />
         </div>
 
+        <ErrorText isVisible={!!errorForm} text={errorForm} />
         <ErrorText isVisible={login.isError} text={loginError} />
         <BtnLoader
           text="Iniciar"
